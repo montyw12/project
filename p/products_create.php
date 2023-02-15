@@ -8,7 +8,7 @@
         <li><a href="./products_update.php" class="sublink">Update Products</a></li>
         <li><a href="./products_create.php" class="sublink">Create Products</a></li>
     </ul>
-    <div>
+    <div class="main-section">
         <form method="post">
             <table>
                 <tr>
