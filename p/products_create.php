@@ -1,6 +1,17 @@
 <?php require_once("./01_head.php") ?>
 <link rel="stylesheet" type="text/css" href="./css/products.css">
 <link rel="stylesheet" type="text/css" href="./css/products_show.css">
+<?php
+try {
+    require_once("./php/product_create.fn.php");
+    if (isset($_POST["submit"])) {
+        $result = item_insert($_SESSION["user_id"], $_POST["type"], $_POST["name"], $_POST["mrp"], $_POST["quantity"], $_POST["manufacture_date"], $_POST["expire_date"], $_FILES["image"]);
+        var_dump($result);
+    }
+} catch (Exception $e) {
+    echo "ERROR MESSAGE: " . $e->getMessage();
+}
+?>
 
 <main>
     <ul class="subul">
@@ -9,7 +20,7 @@
         <li><a href="./products_create.php" class="sublink">Create Products</a></li>
     </ul>
     <div class="main-section">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <table>
                 <tr>
                     <td>

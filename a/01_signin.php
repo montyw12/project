@@ -1,7 +1,6 @@
 <?php
 session_start();
 try {
-    $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     require_once("./php/function.php");
     $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     if (isset($_POST["signin"])) {
@@ -11,14 +10,17 @@ try {
             $prefixUserid = substr($userId, 0, 2);
             if ($prefixUserid === "0D") {
                 $_SESSION["user"] = "distributor";
+                $_SESSION["user_id"] = $_POST["userid"];
                 header("location: ./../d/home.php");
                 exit();
             } else if ($prefixUserid === "0P") {
                 $_SESSION["user"] = "producer";
+                $_SESSION["user_id"] = $_POST["userid"];
                 header("location: ./../p/home.php");
                 exit();
             } else if ($prefixUserid === "0S") {
                 $_SESSION["user"] = "seller";
+                $_SESSION["user_id"] = $_POST["userid"];
                 header("location: ./../s/home.php");
                 exit();
             }

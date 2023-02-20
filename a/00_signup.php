@@ -1,8 +1,8 @@
 <?php
 session_start();
 try {
-    $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     require_once("./php/function.php");
+    $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     if (isset($_POST["signup"])) {
         $result = userSignup($_POST["type"], $_POST["name"], $_POST["address"], $_POST["email"], $_POST["password"], $_POST["confirmPassword"]);
         if ($result === 0) {
