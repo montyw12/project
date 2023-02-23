@@ -20,7 +20,7 @@ function databaseConnectorClose($a)
 
 
 // #3 function
-function item_insert($producer_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image)
+function insertItem($producer_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image)
 {
     if (1) { // for type
         if ($image["error"] === 0) {

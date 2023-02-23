@@ -1,7 +1,7 @@
 <?php require_once("./01_head.php") ?>
 <?php
 try {
-    require_once("./php/products_show.fn.php");
+    require_once("./php/products_show.fun.php");
     if (isset($_POST["search"])) {
         $result = selectSpecificItem($_POST["search_by"], $_POST["key_word"]);
     } else {
