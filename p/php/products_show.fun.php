@@ -21,13 +21,13 @@ function databaseConnectorClose($a)
 
 
 // #3 function
-function selectAllItem()
+function selectAllItem($producer_id)
 {
-    $queryString = "SELECT * FROM item;";
+    $queryString = "SELECT * FROM item WHERE f_producer_id = ? ORDER BY name;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        // mysqli_stmt_bind_param($stmt);
+        mysqli_stmt_bind_param($stmt, "s", $producer_id);
         mysqli_stmt_execute($stmt);
         $resultToReturn = mysqli_stmt_get_result($stmt);
         // $resultToReturn = 0;
@@ -35,7 +35,7 @@ function selectAllItem()
         $resultToReturn = 1;
     }
     databaseConnectorClose($dbConn);
-    unset($queryString, $dbConn, $stmt);
+    unset($queryString, $dbConn, $stmt, $producer_id);
     return $resultToReturn;
 }
 
@@ -64,13 +64,14 @@ function errorsForSelectAllItem($error_code)
 
 
 // #5 function
-function selectSpecificItem($search_by, $key_word)
+function selectSpecificItem($search_by, $key_word, $producer_id)
 {
     if ($search_by != "select") {
-        $queryString = "SELECT * FROM item WHERE $search_by LIKE '%$key_word%';";
+        $queryString = "SELECT * FROM item WHERE $search_by LIKE '%$key_word%' AND f_producer_id = ? ORDER BY name;";
         $dbConn = databaseConnector();
         $stmt = mysqli_stmt_init($dbConn);
         if (mysqli_stmt_prepare($stmt, $queryString)) {
+            mysqli_stmt_bind_param($stmt, "s", $producer_id);
             mysqli_stmt_execute($stmt);
             $resultToReturn = mysqli_stmt_get_result($stmt);
             databaseConnectorClose($dbConn);
@@ -81,7 +82,7 @@ function selectSpecificItem($search_by, $key_word)
     } else {
         $resultToReturn = 2;
     }
-    unset($queryString, $dbConn, $stmt, $search_by, $key_word);
+    unset($queryString, $dbConn, $stmt, $search_by, $key_word, $producer_id);
     return $resultToReturn;
 }
 

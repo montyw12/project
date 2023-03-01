@@ -21,13 +21,13 @@ function databaseConnectorClose($a)
 
 
 // #3 function
-function selectItemForUpdate($item_id)
+function selectItemForUpdate($item_id, $producer_id)
 {
-    $queryString = "SELECT * FROM item WHERE item_id=?;";
+    $queryString = "SELECT * FROM item WHERE item_id = ? AND f_producer_id = ? ORDER BY name";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        mysqli_stmt_bind_param($stmt, "s", $item_id);
+        mysqli_stmt_bind_param($stmt, "ss", $item_id, $producer_id);
         mysqli_stmt_execute($stmt);
         $resultToReturn = mysqli_stmt_get_result($stmt);
         // $resultToReturn = 0;
@@ -35,11 +35,42 @@ function selectItemForUpdate($item_id)
     } else {
         $resultToReturn = 1;
     }
-    unset($queryString, $dbConn, $stmt, $item_id);
+    unset($queryString, $dbConn, $stmt, $item_id, $producer_id);
     return $resultToReturn;
 }
 
+
 // #4 function
+function errorsForSelectItemForUpdate($error_code)
+{
+    // $a = base64_encode(json_encode($post_data));
+    $a = null;
+    switch ($error_code) {
+        case 0:
+            $qs = "a=" . $a . "&error=" . base64_encode("None");
+            header("location: ./products_update.php?" . $qs);
+            exit();
+            break;
+        case 1:
+            $qs = "a=" . $a . "&error=" . base64_encode("Someting want wrong! try agian");
+            header("location: ./products_update.php?" . $qs);
+            exit();
+            break;
+        case 2:
+            $qs = "a=" . $a . "&error=" . base64_encode("Item not found");
+            header("location: ./products_update.php?" . $qs);
+            exit();
+            break;
+        default:
+            $qs = "a=" . $a . "&error=" . base64_encode("Please try again!");
+            header("location: ./products_update.php?" . $qs);
+            exit();
+            break;
+    }
+}
+
+
+// #5 function
 function updateItem($producer_id, $item_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image)
 {
     $manufacture_date_timestamp = mktime(0, 0, 0, substr($manufacture_date, 5, 2), (substr($manufacture_date, 8, 2) + 6), substr($manufacture_date, 0, 4));
@@ -80,36 +111,6 @@ function updateItem($producer_id, $item_id, $type, $name, $mrp, $quantity, $manu
     }
     unset($manufacture_date_timestamp, $expire_date_timestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $stmt, $producer_id, $item_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image);
     return $flagToReturn;
-}
-
-
-// #5 function
-function errorsForSelectItemForUpdate($error_code)
-{
-    // $a = base64_encode(json_encode($post_data));
-    $a = null;
-    switch ($error_code) {
-        case 0:
-            $qs = "a=" . $a . "&error=" . base64_encode("None");
-            header("location: ./products_update.php?" . $qs);
-            exit();
-            break;
-        case 1:
-            $qs = "a=" . $a . "&error=" . base64_encode("Someting want wrong! try agian");
-            header("location: ./products_update.php?" . $qs);
-            exit();
-            break;
-        case 2:
-            $qs = "a=" . $a . "&error=" . base64_encode("Item not found");
-            header("location: ./products_update.php?" . $qs);
-            exit();
-            break;
-        default:
-            $qs = "a=" . $a . "&error=" . base64_encode("Please try again!");
-            header("location: ./products_update.php?" . $qs);
-            exit();
-            break;
-    }
 }
 
 

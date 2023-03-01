@@ -2,9 +2,10 @@
 <?php
 try {
     require_once("./php/products_update.fun.php");
+
     $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     if (isset($_POST["search_submit"])) {
-        $result = selectItemForUpdate($_POST["item_id"]);
+        $result = selectItemForUpdate($_POST["item_id"], $_SESSION["user_id"]);
         if ((gettype($result) === "integer" ? $result : 0) > 0) {
             errorsForSelectItemForUpdate($result);
         } else if ($result->num_rows === 0) {
@@ -133,13 +134,13 @@ try {
                         </td>
                     </tr>
                     <tr>
-                    <td>
-                        <label for=""></label>
-                    </td>
-                    <td>
-                        <label for=""><?= isset($_GET["error1"]) ? base64_decode($_GET["error1"]) : "" ?></label>
-                    </td>
-                </tr>
+                        <td>
+                            <label for=""></label>
+                        </td>
+                        <td>
+                            <label for=""><?= isset($_GET["error1"]) ? base64_decode($_GET["error1"]) : "" ?></label>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <input type="submit" value="Update Item" name="update_submit">

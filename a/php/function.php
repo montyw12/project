@@ -52,7 +52,7 @@ function userSignup($type, $name, $address, $email, $password, $confirmPassword)
                         // var_dump(mysqli_stmt_get_result($stmt));
                         databaseConnectorClose($dbConn);
                         $flagToReturn = 0;
-                        $_SESSION["userid"] = $userId;
+                        $_SESSION["user_id"] = $userId;
                     } else {
                         $flagToReturn = 1;
                     }

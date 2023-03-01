@@ -2,17 +2,18 @@
 <?php
 try {
     require_once("./php/products_show.fun.php");
+
     $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     if (isset($_POST["search"])) {
-        $result = selectSpecificItem($_POST["search_by"], $_POST["key_word"]);
-        if((gettype($result)==="integer"? $result : 0) > 0){
-            errorsForSelectSpecificItem($result,$_POST);
+        $result = selectSpecificItem($_POST["search_by"], $_POST["key_word"], $_SESSION["user_id"]);
+        if ((gettype($result) === "integer" ? $result : 0) > 0) {
+            errorsForSelectSpecificItem($result, $_POST);
         } else {
             $_GET["error"] = base64_encode("");
         }
     } else {
-        $result = selectAllItem();
-        if((gettype($result)==="integer"? $result : 0) > 0){
+        $result = selectAllItem($_SESSION["user_id"]);
+        if ((gettype($result) === "integer" ? $result : 0) > 0) {
             errorsForSelectAllItem($result);
         }
     }

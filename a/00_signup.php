@@ -6,8 +6,7 @@ try {
     if (isset($_POST["signup"])) {
         $result = userSignup($_POST["type"], $_POST["name"], $_POST["address"], $_POST["email"], $_POST["password"], $_POST["confirmPassword"]);
         if ($result === 0) {
-            $userId = $_SESSION["userid"];
-            unset($_SESSION["userid"]);
+            $userId = $_SESSION["user_id"];
             $prefixUserid = substr($userId, 0, 2);
             if ($prefixUserid === "0D") {
                 $_SESSION["user"] = "distributor";

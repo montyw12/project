@@ -2,6 +2,7 @@
 <?php
 try {
     require_once("./php/products_create.fun.php");
+
     $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     if (isset($_POST["submit"])) {
         $result = insertItem($_SESSION["user_id"], $_POST["type"], $_POST["name"], $_POST["mrp"], $_POST["quantity"], $_POST["manufacture_date"], $_POST["expire_date"], $_FILES["image"]);
