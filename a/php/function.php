@@ -24,6 +24,7 @@ function databaseConnector()
 function databaseConnectorClose($a)
 {
     mysqli_close($a);
+    unset($a);
 }
 
 
@@ -68,7 +69,7 @@ function userSignup($type, $name, $address, $email, $password, $confirmPassword)
         $flagToReturn = 5;
     }
 
-    unset($type, $name, $address, $email, $password, $confirmPassword, $hashPassword, $queryString, $dbConn, $userId, $stmt);
+    unset($hashPassword, $queryString, $dbConn, $userId, $stmt, $type, $name, $address, $email, $password, $confirmPassword);
     return $flagToReturn;
 }
 
@@ -97,7 +98,7 @@ function checkEmailNotExist($email)
         databaseConnectorClose($dbConn);
         $rowOfResult = mysqli_fetch_assoc($result);
         $flagToReturn = is_null($rowOfResult);
-        unset($email, $queryString, $dbConn, $stmt, $result, $rowOfResult);
+        unset($queryString, $dbConn, $stmt, $result, $rowOfResult, $email);
         return $flagToReturn;
     }
 }
@@ -111,43 +112,43 @@ function errorsForSignup($error_code, $post_data)
     $a = base64_encode(json_encode($post_data));
     switch ($error_code) {
         case 0:
-            $qs = "a=" . $a . "&error=" . base64_encode("none");
+            $qs = "a=" . $a . "&error=" . base64_encode("None");
             // header("location: ./01_signin.php?error=none");
             header("location: ./01_signin.php?" . $qs);
             exit();
             break;
         case 1:
-            $qs = "a=" . $a . "&error=" . base64_encode("someting want wrong! try agian");
+            $qs = "a=" . $a . "&error=" . base64_encode("Someting want wrong! try agian");
             // header("location: ./00_signup.php?error=someting want wrong! try again");
             header("location: ./00_signup.php?" . $qs);
             exit();
             break;
         case 2:
-            $qs = "a=" . $a . "&error=" . base64_encode("email is allready taken");
+            $qs = "a=" . $a . "&error=" . base64_encode("Email is allready taken");
             // header("location: ./00_signup.php?error=email is allready taken");
             header("location: ./00_signup.php?" . $qs);
             exit();
             break;
         case 3:
-            $qs = "a=" . $a . "&error=" . base64_encode("password not match");
+            $qs = "a=" . $a . "&error=" . base64_encode("Password not match");
             // header("location: ./00_signup.php?error=password not match");
             header("location: ./00_signup.php?" . $qs);
             exit();
             break;
         case 4:
-            $qs = "a=" . $a . "&error=" . base64_encode("password must be greater than 6 characters");
+            $qs = "a=" . $a . "&error=" . base64_encode("Password must be greater than 6 characters");
             // header("location: ./00_signup.php?error=password must be greater than 6 characters");
             header("location: ./00_signup.php?" . $qs);
             exit();
             break;
         case 5:
-            $qs = "a=" . $a . "&error=" . base64_encode("first select user-type");
+            $qs = "a=" . $a . "&error=" . base64_encode("First select user-type");
             // header("location: ./00_signup.php?error=first select user-type");
             header("location: ./00_signup.php?" . $qs);
             exit();
             break;
         default:
-            $qs = "a=" . $a . "&error=" . base64_encode("please try again!");
+            $qs = "a=" . $a . "&error=" . base64_encode("Please try again!");
             // header("location: ./00_signup.php?error=please try again");
             header("location: ./00_signup.php?" . $qs);
             exit();
@@ -176,7 +177,7 @@ function userSignin($userid, $password)
     } else {
         $resultToReturn = 2;
     }
-    unset($userid, $password, $hashPassword, $queryString, $dbConn, $stmt, $result);
+    unset($hashPassword, $queryString, $dbConn, $stmt, $result, $userid, $password);
     return $resultToReturn;
 }
 
@@ -189,25 +190,25 @@ function errorsForSignin($error_code, $post_data)
     $a = base64_encode(json_encode($post_data));
     switch ($error_code) {
         case 0:
-            $qs = "a=" . $a . "&error=" . base64_encode("none");
+            $qs = "a=" . $a . "&error=" . base64_encode("None");
             // header("location: ./01_signin.php?error=none");
             header("location: ./01_signin.php?" . $qs);
             exit();
             break;
         case 1:
-            $qs = "a=" . $a . "&error=" . base64_encode("invalid userid or password");
+            $qs = "a=" . $a . "&error=" . base64_encode("Invalid userid or password");
             // header("location: ./01_signin.php?error=invalid userid or password");
             header("location: ./01_signin.php?" . $qs);
             exit();
             break;
         case 2:
-            $qs = "a=" . $a . "&error=" . base64_encode("something want wrong");
+            $qs = "a=" . $a . "&error=" . base64_encode("Something want wrong");
             // header("location: ./01_signin.php?error=someting want wrong! try again");
             header("location: ./01_signin.php?" . $qs);
             exit();
             break;
         default:
-            $qs = "a=" . $a . "&error=" . base64_encode("please try again!");
+            $qs = "a=" . $a . "&error=" . base64_encode("Please try again!");
             // header("location: ./01_signin.php?error=please try again!");
             header("location: ./01_signin.php?" . $qs);
             exit();

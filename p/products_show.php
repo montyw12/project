@@ -2,10 +2,19 @@
 <?php
 try {
     require_once("./php/products_show.fun.php");
+    $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     if (isset($_POST["search"])) {
         $result = selectSpecificItem($_POST["search_by"], $_POST["key_word"]);
+        if((gettype($result)==="integer"? $result : 0) > 0){
+            errorsForSelectSpecificItem($result,$_POST);
+        } else {
+            $_GET["error"] = base64_encode("");
+        }
     } else {
         $result = selectAllItem();
+        if((gettype($result)==="integer"? $result : 0) > 0){
+            errorsForSelectAllItem($result);
+        }
     }
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();
@@ -29,7 +38,6 @@ try {
                     </td>
                     <td>
                         <select name="search_by">
-                            <option value="select">Select</option>
                             <option value="item_id">Item id</option>
                             <option value="name">Name</option>
                             <option value="type">Type</option>
@@ -45,7 +53,15 @@ try {
                         <label for="">Input keyword</label>
                     </td>
                     <td>
-                        <input type="text" name="key_word" required>
+                        <input type="text" name="key_word" required value="<?= isset($a->key_word) ? $a->key_word : ""; ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for=""></label>
+                    </td>
+                    <td>
+                        <label for=""><?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : "" ?></label>
                     </td>
                 </tr>
                 <tr>

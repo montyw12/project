@@ -2,9 +2,14 @@
 <?php
 try {
     require_once("./php/products_create.fun.php");
+    $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     if (isset($_POST["submit"])) {
         $result = insertItem($_SESSION["user_id"], $_POST["type"], $_POST["name"], $_POST["mrp"], $_POST["quantity"], $_POST["manufacture_date"], $_POST["expire_date"], $_FILES["image"]);
-        var_dump($result);
+        if ($result === 0) {
+            $_GET["error"] = base64_encode("Item Created Successfully!");
+        } else {
+            errorsForInsertItem($result, $_POST);
+        }
     }
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();
@@ -27,7 +32,7 @@ try {
                         <label for="">Item type:</label>
                     </td>
                     <td>
-                        <input type="text" name="type" required>
+                        <input type="text" name="type" required value="<?= isset($a->type) ? $a->type : ""; ?>">
                     </td>
                 </tr>
                 <tr>
@@ -35,7 +40,7 @@ try {
                         <label for="">Item name:</label>
                     </td>
                     <td>
-                        <input type="text" name="name" required>
+                        <input type="text" name="name" required value="<?= isset($a->name) ? $a->name : ""; ?>">
                     </td>
                 </tr>
                 <tr>
@@ -43,7 +48,7 @@ try {
                         <label for="">Item mrp:</label>
                     </td>
                     <td>
-                        <input type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required>
+                        <input type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= isset($a->mrp) ? $a->mrp : ""; ?>">
                     </td>
                 </tr>
                 <tr>
@@ -51,7 +56,7 @@ try {
                         <label for="">Item quantity:</label>
                     </td>
                     <td>
-                        <input type="number" name="quantity" min="0" max="10000" required>
+                        <input type="number" name="quantity" min="0" max="10000" required value="<?= isset($a->quantity) ? $a->quantity : ""; ?>">
                     </td>
                 </tr>
                 <tr>
@@ -59,7 +64,7 @@ try {
                         <label for="">Item manufacture date:</label>
                     </td>
                     <td>
-                        <input type="date" name="manufacture_date" required>
+                        <input type="date" name="manufacture_date" required value="<?= isset($a->manufacture_date) ? $a->manufacture_date : ""; ?>">
                     </td>
                 </tr>
                 <tr>
@@ -67,7 +72,7 @@ try {
                         <label for="">Item expire date:</label>
                     </td>
                     <td>
-                        <input type="date" name="expire_date" required>
+                        <input type="date" name="expire_date" required value="<?= isset($a->expire_date) ? $a->expire_date : ""; ?>">
                     </td>
                 </tr>
                 <tr>
@@ -76,6 +81,14 @@ try {
                     </td>
                     <td>
                         <input type="file" name="image" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for=""></label>
+                    </td>
+                    <td>
+                        <label for=""><?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : "" ?></label>
                     </td>
                 </tr>
                 <tr>

@@ -2,8 +2,28 @@
 <?php
 try {
     require_once("./php/products_update.fun.php");
-    if (isset($_POST["submit"])) {
-        $result = selectItemForUpdate($_POST["search_by"], $_POST["key_word"]);
+    $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
+    if (isset($_POST["search_submit"])) {
+        $result = selectItemForUpdate($_POST["item_id"]);
+        if ((gettype($result) === "integer" ? $result : 0) > 0) {
+            errorsForSelectItemForUpdate($result);
+        } else if ($result->num_rows === 0) {
+            errorsForSelectItemForUpdate(2);
+        } else {
+            $_GET["error"] = base64_encode("");
+            $data = mysqli_fetch_assoc($result);
+        }
+    } else if (isset($_POST["update_submit"])) {
+        if (isset($_POST["item_id"]) && $_POST["item_id"] != "") {
+            $result1 = updateItem($_SESSION["user_id"], $_POST["item_id"], $_POST["type"], $_POST["name"], $_POST["mrp"], $_POST["quantity"], $_POST["manufacture_date"], $_POST["expire_date"], $_FILES["image"]);
+            if ($result1 === 0) {
+                $_GET["error1"] = base64_encode("Item Updated Successfully!");
+            } else {
+                errorsForUpdateItem($result1, $_POST);
+            }
+        } else {
+            $_GET["error"] = base64_encode("First Search Item");
+        }
     }
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();
@@ -23,41 +43,45 @@ try {
             <table>
                 <tr>
                     <td>
-                        <label for="">Search by:</label>
+                        <label for="">Input Item id:</label>
                     </td>
                     <td>
-                        <select name="search_by">
-                            <option value="select">Select</option>
-                            <option value="item_id">Item id</option>
-                            <option value="name">Name</option>
-                            <option value="type">Type</option>
-                        </select>
+                        <input type="text" name="item_id" required>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="">Input keyword</label>
+                        <label for=""></label>
                     </td>
                     <td>
-                        <input type="text" name="key_word">
+                        <label for=""><?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : "" ?></label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input type="submit" name="submit" value="Search">
+                        <input type="submit" name="search_submit" value="Search">
                     </td>
                 </tr>
             </table>
         </form>
-        <?php while ($data = mysqli_fetch_assoc($result)) : ?>
+        <?php if (isset($_POST["item_id"]) && $_POST["item_id"] != "") : ?>
             <form method="post" enctype="multipart/form-data">
                 <table>
+                    <tr>
+                        <td>
+                            <label for="">Item id:</label>
+                        </td>
+                        <td>
+                            <?= isset($data["item_id"]) ? $data["item_id"] : "" ?>
+                            <input type="hidden" name="item_id" required value="<?= isset($data["item_id"]) ? $data["item_id"] : (isset($a->item_id) ? $a->item_id : NULL) ?>">
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <label for="">Item type:</label>
                         </td>
                         <td>
-                            <input type="text" name="type" required value="<?= $data["type"] ?>">
+                            <input type="text" name="type" required value="<?= isset($data["type"]) ? $data["type"] : (isset($a->type) ? $a->type : "") ?>">
                         </td>
                     </tr>
                     <tr>
@@ -65,7 +89,7 @@ try {
                             <label for="">Item name:</label>
                         </td>
                         <td>
-                            <input type="text" name="name" required value="<?= $data["name"] ?>">
+                            <input type="text" name="name" required value="<?= isset($data["name"]) ? $data["name"] : (isset($a->name) ? $a->name : "") ?>">
                         </td>
                     </tr>
                     <tr>
@@ -73,7 +97,7 @@ try {
                             <label for="">Item mrp:</label>
                         </td>
                         <td>
-                            <input type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= $data["mrp"] ?>">
+                            <input type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= isset($data["mrp"]) ? $data["mrp"] : (isset($a->mrp) ? $a->mrp : "") ?>">
                         </td>
                     </tr>
                     <tr>
@@ -81,7 +105,7 @@ try {
                             <label for="">Item quantity:</label>
                         </td>
                         <td>
-                            <input type="number" name="quantity" min="0" max="10000" required value="<?= $data["quantity"] ?>">
+                            <input type="number" name="quantity" min="0" max="10000" required value="<?= isset($data["quantity"]) ? $data["quantity"] : (isset($a->quantity) ? $a->quantity : "") ?>">
                         </td>
                     </tr>
                     <tr>
@@ -89,7 +113,7 @@ try {
                             <label for="">Item manufacture date:</label>
                         </td>
                         <td>
-                            <input type="date" name="manufacture_date" required value="<?= $data["manufacture_date"] ?>">
+                            <input type="date" name="manufacture_date" required value="<?= isset($data["manufacture_date"]) ? $data["manufacture_date"] : (isset($a->manufacture_date) ? $a->manufacture_date : "") ?>">
                         </td>
                     </tr>
                     <tr>
@@ -97,7 +121,7 @@ try {
                             <label for="">Item expire date:</label>
                         </td>
                         <td>
-                            <input type="date" name="expire_date" required value="<?= $data["expire_date"] ?>">
+                            <input type="date" name="expire_date" required value="<?= isset($data["expire_date"]) ? $data["expire_date"] : (isset($a->expire_date) ? $a->expire_date : "") ?>">
                         </td>
                     </tr>
                     <tr>
@@ -105,17 +129,25 @@ try {
                             <label for="">Item image:</label>
                         </td>
                         <td>
-                            <input type="file" name="image" required value="<?= $data["image"] ?>">
+                            <input type="file" name="image" required value="<?= isset($data["image"]) ? $data["image"] : "" ?>">
                         </td>
                     </tr>
                     <tr>
+                    <td>
+                        <label for=""></label>
+                    </td>
+                    <td>
+                        <label for=""><?= isset($_GET["error1"]) ? base64_decode($_GET["error1"]) : "" ?></label>
+                    </td>
+                </tr>
+                    <tr>
                         <td>
-                            <input type="submit" value="Create Item" name="submit">
+                            <input type="submit" value="Update Item" name="update_submit">
                         </td>
                     </tr>
                 </table>
             </form>
-        <?php endwhile; ?>
+        <?php endif; ?>
     </div>
 </main>
 
