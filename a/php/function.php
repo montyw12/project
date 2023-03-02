@@ -107,8 +107,8 @@ function checkEmailNotExist($email)
 // #6 function
 function errorsForSignup($error_code, $post_data)
 {
-    $post_data["password"] = NULL;
-    $post_data["confirmPassword"] = NULL;
+    $post_data["password"] = null;
+    $post_data["confirmPassword"] = null;
     $a = base64_encode(json_encode($post_data));
     switch ($error_code) {
         case 0:
@@ -185,8 +185,8 @@ function userSignin($userid, $password)
 // #8 function
 function errorsForSignin($error_code, $post_data)
 {
-    $post_data["password"] = NULL;
-    $post_data["confirmPassword"] = NULL;
+    $post_data["password"] = null;
+    $post_data["confirmPassword"] = null;
     $a = base64_encode(json_encode($post_data));
     switch ($error_code) {
         case 0:

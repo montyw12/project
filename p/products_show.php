@@ -54,7 +54,7 @@ try {
                         <label for="">Input keyword</label>
                     </td>
                     <td>
-                        <input type="text" name="key_word" required value="<?= isset($a->key_word) ? $a->key_word : ""; ?>">
+                        <input type="text" name="key_word" required value="<?= $a->key_word ?? ""; ?>">
                     </td>
                 </tr>
                 <tr>

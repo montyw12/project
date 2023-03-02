@@ -5,8 +5,8 @@ try {
 
     $result = selectAllConnectedDistributors($_SESSION["user_id"]);
     if (isset($_POST["Disconnect"])) {
-        $result2 = disconnectDistributor($_SESSION["user_id"], $_POST["Disconnect"]);
-        errorsForDisconnectDistributor($result2);
+        $result1 = disconnectDistributor($_SESSION["user_id"], $_POST["Disconnect"]);
+        errorsForDisconnectDistributor($result1);
     }
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();
@@ -18,7 +18,7 @@ try {
         <li><a href="./distributors_all.php" class="sublink">all</a></li>
         <div class="main-section">
             <form method="POST">
-                <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : NULL) : ?>
+                <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : null) : ?>
                     <?php print_r($data);
                     $status = checkStatusForBtn($data["status"]) ?>
                     <button value="<?= $data["user_id"] ?>" name="<?= $status ?>" <?= $status == "Pending" ? "disabled" : "" ?>><?= $status ?></button>

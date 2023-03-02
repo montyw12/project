@@ -73,8 +73,8 @@ try {
                             <label for="">Item id:</label>
                         </td>
                         <td>
-                            <?= isset($data["item_id"]) ? $data["item_id"] : "" ?>
-                            <input type="hidden" name="item_id" required value="<?= isset($data["item_id"]) ? $data["item_id"] : (isset($a->item_id) ? $a->item_id : NULL) ?>">
+                            <?= $data["item_id"] ?? "" ?>
+                            <input type="hidden" name="item_id" required value="<?= $a->item_id ?? $data["item_id"] ?? "" ?>">
                         </td>
                     </tr>
                     <tr>
@@ -82,7 +82,7 @@ try {
                             <label for="">Item type:</label>
                         </td>
                         <td>
-                            <input type="text" name="type" required value="<?= isset($data["type"]) ? $data["type"] : (isset($a->type) ? $a->type : "") ?>">
+                            <input type="text" name="type" required value="<?= $a->type ?? $data["type"] ?? "" ?>">
                         </td>
                     </tr>
                     <tr>
@@ -90,7 +90,7 @@ try {
                             <label for="">Item name:</label>
                         </td>
                         <td>
-                            <input type="text" name="name" required value="<?= isset($data["name"]) ? $data["name"] : (isset($a->name) ? $a->name : "") ?>">
+                            <input type="text" name="name" required value="<?= $a->name ?? $data["name"] ?? "" ?>">
                         </td>
                     </tr>
                     <tr>
@@ -98,7 +98,7 @@ try {
                             <label for="">Item mrp:</label>
                         </td>
                         <td>
-                            <input type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= isset($data["mrp"]) ? $data["mrp"] : (isset($a->mrp) ? $a->mrp : "") ?>">
+                            <input type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= $a->mrp ?? $data["mrp"] ?? "" ?>">
                         </td>
                     </tr>
                     <tr>
@@ -106,7 +106,7 @@ try {
                             <label for="">Item quantity:</label>
                         </td>
                         <td>
-                            <input type="number" name="quantity" min="0" max="10000" required value="<?= isset($data["quantity"]) ? $data["quantity"] : (isset($a->quantity) ? $a->quantity : "") ?>">
+                            <input type="number" name="quantity" min="0" max="10000" required value="<?= $a->quantity ?? $data["quantity"] ?? "" ?>">
                         </td>
                     </tr>
                     <tr>
@@ -114,7 +114,7 @@ try {
                             <label for="">Item manufacture date:</label>
                         </td>
                         <td>
-                            <input type="date" name="manufacture_date" required value="<?= isset($data["manufacture_date"]) ? $data["manufacture_date"] : (isset($a->manufacture_date) ? $a->manufacture_date : "") ?>">
+                            <input type="date" name="manufacture_date" required value="<?= $a->manufacture_date ?? $data["manufacture_date"] ?? "" ?>">
                         </td>
                     </tr>
                     <tr>
@@ -122,7 +122,7 @@ try {
                             <label for="">Item expire date:</label>
                         </td>
                         <td>
-                            <input type="date" name="expire_date" required value="<?= isset($data["expire_date"]) ? $data["expire_date"] : (isset($a->expire_date) ? $a->expire_date : "") ?>">
+                            <input type="date" name="expire_date" required value="<?= $a->expire_date ?? $data["expire_date"] ?? "" ?>">
                         </td>
                     </tr>
                     <tr>
@@ -130,7 +130,7 @@ try {
                             <label for="">Item image:</label>
                         </td>
                         <td>
-                            <input type="file" name="image" required value="<?= isset($data["image"]) ? $data["image"] : "" ?>">
+                            <input type="file" name="image" required value="<?= $a->image ?? $data["image"] ?? "" ?>">
                         </td>
                     </tr>
                     <tr>

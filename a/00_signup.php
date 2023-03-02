@@ -48,7 +48,7 @@ try {
                     <label for="">User type: </label>
                 </td>
                 <td>
-                    <select name="type" value="<?= isset($a->type) ? $a->type : "select"; ?>">
+                    <select name="type" value="<?= $a->type ?? "select" ?>">
                         <option value="select" selected>Select type</option>
                         <option value="seller">Seller</option>
                         <option value="distributor">Distributor</option>
@@ -61,7 +61,7 @@ try {
                     <label for="">Name: </label>
                 </td>
                 <td>
-                    <input type="text" name="name" required value="<?= isset($a->name) ? $a->name : ""; ?>">
+                    <input type="text" name="name" required value="<?= $a->name ?? "" ?>">
                 </td>
             </tr>
             <tr>
@@ -69,7 +69,7 @@ try {
                     <label for="">Address: </label>
                 </td>
                 <td>
-                    <input type="text" name="address" required value="<?= isset($a->address) ? $a->address : ""; ?>">
+                    <input type="text" name="address" required value="<?= $a->address ?? ""; ?>">
                 </td>
             </tr>
             <tr>
@@ -77,7 +77,7 @@ try {
                     <label for="">Email: </label>
                 </td>
                 <td>
-                    <input type="email" name="email" required value="<?= isset($a->email) ? $a->email : ""; ?>">
+                    <input type="email" name="email" required value="<?= $a->email ?? ""; ?>">
                 </td>
             </tr>
             <tr>
@@ -103,7 +103,7 @@ try {
             </tr>
             <tr>
                 <td colspan="2">
-                    <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : NULL ?>
+                    <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : null ?>
                 </td>
             </tr>
             <tr>

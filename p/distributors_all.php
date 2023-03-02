@@ -22,7 +22,7 @@ try {
     </ul>
     <div class="main-section">
         <form method="POST">
-            <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : NULL) : ?>
+            <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : null) : ?>
                 <?php print_r($data);
                 $status = checkStatusForBtn($data["status"]) ?>
                 <button value="<?= $data["user_id"] ?>" name="<?= $status ?>" <?= $status == "Pending" ? "disabled" : "" ?>><?= $status ?></button>

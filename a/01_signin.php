@@ -51,7 +51,7 @@ try {
                     <label for="">User ID: </label>
                 </td>
                 <td>
-                    <input type="text" name="userid" value="<?= isset($a->userid) ? $a->userid : ""; ?>">
+                    <input type="text" name="userid" value="<?= $a->userid ?? "" ?>">
                 </td>
             </tr>
             <tr>
@@ -69,7 +69,7 @@ try {
             </tr>
             <tr>
                 <td colspan="2">
-                    <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : NULL ?>
+                    <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : null ?>
                 </td>
             </tr>
             <tr>
