@@ -1,10 +1,10 @@
 <?php require_once("./01_head.php") ?>
 
 <main>
-    <h1>Producers</h1>
     <ul class="subul">
-        <li><a href="./producers_connected.php" class="sublink">connected</a></li>
-        <li><a href="./producers_all.php" class="sublink">all</a></li>
+        <li><a href="./producers_all.php" class="sublink">All</a></li>
+        <li><a href="./producers_connected.php" class="sublink">Connected</a></li>
+        <li><a href="./producers_request.php" class="sublink">Request</a></li>
     </ul>
 </main>
 

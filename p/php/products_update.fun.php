@@ -1,26 +1,9 @@
 <?php
 
+require_once("./../database.config.php");
+
+
 // #1 function
-function databaseConnector()
-{
-    $connection = mysqli_connect("localhost", "root", "", "00_project_pms");
-    if ($connection) {
-        return $connection;
-    } else {
-        return "can not connect to database";
-    }
-}
-
-
-// #2 function
-function databaseConnectorClose($a)
-{
-    mysqli_close($a);
-    unset($a);
-}
-
-
-// #3 function
 function selectItemForUpdate($item_id, $producer_id)
 {
     $queryString = "SELECT * FROM item WHERE item_id = ? AND f_producer_id = ? ORDER BY name";
@@ -40,7 +23,7 @@ function selectItemForUpdate($item_id, $producer_id)
 }
 
 
-// #4 function
+// #2 function
 function errorsForSelectItemForUpdate($error_code)
 {
     // $a = base64_encode(json_encode($post_data));
@@ -70,7 +53,7 @@ function errorsForSelectItemForUpdate($error_code)
 }
 
 
-// #5 function
+// #3 function
 function updateItem($producer_id, $item_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image)
 {
     $manufacture_date_timestamp = mktime(0, 0, 0, substr($manufacture_date, 5, 2), (substr($manufacture_date, 8, 2) + 6), substr($manufacture_date, 0, 4));
@@ -114,7 +97,7 @@ function updateItem($producer_id, $item_id, $type, $name, $mrp, $quantity, $manu
 }
 
 
-// #6 function
+// #4 function
 function errorsForUpdateItem($error_code, $post_data)
 {
     $a = base64_encode(json_encode($post_data));

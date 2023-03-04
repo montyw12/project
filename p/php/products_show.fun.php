@@ -1,26 +1,9 @@
 <?php
 
+require_once("./../database.config.php");
+
+
 // #1 function
-function databaseConnector()
-{
-    $connection = mysqli_connect("localhost", "root", "", "00_project_pms");
-    if ($connection) {
-        return $connection;
-    } else {
-        return "can not connect to database";
-    }
-}
-
-
-// #2 function
-function databaseConnectorClose($a)
-{
-    mysqli_close($a);
-    unset($a);
-}
-
-
-// #3 function
 function selectAllItem($producer_id)
 {
     $queryString = "SELECT * FROM item WHERE f_producer_id = ? ORDER BY name;";
@@ -40,7 +23,7 @@ function selectAllItem($producer_id)
 }
 
 
-// #4 function
+// #2 function
 function errorsForSelectAllItem($error_code)
 {
     switch ($error_code) {
@@ -63,7 +46,7 @@ function errorsForSelectAllItem($error_code)
 }
 
 
-// #5 function
+// #3 function
 function selectSpecificItem($search_by, $key_word, $producer_id)
 {
     if ($search_by != "select") {
@@ -87,7 +70,7 @@ function selectSpecificItem($search_by, $key_word, $producer_id)
 }
 
 
-// #6 function
+// #4 function
 function errorsForSelectSpecificItem($error_code, $post_data)
 {
     $a = base64_encode(json_encode($post_data));

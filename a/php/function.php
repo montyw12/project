@@ -8,24 +8,8 @@
 // echo "for batch " . "0B" . base_convert(date("sYimHd"),10,36) . "<br>";
 // echo "for connection " . "0C" . base_convert(date("sYimHd"),10,36) . "<br>";
 
-// #1 function
-function databaseConnector()
-{
-    $connection = mysqli_connect("localhost", "root", "", "00_project_pms");
-    if ($connection) {
-        return $connection;
-    } else {
-        return "can not connect to database";
-    }
-}
 
-
-// #2 function
-function databaseConnectorClose($a)
-{
-    mysqli_close($a);
-    unset($a);
-}
+require_once("./../database.config.php");
 
 
 // #3 function

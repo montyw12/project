@@ -3,7 +3,7 @@
 try {
     require_once("./php/distributors_all.fun.php");
 
-    $result = selectAllDistributors();
+    $result = selectAllDistributors($_SESSION["user_id"]);
     if (isset($_POST["Connect"])) {
         $result1 = requestForConnect($_SESSION["user_id"], $_POST["Connect"]);
         errorsForRequestForConnect($result1);
@@ -17,8 +17,9 @@ try {
 ?>
 <main>
     <ul class="subul">
-        <li><a href="./distributors_connected.php" class="sublink">connected</a></li>
-        <li><a href="./distributors_all.php" class="sublink">all</a></li>
+        <li><a href="./distributors_all.php" class="sublink">All</a></li>
+        <li><a href="./distributors_connected.php" class="sublink">Connected</a></li>
+        <li><a href="./distributors_request.php" class="sublink">Request</a></li>
     </ul>
     <div class="main-section">
         <form method="POST">

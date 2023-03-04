@@ -14,19 +14,20 @@ try {
 ?>
 <main>
     <ul class="subul">
-        <li><a href="./distributors_connected.php" class="sublink">connected</a></li>
-        <li><a href="./distributors_all.php" class="sublink">all</a></li>
-        <div class="main-section">
-            <form method="POST">
-                <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : null) : ?>
-                    <?php print_r($data);
-                    $status = checkStatusForBtn($data["status"]) ?>
-                    <button value="<?= $data["user_id"] ?>" name="<?= $status ?>" <?= $status == "Pending" ? "disabled" : "" ?>><?= $status ?></button>
-                    <br>
-                <?php endwhile; ?>
-            </form>
-        </div>
+        <li><a href="./distributors_all.php" class="sublink">All</a></li>
+        <li><a href="./distributors_connected.php" class="sublink">Connected</a></li>
+        <li><a href="./distributors_request.php" class="sublink">Request</a></li>
     </ul>
+    <div class="main-section">
+        <form method="POST">
+            <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : null) : ?>
+                <?php print_r($data);
+                $status = checkStatusForBtn($data["status"]) ?>
+                <button value="<?= $data["user_id"] ?>" name="<?= $status ?>" <?= $status == "Pending" ? "disabled" : "" ?>><?= $status ?></button>
+                <br>
+            <?php endwhile; ?>
+        </form>
+    </div>
 </main>
 
 <?php require_once("./02_foot.php") ?>
