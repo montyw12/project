@@ -41,44 +41,37 @@ try {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signin Page</title>
+    <link rel="stylesheet" href="./css/01_signin.css">
 </head>
 
 <body>
-    <form method="POST">
-        <table>
-            <tr>
-                <td>
-                    <label for="">User ID: </label>
-                </td>
-                <td>
-                    <input type="text" name="userid" value="<?= $a->userid ?? "" ?>">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="">Password: </label>
-                </td>
-                <td>
-                    <input type="password" name="password">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <a href="./03_forget_password.php">Forget password?</a>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : null ?>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="submit" name="signin" value="Sign-in">
-                </td>
-            </tr>
-        </table>
-    </form>
+    <div class="main-section">
+        <form method="POST">
+            <div class="main-form">
+                <h1>Sign-in Page</h1>
+                <div id="user_id">
+                    <label for="">User ID </label>
+                    <input id="userid_text" type="text" name="userid" required value="<?= $a->userid ?? "" ?>">
+                </div>
+                <div id="pass">
+                    <label for="">Password </label>
+                    <input id="pass_text" type="password" required name="password">
+                    <a id="forget_text" href="./03_forget_password.php">Forget password?</a>
+                </div>
+                <div id="error">
+                    <p>
+                        <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : null ?>
+                    </p>
+                </div>
+                <div>
+                    <input id="submit" type="submit" name="signin" value="Sign-in">
+                </div>
+                <div id="acc_text">
+                    <p>Don't have an account? <a href="./00_signup.php">Sign up</a></p>
+                </div>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>

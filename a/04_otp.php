@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forget Password Page</title>
-    <link rel="stylesheet" href="./css/03_forget_password.css">
+    <title>Input OTP Page</title>
+    <link rel="stylesheet" href="./css/04_otp.css">
 </head>
 
 <body>
@@ -14,9 +14,9 @@
         <form method="POST">
             <div class="main-form">
                 <h1>Forget Password</h1>
-                <div id="email">
-                    <label for="">Email </label>
-                    <input id="email_text" type="email" name="email" required value="<?= $a->email ?? "" ?>">
+                <div id="otp">
+                    <label for="">OTP</label>
+                    <input id="otp_text" type="number" name="otp" required value="<?= $a->otp ?? "" ?>">
                 </div>
                 
                 <div id="error">
@@ -25,7 +25,7 @@
                     </p>
                 </div>
                 <div>
-                    <input id="submit" type="submit" name="send_otp" value="Send OTP">
+                    <input id="submit" type="submit" name="check_otp" value="Check OTP">
                 </div>
                 <div id="acc_text">
                     <p>Already have a account? <a href="./01_signin.php">Sign in</a></p>

@@ -38,81 +38,57 @@ try {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup Page</title>
+    <link rel="stylesheet" href="./css/00_signup.css">
 </head>
 
 <body>
-    <form method="POST">
-        <table>
-            <tr>
-                <td>
-                    <label for="">User type: </label>
-                </td>
-                <td>
-                    <select name="type" value="<?= $a->type ?? "select" ?>">
+    <div class="main-section">
+        <form method="POST">
+            <div class="main-form">
+            <h1>Sign-up Page</h1>
+                <div class="user-type">
+                    <label for="" id="user_type">User type</label>
+                    <select id="dropdown" name="type" value="<?= $a->type ?? " select" ?>">
                         <option value="select" selected>Select type</option>
                         <option value="seller">Seller</option>
                         <option value="distributor">Distributor</option>
                         <option value="producer">Producer</option>
                     </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="">Name: </label>
-                </td>
-                <td>
-                    <input type="text" name="name" required value="<?= $a->name ?? "" ?>">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="">Address: </label>
-                </td>
-                <td>
-                    <input type="text" name="address" required value="<?= $a->address ?? ""; ?>">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="">Email: </label>
-                </td>
-                <td>
-                    <input type="email" name="email" required value="<?= $a->email ?? ""; ?>">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="">Password: </label>
-                </td>
-                <td>
-                    <input type="password" name="password" required>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="">Confirm Password: </label>
-                </td>
-                <td>
-                    <input type="password" name="confirmPassword" required>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <a href="./01_signin.php">Allready have a account?</a>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : null ?>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="submit" name="signup" value="Sign-up">
-                </td>
-            </tr>
-        </table>
-    </form>
+                </div>
+                <div id="name">
+                    <label for="">Name</label>
+                    <input id="name_text" type="text" name="name" required value="<?= $a->name ?? "" ?>">
+                </div>
+                <div id="address">
+                    <label for="">Address</label>
+                    <input id="address_text" type="text" name="address" required value="<?= $a->address ?? ""; ?>">
+                </div>
+                <div id="email">
+                    <label for="">Email</label>
+                    <input id="email_text" type="email" name="email" required value="<?= $a->email ?? ""; ?>">
+                </div>
+                <div id="pass">
+                    <label for="">Password</label>
+                    <input id="pass_text" type="password" name="password" required>
+                </div>
+                <div id="cpass">
+                    <label for="">Confirm Password</label>
+                    <input id="cpass_text" type="password" name="confirmPassword" required>
+                </div>
+                <div id="error">
+                    <p>
+                        <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : null ?>
+                    </p>
+                </div>
+                <div>
+                    <input id="submit" type="submit" name="signup" value="Sign-up">
+                </div>
+                <div id="acctext">
+                    <p>Already have a account? <a href="./01_signin.php">Sign in</a></p>
+                </div>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>
