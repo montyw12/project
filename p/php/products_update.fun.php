@@ -6,7 +6,7 @@ require_once("./../database.config.php");
 // #1 function
 function selectItemForUpdate($item_id, $producer_id)
 {
-    $queryString = "SELECT * FROM item WHERE item_id = ? AND f_producer_id = ? ORDER BY name";
+    $queryString = "SELECT * FROM items WHERE item_id = ? AND f_producer_id = ? ORDER BY name";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
@@ -68,7 +68,7 @@ function updateItem($producer_id, $item_id, $type, $name, $mrp, $quantity, $manu
                     $imageTitle = "IMG_" . date("ymd") . "_" . date("His") . "." . $imageExtension;
                     $imagePath = "00_img/" . $imageTitle;
                     move_uploaded_file($image["tmp_name"], ("./../" . $imagePath));
-                    $queryString = "UPDATE item SET type = ?,name = ?,mrp = ?,quantity = ?,manufacture_date = ?,expire_date = ?,image = ? WHERE item_id = ? AND f_producer_id = ?;";
+                    $queryString = "UPDATE items SET type = ?,name = ?,mrp = ?,quantity = ?,manufacture_date = ?,expire_date = ?,image = ? WHERE item_id = ? AND f_producer_id = ?;";
                     $dbConn = databaseConnector();
                     $stmt = mysqli_stmt_init($dbConn);
                     if (mysqli_stmt_prepare($stmt, $queryString)) {

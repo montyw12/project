@@ -6,7 +6,7 @@ require_once("./../database.config.php");
 // #1 function
 function selectAllItem($producer_id)
 {
-    $queryString = "SELECT * FROM item WHERE f_producer_id = ? ORDER BY name;";
+    $queryString = "SELECT * FROM items WHERE f_producer_id = ? ORDER BY name;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
@@ -50,7 +50,7 @@ function errorsForSelectAllItem($error_code)
 function selectSpecificItem($search_by, $key_word, $producer_id)
 {
     if ($search_by != "select") {
-        $queryString = "SELECT * FROM item WHERE $search_by LIKE '%$key_word%' AND f_producer_id = ? ORDER BY name;";
+        $queryString = "SELECT * FROM items WHERE $search_by LIKE '%$key_word%' AND f_producer_id = ? ORDER BY name;";
         $dbConn = databaseConnector();
         $stmt = mysqli_stmt_init($dbConn);
         if (mysqli_stmt_prepare($stmt, $queryString)) {

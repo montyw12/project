@@ -18,7 +18,7 @@ function insertItem($producer_id, $type, $name, $mrp, $quantity, $manufacture_da
                     $imageTitle = "IMG_" . date("ymd") . "_" . date("His") . "." . $imageExtension;
                     $imagePath = "00_img/" . $imageTitle;
                     move_uploaded_file($image["tmp_name"], ("./../" . $imagePath));
-                    $queryString = "INSERT INTO item(item_id,f_producer_id,type,name,mrp,quantity,manufacture_date,expire_date,image) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                    $queryString = "INSERT INTO items(item_id,f_producer_id,type,name,mrp,quantity,manufacture_date,expire_date,image) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
                     $dbConn = databaseConnector();
                     $item_id = "0I" . base_convert(date("sYimHd"), 10, 36);
                     $stmt = mysqli_stmt_init($dbConn);

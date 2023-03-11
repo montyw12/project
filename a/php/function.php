@@ -19,38 +19,42 @@ function userSignup($type, $name, $address, $email, $password, $confirmPassword)
         if (6 < strlen($password)) {
             if (checkConfirmPassword($password, $confirmPassword)) {
                 $hashPassword = md5($password);
-                if (checkEmailNotExist($email)) {
-                    $queryString = "INSERT INTO user(user_id,type,name,address,email,password) VALUES(?, ?, ?, ?, ?, ?);";
-                    $dbConn = databaseConnector();
-                    if ($type === "seller") {
-                        $userId = "0S" . base_convert(date("sYimHd"), 10, 36);
-                    } else if ($type === "distributor") {
-                        $userId = "0D" . base_convert(date("sYimHd"), 10, 36);
-                    } else if ($type === "producer") {
-                        $userId = "0P" . base_convert(date("sYimHd"), 10, 36);
-                    }
-                    $stmt = mysqli_stmt_init($dbConn);
-                    if (mysqli_stmt_prepare($stmt, $queryString)) {
-                        mysqli_stmt_bind_param($stmt, "ssssss", $userId, $type, $name, $address, $email, $hashPassword);
-                        mysqli_stmt_execute($stmt);
-                        // var_dump(mysqli_stmt_get_result($stmt));
-                        databaseConnectorClose($dbConn);
-                        $flagToReturn = 0;
-                        $_SESSION["user_id"] = $userId;
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    if (checkEmailNotExist($email)) {
+                        $queryString = "INSERT INTO users(user_id,type,name,address,email,password) VALUES(?, ?, ?, ?, ?, ?);";
+                        $dbConn = databaseConnector();
+                        if ($type === "seller") {
+                            $userId = "0S" . base_convert(date("sYimHd"), 10, 36);
+                        } else if ($type === "distributor") {
+                            $userId = "0D" . base_convert(date("sYimHd"), 10, 36);
+                        } else if ($type === "producer") {
+                            $userId = "0P" . base_convert(date("sYimHd"), 10, 36);
+                        }
+                        $stmt = mysqli_stmt_init($dbConn);
+                        if (mysqli_stmt_prepare($stmt, $queryString)) {
+                            mysqli_stmt_bind_param($stmt, "ssssss", $userId, $type, $name, $address, $email, $hashPassword);
+                            mysqli_stmt_execute($stmt);
+                            // var_dump(mysqli_stmt_get_result($stmt));
+                            databaseConnectorClose($dbConn);
+                            $flagToReturn = 0;
+                            $_SESSION["user_id"] = $userId;
+                        } else {
+                            $flagToReturn = 1;
+                        }
                     } else {
-                        $flagToReturn = 1;
+                        $flagToReturn = 2;
                     }
                 } else {
-                    $flagToReturn = 2;
+                    $flagToReturn = 3;
                 }
             } else {
-                $flagToReturn = 3;
+                $flagToReturn = 4;
             }
         } else {
-            $flagToReturn = 4;
+            $flagToReturn = 5;
         }
     } else {
-        $flagToReturn = 5;
+        $flagToReturn = 6;
     }
 
     unset($hashPassword, $queryString, $dbConn, $userId, $stmt, $type, $name, $address, $email, $password, $confirmPassword);
@@ -72,7 +76,7 @@ function checkConfirmPassword($password, $confirmPassword)
 // #5 function
 function checkEmailNotExist($email)
 {
-    $queryString = "SELECT * FROM user WHERE email=?;";
+    $queryString = "SELECT * FROM users WHERE email=?;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
@@ -114,18 +118,24 @@ function errorsForSignup($error_code, $post_data)
             exit();
             break;
         case 3:
+            $qs = "a=" . $a . "&error=" . base64_encode("Invalid Email address");
+            // header("location: ./00_signup.php?error=invalid email address");
+            header("location: ./00_signup.php?" . $qs);
+            exit();
+            break;
+        case 4:
             $qs = "a=" . $a . "&error=" . base64_encode("Password not match");
             // header("location: ./00_signup.php?error=password not match");
             header("location: ./00_signup.php?" . $qs);
             exit();
             break;
-        case 4:
+        case 5:
             $qs = "a=" . $a . "&error=" . base64_encode("Password must be greater than 6 characters");
             // header("location: ./00_signup.php?error=password must be greater than 6 characters");
             header("location: ./00_signup.php?" . $qs);
             exit();
             break;
-        case 5:
+        case 6:
             $qs = "a=" . $a . "&error=" . base64_encode("First select user-type");
             // header("location: ./00_signup.php?error=first select user-type");
             header("location: ./00_signup.php?" . $qs);
@@ -145,7 +155,7 @@ function errorsForSignup($error_code, $post_data)
 function userSignin($userid, $password)
 {
     $hashPassword = md5($password);
-    $queryString = "SELECT user_id,password FROM user WHERE user_id=? AND password=?;";
+    $queryString = "SELECT user_id,password FROM users WHERE user_id=? AND password=?;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {

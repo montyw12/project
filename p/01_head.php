@@ -22,6 +22,16 @@ if (isset($_SESSION["user"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="./css/master.css">
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        *::selection {
+            background-color: #7a86b8;
+            color: #000000;
+        }
+    </style>
 </head>
 
 <body>

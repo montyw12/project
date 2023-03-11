@@ -6,7 +6,7 @@ require_once("./../database.config.php");
 // #1 function
 function selectAllProducers($distributor_id)
 {
-    $queryString = "SELECT user_id, type, name, address, email, item_has, status FROM user LEFT JOIN provider_client ON user_id = f_provider_id WHERE (type = 'producer'  AND (f_client_id = ? OR f_client_id IS NULL));";
+    $queryString = "SELECT user_id, type, name, address, email, item_has, status FROM users LEFT JOIN provider_client ON user_id = f_provider_id WHERE (type = 'producer'  AND (f_client_id = ? OR f_client_id IS NULL));";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
