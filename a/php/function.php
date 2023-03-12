@@ -136,7 +136,7 @@ function errorsForSignup($error_code, $post_data)
             exit();
             break;
         case 6:
-            $qs = "a=" . $a . "&error=" . base64_encode("First select user-type");
+            $qs = "a=" . $a . "&error=" . base64_encode("First select user type");
             // header("location: ./00_signup.php?error=first select user-type");
             header("location: ./00_signup.php?" . $qs);
             exit();
@@ -152,18 +152,25 @@ function errorsForSignup($error_code, $post_data)
 
 
 // #7 function
-function userSignin($userid, $password)
+function userSignin($user_uid, $password)
 {
     $hashPassword = md5($password);
-    $queryString = "SELECT user_id,password FROM users WHERE user_id=? AND password=?;";
+    if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+        $queryString = "SELECT user_id,password FROM users WHERE email = ? AND password = ?;";
+    } else {
+        $queryString = "SELECT user_id,password FROM users WHERE user_id = ? AND password = ?;";
+    }
+    // $queryString = "SELECT user_id,password FROM users WHERE user_id=? AND password=?;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        mysqli_stmt_bind_param($stmt, "ss", $userid, $hashPassword);
+        mysqli_stmt_bind_param($stmt, "ss", $user_uid, $hashPassword);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         databaseConnectorClose($dbConn);
-        if (!empty(mysqli_fetch_assoc($result))) {
+        if ($result->num_rows == 1) {
+            $data = mysqli_fetch_assoc($result);
+            $_SESSION["user_id"] = $data["user_id"];
             $resultToReturn = 0;
         } else {
             $resultToReturn = 1;
@@ -171,7 +178,7 @@ function userSignin($userid, $password)
     } else {
         $resultToReturn = 2;
     }
-    unset($hashPassword, $queryString, $dbConn, $stmt, $result, $userid, $password);
+    unset($hashPassword, $queryString, $dbConn, $stmt, $result, $user_uid, $password);
     return $resultToReturn;
 }
 
@@ -180,7 +187,6 @@ function userSignin($userid, $password)
 function errorsForSignin($error_code, $post_data)
 {
     $post_data["password"] = null;
-    $post_data["confirmPassword"] = null;
     $a = base64_encode(json_encode($post_data));
     switch ($error_code) {
         case 0:
@@ -190,7 +196,7 @@ function errorsForSignin($error_code, $post_data)
             exit();
             break;
         case 1:
-            $qs = "a=" . $a . "&error=" . base64_encode("Invalid userid or password");
+            $qs = "a=" . $a . "&error=" . base64_encode("Invalid user id, email or password");
             // header("location: ./01_signin.php?error=invalid userid or password");
             header("location: ./01_signin.php?" . $qs);
             exit();
@@ -205,6 +211,282 @@ function errorsForSignin($error_code, $post_data)
             $qs = "a=" . $a . "&error=" . base64_encode("Please try again!");
             // header("location: ./01_signin.php?error=please try again!");
             header("location: ./01_signin.php?" . $qs);
+            exit();
+            break;
+    }
+}
+
+
+// #9 function
+function sendOtp($user_uid)
+{
+    if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+        $queryString = "SELECT email FROM users WHERE email = ?;";
+    } else {
+        $queryString = "SELECT email FROM users WHERE user_id = ?;";
+    }
+    $dbConn = databaseConnector();
+    $stmt = mysqli_stmt_init($dbConn);
+    if (mysqli_stmt_prepare($stmt, $queryString)) {
+        mysqli_stmt_bind_param($stmt, "s", $user_uid);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        databaseConnectorClose($dbConn);
+        if (!empty(mysqli_fetch_assoc($result))) {
+            $_SESSION["user_uid"] = $user_uid;
+            $resultToReturn = 0;
+        } else {
+            $resultToReturn = 1;
+        }
+    } else {
+        $resultToReturn = 2;
+    }
+    unset($queryString, $dbConn, $stmt, $result, $user_uid);
+    return $resultToReturn;
+}
+
+
+// #10 function
+function errorsForSendOtp($error_code, $post_data)
+{
+    $a = base64_encode(json_encode($post_data));
+    switch ($error_code) {
+        case 0:
+            $qs = "a=" . $a . "&error=" . base64_encode("None");
+            // header("location: ./03_forget_password.php?error=none");
+            header("location: ./03_forget_password.php?" . $qs);
+            exit();
+            break;
+        case 1:
+            $qs = "a=" . $a . "&error=" . base64_encode("Invalid user id or email address");
+            // header("location: ./03_forget_password.php?error=invalid userid or password");
+            header("location: ./03_forget_password.php?" . $qs);
+            exit();
+            break;
+        case 2:
+            $qs = "a=" . $a . "&error=" . base64_encode("Something want wrong");
+            // header("location: ./03_forget_password.php?error=someting want wrong! try again");
+            header("location: ./03_forget_password.php?" . $qs);
+            exit();
+            break;
+        default:
+            $qs = "a=" . $a . "&error=" . base64_encode("Please try again!");
+            // header("location: ./03_forget_password.php?error=please try again!");
+            header("location: ./03_forget_password.php?" . $qs);
+            exit();
+            break;
+    }
+}
+
+
+// #11 function
+function sendEmailForOtp($user_uid, $otp)
+{
+    if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+        $queryString = "SELECT name, email FROM users WHERE email = ?;";
+    } else {
+        $queryString = "SELECT name, email FROM users WHERE user_id = ?;";
+    }
+    $dbConn = databaseConnector();
+    $stmt = mysqli_stmt_init($dbConn);
+    if (mysqli_stmt_prepare($stmt, $queryString)) {
+        mysqli_stmt_bind_param($stmt, "s", $user_uid);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        databaseConnectorClose($dbConn);
+        if (!empty($result)) {
+            $data = mysqli_fetch_assoc($result);
+            if (sendEmailToUserForOtp($data["name"], $data["email"], $otp)) {
+                $resultToReturn = 0;
+            } else {
+                $resultToReturn = 1;
+            }
+        } else {
+            $resultToReturn = 2;
+        }
+    } else {
+        $resultToReturn = 3;
+    }
+    unset($queryString, $dbConn, $stmt, $result, $user_uid);
+    return $resultToReturn;
+}
+
+
+// #12 function
+function sendEmailToUserForOtp($name, $email, $otp)
+{
+    $to = $email;
+    $subject = "Varification For Reset Password";
+    $message = "<p style=\"font-size: large;\">Hello $name Your 6 Digit Varification Code Is</p>
+        <hr>
+        <h1 style=\"font-size: x-large; color: #00ff00;\">$otp</h1>
+        <hr>
+        <p style=\"font-size: large; color: red;\">Please Don't Share With Anyone!</p>
+        <p style=\"margin-top: 15px;\"><i>**This is an auto-generated email. Please do not reply to this email.**</i></p>";
+
+    $nl = "\r\n";
+    //Header information
+    $headers = "MIME-Version: 1.0" . $nl;
+    $headers .= "Content-type: text/html; charset=iso-8859-1" . $nl;
+    $headers .= "From:example.org" . $nl;
+
+    if (mail($to, $subject, $message, $headers)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+// #13 function
+function errorsForSendEmailForOtp($error_code)
+{
+    switch ($error_code) {
+        case 0:
+            header("location: ./04_otp.php?");
+            exit();
+            break;
+        case 1:
+        case 3:
+            $qs = "&error=" . base64_encode("Something want wrong");
+            // header("location: ./03_forget_password.php?error=someting want wrong! try again");
+            header("location: ./03_forget_password.php?" . $qs);
+            exit();
+            break;
+        case 2:
+            $qs = "&error=" . base64_encode("Invalid user id or email address");
+            // header("location: ./03_forget_password.php?error=invalid userid or password");
+            header("location: ./03_forget_password.php?" . $qs);
+            exit();
+            break;
+        default:
+            $qs = "&error=" . base64_encode("Please try again!");
+            // header("location: ./03_forget_password.php?error=please try again!");
+            header("location: ./03_forget_password.php?" . $qs);
+            exit();
+            break;
+    }
+}
+
+
+// #14 function
+function checkOtp($otp, $otp1)
+{
+    if ($otp == $otp1) {
+        unset($_SESSION["otp"]);
+        $_SESSION["flagToChangePassword"] = 1;
+        $resultToReturn = 0;
+    } else {
+        $resultToReturn = 1;
+    }
+    return $resultToReturn;
+}
+
+
+// #15 function
+function errorsForCheckOtp($error_code, $post_data)
+{
+    $a = base64_encode(json_encode($post_data));
+    switch ($error_code) {
+        case 0:
+            header("location: ./05_reset_password.php?");
+            exit();
+            break;
+        case 1:
+            $qs = "a=" . $a . "&error=" . base64_encode("Invalid varification code");
+            header("location: ./04_otp.php?" . $qs);
+            exit();
+            break;
+        default:
+            $qs = "a=" . $a . "&error=" . base64_encode("Please try again!");
+            // header("location: ./03_forget_password.php?error=please try again!");
+            header("location: ./04_otp.php?" . $qs);
+            exit();
+            break;
+    }
+}
+
+
+// #16 function
+function resetPassword($user_uid, $password, $confirmPassword)
+{
+    if (6 < strlen($password)) {
+        if (checkConfirmPassword($password, $confirmPassword)) {
+            $password = md5($password);
+            if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+                $queryString = "UPDATE users SET password = ? WHERE email = ?;";
+                $queryString1 = "SELECT user_id, type FROM users WHERE email = ?;";
+            } else {
+                $queryString = "UPDATE users SET password = ? WHERE user_id = ?;";
+                $queryString1 = "SELECT user_id, type FROM users WHERE user_id = ?;";
+            }
+            $dbConn = databaseConnector();
+            $stmt = mysqli_stmt_init($dbConn);
+            if (mysqli_stmt_prepare($stmt, $queryString)) {
+                mysqli_stmt_bind_param($stmt, "ss", $password, $user_uid);
+                mysqli_stmt_execute($stmt);
+                $stmt = mysqli_stmt_init($dbConn);
+                if (mysqli_stmt_prepare($stmt, $queryString1)) {
+                    mysqli_stmt_bind_param($stmt, "s", $user_uid);
+                    mysqli_stmt_execute($stmt);
+                    $result = mysqli_stmt_get_result($stmt);
+                    $data = mysqli_fetch_assoc($result);
+                    $_SESSION["user"] = $data["type"];
+                    $_SESSION["user_id"] = $data["user_id"];
+                }
+                $resultToReturn = 0;
+                unset($_SESSION["flagToChangePassword"]);
+                databaseConnectorClose($dbConn);
+            } else {
+                $resultToReturn = 1;
+            }
+        } else {
+            $resultToReturn = 2;
+        }
+    } else {
+        $resultToReturn = 3;
+    }
+    unset($queryString, $queryString1, $dbConn, $stmt, $user_uid, $password, $confirmPassword);
+    return $resultToReturn;
+}
+
+
+// #17 function
+function errorsForResetPassword($error_code)
+{
+    switch ($error_code) {
+        case 0:
+            if ($_SESSION["user"] == "seller") {
+                header("location: ./../s/home.php");
+                exit();
+            } else if ($_SESSION["user"] == "distributor") {
+                header("location: ./../d/home.php");
+                exit();
+            } else if ($_SESSION["user"] == "producer") {
+                header("location: ./../p/home.php");
+                exit();
+            }
+            break;
+        case 1:
+            $qs = "&error=" . base64_encode("Something want wrong");
+            header("location: ./05_reset_password.php?" . $qs);
+            exit();
+            break;
+        case 2:
+            $qs = "&error=" . base64_encode("Password not match");
+            // header("location: ./00_signup.php?error=password not match");
+            header("location: ./05_reset_password.php?" . $qs);
+            exit();
+            break;
+        case 3:
+            $qs = "&error=" . base64_encode("Password must be greater than 6 characters");
+            // header("location: ./00_signup.php?error=password must be greater than 6 characters");
+            header("location: ./05_reset_password.php?" . $qs);
+            exit();
+            break;
+        default:
+            $qs = "&error=" . base64_encode("Please try again!");
+            header("location: ./05_reset_password.php?" . $qs);
             exit();
             break;
     }

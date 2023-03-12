@@ -14,8 +14,6 @@ function selectAllProducers($distributor_id)
         mysqli_stmt_execute($stmt);
         $resultToReturn = mysqli_stmt_get_result($stmt);
         // $resultToReturn = 0;
-    } else {
-        $resultToReturn = 1;
     }
     databaseConnectorClose($dbConn);
     unset($queryString, $dbConn, $stmt);

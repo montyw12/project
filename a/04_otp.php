@@ -1,3 +1,17 @@
+<?php
+session_start();
+if (isset($_SESSION["user_uid"], $_SESSION["otp"])) {
+    $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
+    require_once("./php/04_otp.fun.php");
+    if (isset($_POST["next"])) {
+        $result = checkOtp($_POST["otp"], $_SESSION["otp"]);
+        errorsForCheckOtp($result, $_POST);
+    }
+} else {
+    header("location: ./01_signin.php?note=InvalidPageAccess");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,19 +27,19 @@
     <div class="main-section">
         <form method="POST">
             <div class="main-form">
-                <h1>Forget Password</h1>
+                <h1>Account Recovery</h1>
                 <div id="otp">
-                    <label for="">OTP</label>
-                    <input id="otp_text" type="number" name="otp" required value="<?= $a->otp ?? "" ?>">
+                    <label for="">Varification Code</label>
+                    <input id="otp_text" type="number" min="100000" max="999999" name="otp" placeholder="Enter code" required value="<?= $a->otp ?? "" ?>">
                 </div>
-                
+
                 <div id="error">
                     <p>
                         <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : null ?>
                     </p>
                 </div>
                 <div>
-                    <input id="submit" type="submit" name="check_otp" value="Check OTP">
+                    <input id="submit" type="submit" name="next" value="Next">
                 </div>
                 <div id="acc_text">
                     <p>Already have a account? <a href="./01_signin.php">Sign in</a></p>

@@ -1,26 +1,26 @@
 <?php
 session_start();
 try {
-    require_once("./php/function.php");
+    require_once("./php/01_signin.fun.php");
     $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     if (isset($_POST["signin"])) {
-        $result = userSignin($_POST["userid"], $_POST["password"]);
+        $result = userSignin($_POST["user_uid"], $_POST["password"]);
         if ($result === 0) {
-            $userId = $_POST["userid"];
+            $userId = $_SESSION["user_id"] ?? $_POST["user"];
             $prefixUserid = substr($userId, 0, 2);
             if ($prefixUserid === "0D") {
                 $_SESSION["user"] = "distributor";
-                $_SESSION["user_id"] = $_POST["userid"];
+                $_SESSION["user_id"] = $_SESSION["user_id"];
                 header("location: ./../d/home.php");
                 exit();
             } else if ($prefixUserid === "0P") {
                 $_SESSION["user"] = "producer";
-                $_SESSION["user_id"] = $_POST["userid"];
+                $_SESSION["user_id"] = $_SESSION["user_id"];
                 header("location: ./../p/home.php");
                 exit();
             } else if ($prefixUserid === "0S") {
                 $_SESSION["user"] = "seller";
-                $_SESSION["user_id"] = $_POST["userid"];
+                $_SESSION["user_id"] = $_SESSION["user_id"];
                 header("location: ./../s/home.php");
                 exit();
             }
@@ -48,14 +48,14 @@ try {
     <div class="main-section">
         <form method="POST">
             <div class="main-form">
-                <h1>Sign-in Page</h1>
+                <h1>Signin Page</h1>
                 <div id="user_id">
-                    <label for="">User ID </label>
-                    <input id="userid_text" type="text" name="userid" required value="<?= $a->userid ?? "" ?>">
+                    <label for="">Email or user id</label>
+                    <input id="userid_text" type="text" name="user_uid" placeholder="Email or user id" required value="<?= $a->user_uid ?? "" ?>">
                 </div>
                 <div id="pass">
                     <label for="">Password </label>
-                    <input id="pass_text" type="password" required name="password">
+                    <input id="pass_text" type="password" placeholder="Password" required name="password">
                     <a id="forget_text" href="./03_forget_password.php">Forget password?</a>
                 </div>
                 <div id="error">
