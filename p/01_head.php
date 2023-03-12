@@ -21,30 +21,45 @@ if (isset($_SESSION["user"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="./css/master.css">
-    <style>
-        * {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        *::selection {
-            background-color: #7a86b8;
-            color: #000000;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="./css/01_head.css">
 </head>
 
 <body>
     <div class="container">
-        <header>
+        <div class="header">
             <div class="navbar">
-                <ul class="nav">
-                    <li><a class="navlink" href="./home.php">Home</a></li>
-                    <li><a class="navlink" href="./products.php">Products</a></li>
-                    <li><a class="navlink" href="./distributors.php">Distributors</a></li>
-                    <li><a class="navlink" href="./orders.php">Orders</a></li>
-                    <li><a class="navlink" href="./analysis.php">Analysis</a></li>
-                    <li><a class="navlink" href="./../a/02_signout.php">Signout</a></li>
-                </ul>
+                <div>
+                    <button id="bar">&#9776;</button>
+                </div>
+                <div>
+                    <a id="navlink" href="./home.php">
+                        <p id="home">&#127968;</p>Home
+                    </a>
+                </div>
+                <div>
+                    <a id="navlink" href="./products.php">
+                        <p id="products">&#128230;</p>Products
+                    </a>
+                </div>
+                <div>
+                    <a id="navlink" href="./distributors.php">
+                        <p id="distributors">&#129489;&#127995;</p>Distributors
+                    </a>
+                </div>
+                <div>
+                    <a id="navlink" href="./orders.php">
+                        <p id="order">&#128722;</p>Orders
+                    </a>
+                </div>
+                <div>
+                    <a id="navlink" href="./analysis.php">
+                        <p id="analysis">&#128202;</p>Analysis
+                    </a>
+                </div>
+                <div>
+                    <a id="navlink" href="./../a/02_signout.php">
+                        <p id="signout">&#128682;</p>Signout
+                    </a>
+                </div>
             </div>
-        </header>
+        </div>

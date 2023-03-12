@@ -1,0 +1,54 @@
+.item-section{
+    width: 600px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 120px;
+}
+.item_block{
+    width: 600px;
+    height: auto;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    border: 1px solid black;
+    border-radius: 9px;
+}
+#item-type_text,
+#item_type_text,
+#item_name_text,
+#item_mrp_text,
+#item_quantity_text,
+#item_manufacturedate_text,
+#item_expiredate_text,
+#item_img_text{
+    font-size: 24px;
+}
+
+#item_type,
+#item_name,
+#item_mrp,
+#item_quantity,
+#item_manufacturedate,
+#item_expiredate,
+#item_img{
+    display: flex;
+    font-size: 24px;
+    width: 400px;
+}
+.item_create_btn{
+    margin: auto;
+}
+#create_item{
+    font-size: 27px;
+}
+#item_img {
+    border: 1px solid black;
+}
+.item_block>div{
+    margin-bottom: 15px;
+   
+}

@@ -1,0 +1,121 @@
+.main-section {
+    background-color: rgb(229,229,229);
+
+}
+
+.search-item {
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#dropdown {
+    margin-top: 20px;
+    width: 130px;
+    height: 36px;
+    /* margin-right: 20px; */
+    font-size: 18px;
+}
+
+#keyword {
+    margin-top: 20px;
+    width: 350px;
+    height: 30px;
+    font-size: 18px;
+}
+
+#submit {
+    margin-top: 20px;
+    width: 54px;
+    height: 39px;
+    font-size: 21px;
+    padding: 2px;
+}
+
+.all-items {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    /* column-gap: 9px; */
+    row-gap: 18px;
+}
+
+
+.item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.inner-item-id {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(223, 235, 245);
+}
+.images{
+    width: 100%;
+    /* height: 30%; */
+    text-align: center;
+    margin-top: 10px;
+    
+}
+.imgs {
+    width: 350px;
+    /* margin: 0 auto; */
+    border: 3px solid black;
+    border-radius: 9px;
+}
+
+.name_text{
+    display: inline-block;
+    font-size: 30px;
+    margin-left: 20px;
+    align-items: center;
+}
+.quantity_text,
+.manufacture_date_text,
+.expire_date_text
+{
+    display: inline-block;
+    font-size: 20px;
+    margin-left: 20px;
+    align-items: center;
+}
+
+.name{
+    font-size: 30px;
+    display: inline-block;
+}
+
+.quntity,
+.manufacture_date ,
+.expire_date{
+    font-size: 20px;
+    display: inline-block;
+}
+.mrp_section{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  
+}
+.mrp_section .mrp_text{
+    align-self: flex-end;
+    font-size: 30px;
+    background-color: rgb(223, 235, 245);
+  
+}
+.mrp_section .mrp{
+    align-self: flex-end;
+    font-size: 30px;
+    background-color: rgb(223, 235, 245);
+}

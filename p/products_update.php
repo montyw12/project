@@ -33,123 +33,78 @@ try {
 <link rel="stylesheet" type="text/css" href="./css/products.css">
 <link rel="stylesheet" type="text/css" href="./css/products_show.css">
 
-<main>
-    <ul class="subul">
-        <li><a href="./products_show.php" class="sublink">Show Products</a></li>
-        <li><a href="./products_update.php" class="sublink">Update Products</a></li>
-        <li><a href="./products_create.php" class="sublink">Create Products</a></li>
-    </ul>
+<link rel="stylesheet" type="text/css" href="./css/products.css">
+<link rel="stylesheet" type="text/css" href="./css/products_update.css">
+<div class="main">
+    <div class="subul">
+        <div id="show_product">
+            <a href="./products_show.php" class="sublink">Show Products</a>
+        </div>
+        <div id="update_product">
+            <a href="./products_update.php" class="sublink">Update Products</a>
+        </div>
+        <div id="create_product">
+            <a href="./products_create.php" class="sublink">Create Products</a>
+        </div>
+    </div>
+    <hr>
     <div class="main-section">
-        <form method="post">
-            <table>
-                <tr>
-                    <td>
-                        <label for="">Input Item id:</label>
-                    </td>
-                    <td>
-                        <input type="text" name="item_id" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for=""></label>
-                    </td>
-                    <td>
-                        <label for=""><?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : "" ?></label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" name="search_submit" value="Search">
-                    </td>
-                </tr>
-            </table>
-        </form>
+        <div class="search-item">
+            <form method="post">
+                <input id="text" type="text" name="item_id" required>
+                <input id="submit" type="submit" name="search_submit" value="&#128269;">
+                <p id="error">
+                    <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : "" ?>
+                </p>
+            </form>
+        </div>
         <?php if (isset($_POST["item_id"]) && $_POST["item_id"] != "") : ?>
             <form method="post" enctype="multipart/form-data">
-                <table>
-                    <tr>
-                        <td>
-                            <label for="">Item id:</label>
-                        </td>
-                        <td>
-                            <?= $data["item_id"] ?? "" ?>
-                            <input type="hidden" name="item_id" required value="<?= $a->item_id ?? $data["item_id"] ?? "" ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="">Item type:</label>
-                        </td>
-                        <td>
-                            <input type="text" name="type" required value="<?= $a->type ?? $data["type"] ?? "" ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="">Item name:</label>
-                        </td>
-                        <td>
-                            <input type="text" name="name" required value="<?= $a->name ?? $data["name"] ?? "" ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="">Item mrp:</label>
-                        </td>
-                        <td>
-                            <input type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= $a->mrp ?? $data["mrp"] ?? "" ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="">Item quantity:</label>
-                        </td>
-                        <td>
-                            <input type="number" name="quantity" min="0" max="10000" required value="<?= $a->quantity ?? $data["quantity"] ?? "" ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="">Item manufacture date:</label>
-                        </td>
-                        <td>
-                            <input type="date" name="manufacture_date" required value="<?= $a->manufacture_date ?? $data["manufacture_date"] ?? "" ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="">Item expire date:</label>
-                        </td>
-                        <td>
-                            <input type="date" name="expire_date" required value="<?= $a->expire_date ?? $data["expire_date"] ?? "" ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="">Item image:</label>
-                        </td>
-                        <td>
-                            <input type="file" name="image" required value="<?= $a->image ?? $data["image"] ?? "" ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for=""></label>
-                        </td>
-                        <td>
-                            <label for=""><?= isset($_GET["error1"]) ? base64_decode($_GET["error1"]) : "" ?></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="submit" value="Update Item" name="update_submit">
-                        </td>
-                    </tr>
-                </table>
+                <div class="item_block">
+                    <div id=item>
+                        <?= $data["item_id"] ?? "" ?>
+                        <input id="item_id" type="hidden" name="item_id" required value="<?= $a->item_id ?? $data["item_id"] ?? "" ?>">
+                    </div>
+                    <div>
+                        <label for="" id="item_type_text">Item type:</label>
+                        <input id="item_type" type="text" name="type" required value="<?= $a->type ?? $data["type"] ?? "" ?>">
+                    </div>
+                    <div>
+                        <label for="" id="item_name_text">Item name:</label>
+                        <input id="item_name" type="text" name="name" required value="<?= $a->name ?? $data["name"] ?? "" ?>">
+                    </div>
+                    <div>
+                        <label for="" id="item_mrp_text">Item mrp:</label>
+                        <input id="item_mrp" type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= $a->mrp ?? $data["mrp"] ?? "" ?>">
+                    </div>
+                    <div>
+                        <label for="" id="item_quantity_text">Item quantity:</label>
+                        <input id="item_quantity" type="number" name="quantity" min="0" max="10000" required value="<?= $a->quantity ?? $data["quantity"] ?? "" ?>">
+                    </div>
+                    <div>
+                        <label for="" id="item_manufacturedate_text">Item manufacture date:</label>
+                        <input id="manufacture_date" type="date" name="manufacture_date" required value="<?= $a->manufacture_date ?? $data["manufacture_date"] ?? "" ?>">
+                    </div>
+                    <div>
+                        <label for="" id="item_expiredate_text">Item expire date:</label>
+                        <input id="expire_date" type="date" name="expire_date" required value="<?= $a->expire_date ?? $data["expire_date"]?? "" ?>">
+                    </div>
+                    <div>
+                        <label for="" id="item_img_text">Item image:</label>
+                        <input id="item_img" type="file" name="image" required value="<?= $a->image ?? $data["image"] ?? "" ?>">
+                    </div>
+                    <div>
+                        <p>
+                            <?= isset($_GET["error1"]) ? base64_decode($_GET["error1"]) : "" ?>
+                        </p>
+                    </div>
+                    <div class="item_update_btn">
+                        <input id="update_submit" type="submit" value="Update Item" name="update_submit">
+                    </div>
+                </div>
             </form>
         <?php endif; ?>
     </div>
-</main>
+</div>
 
 <?php require_once("./02_foot.php") ?>
