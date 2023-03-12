@@ -38,7 +38,7 @@ body {
 }
 
 .main {
-    height: 100vh;
+    height: 100%;
     width: 100%;
     background-color: rgb(229, 229, 229);
 }
@@ -88,4 +88,8 @@ a:active {
 
 a:link {
     color: #000000;
+}
+
+.footer{
+    grid-column: 1 / 3;
 }

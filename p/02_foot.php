@@ -1,7 +1,7 @@
-</div>
-<footer>
+<div class="footer">
     <p> &copy Power By Php</p>
-</footer>
+</div>
+</div>
 <script src="./../jquery-3.6.3.js"></script>
 <script>
     $(document).ready(function () {

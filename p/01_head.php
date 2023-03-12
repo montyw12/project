@@ -20,23 +20,8 @@ if (isset($_SESSION["user"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>Home</title>
     <link rel="stylesheet" type="text/css" href="./css/01_head.css">
-=======
-    <title><?= strtoupper(pathinfo($_SERVER["PHP_SELF"],PATHINFO_FILENAME)) ?></title>
-    <link rel="stylesheet" type="text/css" href="./css/master.css">
-    <style>
-        * {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        *::selection {
-            background-color: #7a86b8;
-            color: #000000;
-        }
-    </style>
->>>>>>> 5fae4eefa8928a1e2ac8bf26b56a63ac48813f7d
+    <title><?= strtoupper(pathinfo($_SERVER["PHP_SELF"], PATHINFO_FILENAME)) ?></title>
 </head>
 
 <body>
