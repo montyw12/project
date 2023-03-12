@@ -44,11 +44,17 @@ body {
     border: dashed #000000;
     border-radius: 9px;
 }
-#otp{
+
+h1 {
+    margin-bottom: 30px;
+}
+
+#otp {
     margin-top: 25px;
     font-size: 21px;
     color: #444b6b;
 }
+
 #otp_text {
     display: block;
     width: 450px;
@@ -57,13 +63,15 @@ body {
     border-radius: 6px;
     border: 1px solid #000000;
 }
-#forget_text{
+
+#forget_text {
 
     float: right;
     /* margin-top: 24px; */
     font-size: 18px;
 }
-#submit{
+
+#submit {
     width: 450px;
     height: 39px;
     margin-top: 18px;
@@ -73,6 +81,7 @@ body {
     color: #ffffff;
     background-color: #7a56b8;
 }
+
 #submit:hover {
     cursor: pointer;
     color: #000000;
@@ -85,7 +94,8 @@ body {
     margin-top: 18px;
     font-size: 18px;
 }
-#acc_text{
+
+#acc_text {
     margin-top: 24px;
     font-size: 18px;
 }

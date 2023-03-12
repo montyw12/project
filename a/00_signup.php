@@ -1,7 +1,7 @@
 <?php
 session_start();
 try {
-    require_once("./php/function.php");
+    require_once("./php/00_signup.fun.php");
     $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     if (isset($_POST["signup"])) {
         $result = userSignup($_POST["type"], $_POST["name"], $_POST["address"], $_POST["email"], $_POST["password"], $_POST["confirmPassword"]);
@@ -45,7 +45,7 @@ try {
     <div class="main-section">
         <form method="POST">
             <div class="main-form">
-            <h1>Sign-up Page</h1>
+                <h1>Signup Page</h1>
                 <div class="user-type">
                     <label for="" id="user_type">User type</label>
                     <select id="dropdown" name="type" value="<?= $a->type ?? " select" ?>">
@@ -57,23 +57,23 @@ try {
                 </div>
                 <div id="name">
                     <label for="">Name</label>
-                    <input id="name_text" type="text" name="name" required value="<?= $a->name ?? "" ?>">
+                    <input id="name_text" type="text" name="name" placeholder="Name" required value="<?= $a->name ?? "" ?>">
                 </div>
                 <div id="address">
                     <label for="">Address</label>
-                    <input id="address_text" type="text" name="address" required value="<?= $a->address ?? ""; ?>">
+                    <input id="address_text" type="text" name="address" placeholder="Address" required value="<?= $a->address ?? ""; ?>">
                 </div>
                 <div id="email">
                     <label for="">Email</label>
-                    <input id="email_text" type="email" name="email" required value="<?= $a->email ?? ""; ?>">
+                    <input id="email_text" type="email" name="email" placeholder="Email" required value="<?= $a->email ?? ""; ?>">
                 </div>
                 <div id="pass">
                     <label for="">Password</label>
-                    <input id="pass_text" type="password" name="password" required>
+                    <input id="pass_text" type="password" placeholder="Password" name="password" required>
                 </div>
                 <div id="cpass">
                     <label for="">Confirm Password</label>
-                    <input id="cpass_text" type="password" name="confirmPassword" required>
+                    <input id="cpass_text" type="password" placeholder="Confirm password" name="confirmPassword" required>
                 </div>
                 <div id="error">
                     <p>
