@@ -22,6 +22,42 @@ function selectAllItemOFConnectedProducers($distributor_id)
 
 
 // #2 function
-function checkDetailsForMakeOrders($user_id, $item_select, $item_quantity){
-
+function checkDetailsForMakeOrders($user_id, $item_select, $item_quantity)
+{
+    if (count($item_select) == 1) {
+        foreach ($item_select as $key => $value) {
+            $provider_id = $key;
+            break;
+        }
+        foreach ($item_select[$provider_id] as $a) {
+            if ((!empty($a)) && (!empty($item_quantity[$a]))) {
+                $item["item_id"][] = $a;
+                $item["quantity"][] = $item_quantity[$a];
+            }
+        }
+        $dbConn = databaseConnector();
+        $queryString = "SELECT r_id FROM provider_client WHERE f_provider_id = ? AND f_client_id = ?";
+        $stmt = mysqli_stmt_init($dbConn);
+        if (mysqli_stmt_prepare($stmt, $queryString)) {
+            mysqli_stmt_bind_param($stmt, "ss", $provider_id, $user_id);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $data = mysqli_fetch_assoc($result);
+            $f_provider_client_id = $data["r_id"];
+        }
+        $queryString = "INSERT INTO orders(order_id, f_provider_client_id, item_no, order_date, status) VALUES(?, ?, ?, ?, ?);";
+        $order_id = "0O" . base_convert(date("sYimHd"), 10, 36);
+        $item_no =  count($item["item_id"]);
+        $order_date = date("Y-m-d");
+        $status = 1;
+        $stmt = mysqli_stmt_init($dbConn);
+        if (mysqli_stmt_prepare($stmt, $queryString)) {
+            mysqli_stmt_bind_param($stmt, "ssisi", $order_id, $f_provider_client_id, $item_no, $order_date, $status);
+            mysqli_stmt_execute($stmt);
+        }
+        databaseConnectorClose($dbConn);
+    } else {
+        $resultToReturn = false;
+    }
+    unset($key, $value, $provider_id, $item, $dbConn, $queryString, $stmt, $result, $data, $f_provider_client_id, $order_id, $item_no, $order_date, $status);
 }

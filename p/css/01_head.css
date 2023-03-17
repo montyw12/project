@@ -20,7 +20,7 @@
 }
 
 body {
-    background-color: rgb(229, 229, 229);
+    background-color: #efefef;
     /* margin: auto; */
 }
 
@@ -34,13 +34,13 @@ body {
 .header {
     height: 100%;
     width: 100%;
-    background-color: rgb(229, 229, 229);
+    background-color: #efefef;
 }
 
 .main {
     height: 100%;
     width: 100%;
-    background-color: rgb(229, 229, 229);
+    background-color: #efefef;
 }
 
 .navbar {
@@ -60,13 +60,14 @@ body {
     border: none;
     margin-top: 12px;
     margin-bottom: 20px;
-    background-color: rgb(229, 229, 229);
+    background-color: #efefef;
     font-size: 30px;
+    padding: 12px 18px;
 }
 
 #bar:hover{
     background-color: #e5e5e5;
-    border-radius: 50%;
+    border-radius: 100%;
 }
 #home,
 #order,

@@ -19,7 +19,7 @@
 }
 
 body {
-    background-color: rgb(229, 229, 229);
+    background-color: #efefef;
     width: auto;
     height: auto;
 }
@@ -41,7 +41,8 @@ body {
     flex-direction: column;
     justify-content: center;
     background-color: #ffffff;
-    border: dashed #000000;
+    /* border: dashed #000000; */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 9px;
 }
 

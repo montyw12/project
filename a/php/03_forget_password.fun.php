@@ -1,6 +1,10 @@
 <?php
 
 require_once("./../database.config.php");
+require("vendor/autoload.php");
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 
 // #1 function
@@ -101,7 +105,6 @@ function sendEmailForOtp($user_uid, $otp)
 // #4 function
 function sendEmailToUserForOtp($name, $email, $otp)
 {
-    $to = $email;
     $subject = "Varification For Reset Password";
     $message = "<p style=\"font-size: large;\">Hello $name Your 6 Digit Varification Code Is</p>
         <hr>
@@ -111,15 +114,27 @@ function sendEmailToUserForOtp($name, $email, $otp)
         <p style=\"margin-top: 15px;\"><i>**This is an auto-generated email. Please do not reply to this email.**</i></p>";
 
     $nl = "\r\n";
-    //Header information
-    $headers = "MIME-Version: 1.0" . $nl;
-    $headers .= "Content-type: text/html; charset=iso-8859-1" . $nl;
-    $headers .= "From:example.org" . $nl;
-
-    if (mail($to, $subject, $message, $headers)) {
-        return true;
-    } else {
-        return false;
+    try {
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->SMTPAuth = true;
+        $mail->isHTML(true);
+        $mail->Host = "smtp.gmail.com";
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+        $mail->Username = "kunj.o727@gmail.com";
+        $mail->Password = "cdqxbfueauditvma";
+        $mail->setFrom("kunj.o727@gmail.com", "PMS");
+        $mail->addAddress($email, $name);
+        $mail->Subject = $subject;
+        $mail->Body = $message;
+        if ($mail->send()) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (Exception $e) {
+        echo "ERROR MESSAGE: " . $e->getMessage();
     }
 }
 
