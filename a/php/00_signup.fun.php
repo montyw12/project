@@ -27,6 +27,7 @@ function userSignup($type, $name, $address, $email, $password, $confirmPassword)
                             mysqli_stmt_execute($stmt);
                             // var_dump(mysqli_stmt_get_result($stmt));
                             databaseConnectorClose($dbConn);
+                            insertRecordInProviderClient($userId, $type);
                             $flagToReturn = 0;
                             $_SESSION["user_id"] = $userId;
                         } else {
@@ -139,4 +140,66 @@ function errorsForSignup($error_code, $post_data)
             exit();
             break;
     }
+}
+
+
+// #5 function
+function insertRecordInProviderClient($userId, $userType)
+{
+    $dbConn = databaseConnector();
+    if ($userType == "seller") {
+        $queryString = "SELECT user_id FROM users WHERE type = 'distributor';";
+        $queryString1 = "INSERT INTO provider_client(f_provider_id, f_client_id) VALUES(?, ?);";
+        $stmt = mysqli_stmt_init($dbConn);
+        if (mysqli_stmt_prepare($stmt, $queryString)) {
+            mysqli_stmt_execute($stmt);
+            $resultToReturn = mysqli_stmt_get_result($stmt);
+            $stmt1 = mysqli_stmt_init($dbConn);
+            while ($data = isset($resultToReturn) ? mysqli_fetch_assoc($resultToReturn) : null) {
+                if (mysqli_stmt_prepare($stmt1, $queryString1)) {
+                    mysqli_stmt_bind_param($stmt1, "ss", $data["user_id"], $userId);
+                    mysqli_stmt_execute($stmt1);
+                }
+            }
+        }
+    } else if ($userType == "producer") {
+        $queryString = "SELECT user_id FROM users WHERE type = 'distributor';";
+        $queryString1 = "INSERT INTO provider_client(f_provider_id, f_client_id) VALUES(?, ?);";
+        $stmt = mysqli_stmt_init($dbConn);
+        if (mysqli_stmt_prepare($stmt, $queryString)) {
+            mysqli_stmt_execute($stmt);
+            $resultToReturn = mysqli_stmt_get_result($stmt);
+            $stmt1 = mysqli_stmt_init($dbConn);
+            while ($data = isset($resultToReturn) ? mysqli_fetch_assoc($resultToReturn) : null) {
+                if (mysqli_stmt_prepare($stmt1, $queryString1)) {
+                    mysqli_stmt_bind_param($stmt1, "ss", $userId, $data["user_id"]);
+                    mysqli_stmt_execute($stmt1);
+                }
+            }
+        }
+    } else if ($userType == "distributor") {
+        $queryString = "SELECT user_id,type FROM users WHERE type = 'producer' OR type = 'seller';";
+        $queryString1 = "INSERT INTO provider_client(f_provider_id, f_client_id) VALUES(?, ?);";
+        $stmt = mysqli_stmt_init($dbConn);
+        if (mysqli_stmt_prepare($stmt, $queryString)) {
+            mysqli_stmt_execute($stmt);
+            $resultToReturn = mysqli_stmt_get_result($stmt);
+            $stmt1 = mysqli_stmt_init($dbConn);
+            while ($data = isset($resultToReturn) ? mysqli_fetch_assoc($resultToReturn) : null) {
+                if ($data["type"] == "seller") {
+                    if (mysqli_stmt_prepare($stmt1, $queryString1)) {
+                        mysqli_stmt_bind_param($stmt1, "ss", $userId, $data["user_id"]);
+                        mysqli_stmt_execute($stmt1);
+                    }
+                } else if ($data["type"] == "producer") {
+                    if (mysqli_stmt_prepare($stmt1, $queryString1)) {
+                        mysqli_stmt_bind_param($stmt1, "ss", $data["user_id"], $userId);
+                        mysqli_stmt_execute($stmt1);
+                    }
+                }
+            }
+        }
+    }
+    databaseConnectorClose($dbConn);
+    unset($dbConn, $queryString, $queryString1, $stmt, $resultToReturn, $stmt1, $data, $userId, $userType);
 }
