@@ -12,7 +12,7 @@
 require_once("./../database.config.php");
 
 
-// #3 function
+// #1 function
 function userSignup($type, $name, $address, $email, $password, $confirmPassword)
 {
     if ($type != "select") {
@@ -62,7 +62,7 @@ function userSignup($type, $name, $address, $email, $password, $confirmPassword)
 }
 
 
-// #4 function
+// #2 function
 function checkConfirmPassword($password, $confirmPassword)
 {
     if ($password === $confirmPassword) {
@@ -73,7 +73,7 @@ function checkConfirmPassword($password, $confirmPassword)
 }
 
 
-// #5 function
+// #3 function
 function checkEmailNotExist($email)
 {
     $queryString = "SELECT * FROM users WHERE email=?;";
@@ -92,7 +92,7 @@ function checkEmailNotExist($email)
 }
 
 
-// #6 function
+// #4 function
 function errorsForSignup($error_code, $post_data)
 {
     $post_data["password"] = null;
@@ -151,7 +151,7 @@ function errorsForSignup($error_code, $post_data)
 }
 
 
-// #7 function
+// #5 function
 function userSignin($user_uid, $password)
 {
     $hashPassword = md5($password);
@@ -183,7 +183,7 @@ function userSignin($user_uid, $password)
 }
 
 
-// #8 function
+// #6 function
 function errorsForSignin($error_code, $post_data)
 {
     $post_data["password"] = null;
@@ -217,7 +217,7 @@ function errorsForSignin($error_code, $post_data)
 }
 
 
-// #9 function
+// #7 function
 function sendOtp($user_uid)
 {
     if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
@@ -246,7 +246,7 @@ function sendOtp($user_uid)
 }
 
 
-// #10 function
+// #8 function
 function errorsForSendOtp($error_code, $post_data)
 {
     $a = base64_encode(json_encode($post_data));
@@ -279,7 +279,7 @@ function errorsForSendOtp($error_code, $post_data)
 }
 
 
-// #11 function
+// #9 function
 function sendEmailForOtp($user_uid, $otp)
 {
     if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
@@ -312,7 +312,7 @@ function sendEmailForOtp($user_uid, $otp)
 }
 
 
-// #12 function
+// #10 function
 function sendEmailToUserForOtp($name, $email, $otp)
 {
     $to = $email;
@@ -338,7 +338,7 @@ function sendEmailToUserForOtp($name, $email, $otp)
 }
 
 
-// #13 function
+// #11 function
 function errorsForSendEmailForOtp($error_code)
 {
     switch ($error_code) {
@@ -369,7 +369,7 @@ function errorsForSendEmailForOtp($error_code)
 }
 
 
-// #14 function
+// #12 function
 function checkOtp($otp, $otp1)
 {
     if ($otp == $otp1) {
@@ -383,7 +383,7 @@ function checkOtp($otp, $otp1)
 }
 
 
-// #15 function
+// #13 function
 function errorsForCheckOtp($error_code, $post_data)
 {
     $a = base64_encode(json_encode($post_data));
@@ -407,7 +407,7 @@ function errorsForCheckOtp($error_code, $post_data)
 }
 
 
-// #16 function
+// #14 function
 function resetPassword($user_uid, $password, $confirmPassword)
 {
     if (6 < strlen($password)) {
@@ -451,7 +451,7 @@ function resetPassword($user_uid, $password, $confirmPassword)
 }
 
 
-// #17 function
+// #15 function
 function errorsForResetPassword($error_code)
 {
     switch ($error_code) {

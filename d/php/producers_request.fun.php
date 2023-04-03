@@ -3,7 +3,7 @@
 require_once("./../database.config.php");
 
 
-// #3 function
+// #1 function
 function selectRequestForDistributors($distributor_id)
 {
     $quearyString = "SELECT user_id, type, name, address, email, item_has, status FROM users LEFT JOIN provider_client ON user_id = f_provider_id WHERE type = 'producer' AND f_client_id = ? AND status = 1 ORDER BY name";
@@ -23,7 +23,7 @@ function selectRequestForDistributors($distributor_id)
 }
 
 
-// #4 function
+// #2 function
 function acceptRequestFromProducers($distributor_id, $producer_id)
 {
     $quearyString = "UPDATE provider_client SET status = 3 WHERE f_provider_id = ? AND f_client_id = ?;";
@@ -42,7 +42,7 @@ function acceptRequestFromProducers($distributor_id, $producer_id)
 }
 
 
-// #5 function
+// #3 function
 function errorsForAcceptRequestFromProducers($error_code)
 {
     switch ($error_code) {
@@ -65,7 +65,7 @@ function errorsForAcceptRequestFromProducers($error_code)
 }
 
 
-// #6 funtion
+// #4 funtion
 function rejectRequestFromProducers($distributor_id, $producer_id)
 {
     $quearyString = "UPDATE provider_client SET status = 0 WHERE f_provider_id = ? AND f_client_id = ?;";
@@ -84,7 +84,7 @@ function rejectRequestFromProducers($distributor_id, $producer_id)
 }
 
 
-// #7 function
+// #5 function
 function errorsForRejectRequestFromProducers($error_code)
 {
     switch ($error_code) {

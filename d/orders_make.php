@@ -4,8 +4,9 @@ try {
     require_once("./php/orders_make.fun.php");
 
     $result = selectAllItemOFConnectedProducers($_SESSION["user_id"]);
-    if(isset($_POST["make_order"])){
-        checkDetailsForMakeOrders($_SESSION["user_id"],$_POST["item_select"],$_POST["item_quantity"]);
+    if (isset($_POST["make_order"], $_POST["item_select"], $_POST["item_quantity"])) {
+        $result1 = createOrder($_SESSION["user_id"], $_POST["item_select"], $_POST["item_quantity"]);
+        errorsForCreateOrder($result1);
     }
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();
@@ -18,6 +19,9 @@ try {
         <li><a href="./orders_pending.php" class="sublink">Pending</a></li>
     </ul>
     <div class="main-section">
+        <div>
+            <p><?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : "" ?></p>
+        </div>
         <form method="post">
             <input type="submit" value="Make Order" name="make_order">
             <?php

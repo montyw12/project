@@ -3,7 +3,7 @@
 require_once("./../database.config.php");
 
 
-// #3 function
+// #1 function
 function selectAllConnectedProducers($distributor_id)
 {
     $queryString = "SELECT user_id, type, name, address, email, item_has, status FROM users LEFT JOIN provider_client ON user_id = f_provider_id WHERE type = 'producer' AND f_client_id = ? AND status = 3 ORDER BY name;";
@@ -23,7 +23,7 @@ function selectAllConnectedProducers($distributor_id)
 }
 
 
-// #4 function
+// #2 function
 function checkStatusForBtn($status)
 {
     if (isset($status)) {
@@ -39,7 +39,7 @@ function checkStatusForBtn($status)
 }
 
 
-// #5 function
+// #3 function
 function disconnectProducer($distributor_id, $producer_id)
 {
     $queryString = "UPDATE provider_client SET status = 0 WHERE f_provider_id = ? AND f_client_id = ?";
@@ -59,7 +59,7 @@ function disconnectProducer($distributor_id, $producer_id)
 }
 
 
-// #6 function
+// #4 function
 function errorsForDisconnectProducer($error_code)
 {
     switch ($error_code) {
