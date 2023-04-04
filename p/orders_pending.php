@@ -5,7 +5,11 @@ try {
 
     $result = selectPendingOrders($_SESSION["user_id"]);
     if (isset($_POST["dispatch_order"])) {
-        setOrderDispatchDateAndDeliveryDate($_SESSION["user_id"], $_POST["dispatch_order"], $_POST["delivery_date"]);
+        $result1 = setOrderDispatchDateAndDeliveryDate($_SESSION["user_id"], $_POST["dispatch_order"], $_POST["delivery_date"]);
+        errorsForSetOrderDispatchDateAndDeliveryDate($result1);
+    } else if (isset($_POST["cancel_order"])) {
+        $result1 = cancelOrder($_SESSION["user_id"], $_POST["cancel_order"]);
+        errorsForCancelOrder($result1);
     }
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();
@@ -27,6 +31,9 @@ try {
                     <form method="post">
                         <button value="<?= $data["order_id"] ?>" name="dispatch_order">Dispatch order</button>
                         <input type="date" min="<?= date("Y-m-d"); ?>" name="delivery_date[<?= $data['order_id']; ?>]" required>
+                    </form>
+                    <form method="post">
+                        <button name="cancel_order" value="<?= $data["order_id"] ?>">Cancel Order</button>
                     </form>
                 </div>
             </div>
