@@ -26,6 +26,7 @@ function userSignup($type, $name, $address, $email, $password, $confirmPassword)
                             mysqli_stmt_bind_param($stmt, "ssssss", $userId, $type, $name, $address, $email, $hashPassword);
                             mysqli_stmt_execute($stmt);
                             // var_dump(mysqli_stmt_get_result($stmt));
+                            mysqli_stmt_close($stmt);
                             databaseConnectorClose($dbConn);
                             insertRecordInProviderClient($userId, $type);
                             $flagToReturn = 0;
@@ -75,6 +76,7 @@ function checkEmailNotExist($email)
         mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
         databaseConnectorClose($dbConn);
         $rowOfResult = mysqli_fetch_assoc($result);
         $flagToReturn = is_null($rowOfResult);
@@ -200,6 +202,8 @@ function insertRecordInProviderClient($userId, $userType)
             }
         }
     }
+    mysqli_stmt_close($stmt);
+    mysqli_stmt_close($stmt1);
     databaseConnectorClose($dbConn);
     unset($dbConn, $queryString, $queryString1, $stmt, $resultToReturn, $stmt1, $data, $userId, $userType);
 }

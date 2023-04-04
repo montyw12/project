@@ -19,6 +19,7 @@ function userSignin($user_uid, $password)
         mysqli_stmt_bind_param($stmt, "ss", $user_uid, $hashPassword);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
         databaseConnectorClose($dbConn);
         if ($result->num_rows == 1) {
             $data = mysqli_fetch_assoc($result);

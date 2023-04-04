@@ -15,6 +15,7 @@ function selectPendingOrders($userId)
         $resultToReturn = mysqli_stmt_get_result($stmt);
         // $resultToReturn = 0;
     }
+    mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
     unset($queryString, $dbConn, $stmt, $userId);
     return $resultToReturn;
@@ -34,6 +35,7 @@ function cancelOrder($userId, $orderId)
     } else {
         $resultToReturn = 1;
     }
+    mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
     unset($queryString, $dbConn, $stmt, $userId, $orderId);
     return $resultToReturn;

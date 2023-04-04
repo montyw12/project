@@ -32,6 +32,7 @@ function resetPassword($user_uid, $password, $confirmPassword)
                 }
                 $resultToReturn = 0;
                 unset($_SESSION["flagToChangePassword"]);
+                mysqli_stmt_close($stmt);
                 databaseConnectorClose($dbConn);
             } else {
                 $resultToReturn = 1;

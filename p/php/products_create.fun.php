@@ -26,6 +26,7 @@ function insertItem($producer_id, $type, $name, $mrp, $quantity, $manufacture_da
                         mysqli_stmt_bind_param($stmt, "ssssdisss", $item_id, $producer_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $imagePath);
                         mysqli_stmt_execute($stmt);
                         // var_dump(mysqli_stmt_get_result($stmt));
+                        mysqli_stmt_close($stmt);
                         databaseConnectorClose($dbConn);
                         $flagToReturn = 0;
                     } else {

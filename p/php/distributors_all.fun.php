@@ -17,6 +17,7 @@ function selectAllDistributors($producer_id)
     } else {
         $resultToReturn = 1;
     }
+    mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
     unset($queryString, $dbConn, $stmt, $producer_id);
     return $resultToReturn;
@@ -53,6 +54,7 @@ function requestForConnect($producer_id, $distributor_id)
     } else {
         $resultToReturn = 1;
     }
+    mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
     unset($queryString, $dbConn, $stmt, $producer_id, $distributor_id);
     return $resultToReturn;
@@ -96,6 +98,7 @@ function disconnectDistributor($producer_id, $distributor_id)
     } else {
         $resultToReturn = 1;
     }
+    mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
     unset($queryString, $dbConn, $stmt, $producer_id, $distributor_id);
     return $resultToReturn;

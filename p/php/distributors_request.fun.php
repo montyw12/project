@@ -17,6 +17,7 @@ function selectRequestForProducers($producer_id)
     } else {
         $resultToReturn = 1;
     }
+    mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
     unset($quearyString, $dbConn, $stmt, $producer_id);
     return $resultToReturn;
@@ -36,6 +37,7 @@ function acceptRequestFromDistributor($producer_id, $distributor_id)
     } else {
         $resultToReturn = 1;
     }
+    mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
     unset($quearyString, $dbConn, $stmt, $producer_id, $distributor_id);
     return $resultToReturn;
@@ -78,6 +80,7 @@ function rejectRequestFromDistributor($producer_id, $distributor_id)
     } else {
         $resultToReturn = 1;
     }
+    mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
     unset($quearyString, $dbConn, $stmt, $producer_id, $distributor_id);
     return $resultToReturn;

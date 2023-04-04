@@ -17,6 +17,7 @@ function selectAllItem($producer_id)
     } else {
         $resultToReturn = 1;
     }
+    mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
     unset($queryString, $dbConn, $stmt, $producer_id);
     return $resultToReturn;
@@ -57,6 +58,7 @@ function selectSpecificItem($search_by, $key_word, $producer_id)
             mysqli_stmt_bind_param($stmt, "s", $producer_id);
             mysqli_stmt_execute($stmt);
             $resultToReturn = mysqli_stmt_get_result($stmt);
+            mysqli_stmt_close($stmt);
             databaseConnectorClose($dbConn);
             // $resultToReturn = 0;
         } else {

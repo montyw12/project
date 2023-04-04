@@ -21,6 +21,7 @@ function sendOtp($user_uid)
         mysqli_stmt_bind_param($stmt, "s", $user_uid);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
         databaseConnectorClose($dbConn);
         if (!empty(mysqli_fetch_assoc($result))) {
             $_SESSION["user_uid"] = $user_uid;
@@ -83,6 +84,7 @@ function sendEmailForOtp($user_uid, $otp)
         mysqli_stmt_bind_param($stmt, "s", $user_uid);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
         databaseConnectorClose($dbConn);
         if (!empty($result)) {
             $data = mysqli_fetch_assoc($result);

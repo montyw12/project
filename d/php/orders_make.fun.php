@@ -15,6 +15,7 @@ function selectAllItemOFConnectedProducers($distributor_id)
         $resultToReturn = mysqli_stmt_get_result($stmt);
         // $resultToReturn = 0;
     }
+    mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
     unset($queryString, $dbConn, $stmt);
     return $resultToReturn;
@@ -46,6 +47,7 @@ function createOrder($user_id, $item_select, $item_quantity)
                 $data = mysqli_fetch_assoc($result);
                 $f_provider_client_id = $data["r_id"];
             }
+            mysqli_stmt_close($stmt);
 
             $queryString1 = "INSERT INTO orders(order_id, f_provider_client_id, item_no, order_date, status) VALUES(?, ?, ?, ?, ?);";
             $order_id = "0O" . base_convert(date("sYimHd"), 10, 36);
@@ -57,6 +59,7 @@ function createOrder($user_id, $item_select, $item_quantity)
                 mysqli_stmt_bind_param($stmt1, "ssisi", $order_id, $f_provider_client_id, $item_no, $order_date, $status);
                 mysqli_stmt_execute($stmt1);
             }
+            mysqli_stmt_close($stmt1);
 
             $queryString2 = "INSERT INTO order_item(f_order_id, f_item_id, quantity) VALUES(?, ?, ?);";
             $stmt2 = mysqli_stmt_init($dbConn);
@@ -66,6 +69,7 @@ function createOrder($user_id, $item_select, $item_quantity)
                     mysqli_stmt_execute($stmt2);
                 }
             }
+            mysqli_stmt_close($stmt2);
             databaseConnectorClose($dbConn);
             $resultToReturn = 0;
         } else {
