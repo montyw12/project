@@ -25,8 +25,14 @@ function insertItem($producer_id, $type, $name, $mrp, $quantity, $manufacture_da
                     if (mysqli_stmt_prepare($stmt, $queryString)) {
                         mysqli_stmt_bind_param($stmt, "ssssdisss", $item_id, $producer_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $imagePath);
                         mysqli_stmt_execute($stmt);
-                        // var_dump(mysqli_stmt_get_result($stmt));
                         mysqli_stmt_close($stmt);
+                        $stmt1 = mysqli_stmt_init($dbConn);
+                        $queryString1 = "INSERT INTO user_item(f_user_id, f_item_id, quantity) VALUES(?, ?, ?);";
+                        if (mysqli_stmt_prepare($stmt1, $queryString1)) {
+                            mysqli_stmt_bind_param($stmt1, "ssi", $producer_id, $item_id, $quantity);
+                            mysqli_stmt_execute($stmt1);
+                        }
+                        mysqli_stmt_close($stmt1);
                         databaseConnectorClose($dbConn);
                         $flagToReturn = 0;
                     } else {
@@ -44,7 +50,7 @@ function insertItem($producer_id, $type, $name, $mrp, $quantity, $manufacture_da
     } else {
         $flagToReturn = 5;
     }
-    unset($manufacture_date_timestamp, $expire_date_timestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $item_id, $stmt, $producer_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image);
+    unset($manufacture_date_timestamp, $expire_date_timestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $item_id, $stmt, $stmt1, $queryString1, $producer_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image);
     return $flagToReturn;
 }
 

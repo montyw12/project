@@ -73,10 +73,16 @@ function updateItem($producer_id, $item_id, $type, $name, $mrp, $quantity, $manu
                     $dbConn = databaseConnector();
                     $stmt = mysqli_stmt_init($dbConn);
                     if (mysqli_stmt_prepare($stmt, $queryString)) {
-                        mysqli_stmt_bind_param($stmt, "ssdisssss",  $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $imagePath, $item_id, $producer_id,);
+                        mysqli_stmt_bind_param($stmt, "ssdisssss",  $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $imagePath, $item_id, $producer_id);
                         mysqli_stmt_execute($stmt);
-                        // var_dump(mysqli_stmt_get_result($stmt));
                         mysqli_stmt_close($stmt);
+                        $stmt1 = mysqli_stmt_init($dbConn);
+                        $queryString1 = "UPDATE user_item SET quantity = ? WHERE f_item_id = ? AND f_user_id = ?;";
+                        if (mysqli_stmt_prepare($stmt1, $queryString1)) {
+                            mysqli_stmt_bind_param($stmt1, "iss", $quantity, $item_id, $producer_id);
+                            mysqli_stmt_execute($stmt1);
+                        }
+                        mysqli_stmt_close($stmt1);
                         databaseConnectorClose($dbConn);
                         $flagToReturn = 0;
                     } else {
@@ -94,7 +100,7 @@ function updateItem($producer_id, $item_id, $type, $name, $mrp, $quantity, $manu
     } else {
         $flagToReturn = 5;
     }
-    unset($manufacture_date_timestamp, $expire_date_timestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $stmt, $producer_id, $item_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image);
+    unset($manufacture_date_timestamp, $expire_date_timestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $stmt, $stmt1, $queryString1, $producer_id, $item_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image);
     return $flagToReturn;
 }
 

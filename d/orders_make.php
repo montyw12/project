@@ -29,7 +29,7 @@ try {
                 var_dump($data);
             ?>
                 <input type="checkbox" name="item_select[<?= $data["f_producer_id"] ?>][]" value="<?= $data["item_id"] ?>">
-                <input type="number" name="item_quantity[<?= $data["item_id"] ?>]" min="1" max="1000">
+                <input type="number" name="item_quantity[<?= $data["item_id"] ?>]" min="1" max="<?= $data["quantity"] ?>">
             <?php
                 echo "<br/>";
             endwhile;
