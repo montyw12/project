@@ -72,7 +72,7 @@ function setOrderAsMarkDone($userId, $orderId)
 
     $queryString3_0 = "UPDATE user_item SET quantity = quantity + ? WHERE f_user_id = ? AND f_item_id = ?;";
     $queryString3_1 = "INSERT INTO user_item(f_user_id, f_item_id, quantity) VALUES(?, ?, ?);";
-    $queryString3_2 = "UPDATE user_item SET quantity = quantity - ? WHERE f_user_id = ? AND f_item_id = ?;";
+    // $queryString3_2 = "UPDATE user_item SET quantity = quantity - ? WHERE f_user_id = ? AND f_item_id = ?;";
     $stmt3 = mysqli_stmt_init($dbConn);
     for ($i = 0; $i < count($ordersItemId); $i++) {
         if (in_array($ordersItemId[$i], $usersItemId)) {
@@ -86,10 +86,15 @@ function setOrderAsMarkDone($userId, $orderId)
                 mysqli_stmt_execute($stmt3);
             }
         }
+        $queryString3_2 = "UPDATE items SET quantity = (SELECT SUM(quantity) FROM user_item WHERE f_item_id = ?) WHERE item_id = ?;";
         if (mysqli_stmt_prepare($stmt3, $queryString3_2)) {
-            mysqli_stmt_bind_param($stmt3, "iss", $oredersItemQuantity[$i], $providerId, $ordersItemId[$i]);
+            mysqli_stmt_bind_param($stmt3, "ss", $ordersItemId[$i], $ordersItemId[$i]);
             mysqli_stmt_execute($stmt3);
         }
+        // if (mysqli_stmt_prepare($stmt3, $queryString3_2)) {
+        //     mysqli_stmt_bind_param($stmt3, "iss", $oredersItemQuantity[$i], $providerId, $ordersItemId[$i]);
+        //     mysqli_stmt_execute($stmt3);
+        // }
     }
     mysqli_stmt_close($stmt3);
     databaseConnectorClose($dbConn);

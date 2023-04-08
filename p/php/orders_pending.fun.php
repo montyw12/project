@@ -27,7 +27,7 @@ function setOrderDispatchDateAndDeliveryDate($userId, $orderId, $deliveryDate)
 {
     $queryString = "SELECT order_item.quantity AS order_quantity, user_item.quantity AS user_have_quantity FROM order_item LEFT JOIN orders ON order_item.f_order_id = orders.order_id LEFT JOIN user_item ON order_item.f_item_id = user_item.f_item_id WHERE f_user_id = ? AND f_order_id = ?;";
     $queryString1 = "UPDATE orders SET dispatch_date = ?, delivery_date = ?, status = 2 WHERE order_id = ?;";
-    $queryString2 = "SELECT f_item_id, quantity FROM order_item WHERE f_order_id = ?";
+    $queryString2 = "SELECT f_item_id, quantity FROM order_item WHERE f_order_id = ?;";
     $queryString3 = "UPDATE user_item SET quantity = quantity - ? WHERE f_user_id = ? AND f_item_id = ?;";
     $dbConn = databaseConnector();
     $todayDate = date("y-m-d");
@@ -61,7 +61,7 @@ function setOrderDispatchDateAndDeliveryDate($userId, $orderId, $deliveryDate)
                     $stmt3 = mysqli_stmt_init($dbConn);
                     while ($data2 = mysqli_fetch_assoc($result2)) {
                         if (mysqli_stmt_prepare($stmt3, $queryString3)) {
-                            mysqli_stmt_bind_param($stmt3, "iss", $data2["quantity"], $userId, $data2["f_itme_id"]);
+                            mysqli_stmt_bind_param($stmt3, "iss", $data2["quantity"], $userId, $data2["f_item_id"]);
                             mysqli_stmt_execute($stmt3);
                         }
                     }

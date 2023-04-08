@@ -4,13 +4,14 @@ require_once("./../database.config.php");
 
 
 // #1 function
-function selectItemForUpdate($item_id, $producer_id)
+function selectItemForUpdate($itemId, $producerId)
 {
-    $queryString = "SELECT * FROM items WHERE item_id = ? AND f_producer_id = ? ORDER BY name";
+    // $queryString = "SELECT * FROM items WHERE item_id = ? AND f_producer_id = ? ORDER BY name";
+    $queryString = "SELECT item_id, type, name, mrp, user_item.quantity, manufacture_date, expire_date, image FROM items LEFT JOIN user_item ON items.item_id = user_item.f_item_id WHERE item_id = ? AND f_producer_id = ?;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        mysqli_stmt_bind_param($stmt, "ss", $item_id, $producer_id);
+        mysqli_stmt_bind_param($stmt, "ss", $itemId, $producerId);
         mysqli_stmt_execute($stmt);
         $resultToReturn = mysqli_stmt_get_result($stmt);
         // $resultToReturn = 0;
@@ -19,7 +20,7 @@ function selectItemForUpdate($item_id, $producer_id)
     } else {
         $resultToReturn = 1;
     }
-    unset($queryString, $dbConn, $stmt, $item_id, $producer_id);
+    unset($queryString, $dbConn, $stmt, $itemId, $producerId);
     return $resultToReturn;
 }
 
@@ -55,7 +56,7 @@ function errorsForSelectItemForUpdate($error_code)
 
 
 // #3 function
-function updateItem($producer_id, $item_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image)
+function updateItem($producerId, $itemId, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image)
 {
     $manufacture_date_timestamp = mktime(0, 0, 0, substr($manufacture_date, 5, 2), (substr($manufacture_date, 8, 2) + 6), substr($manufacture_date, 0, 4));
     $expire_date_timestamp = mktime(0, 0, 0, substr($expire_date, 5, 2), substr($expire_date, 8, 2), substr($expire_date, 0, 4));
@@ -69,20 +70,29 @@ function updateItem($producer_id, $item_id, $type, $name, $mrp, $quantity, $manu
                     $imageTitle = "IMG_" . date("ymd") . "_" . date("His") . "." . $imageExtension;
                     $imagePath = "00_img/" . $imageTitle;
                     move_uploaded_file($image["tmp_name"], ("./../" . $imagePath));
-                    $queryString = "UPDATE items SET type = ?,name = ?,mrp = ?,quantity = ?,manufacture_date = ?,expire_date = ?,image = ? WHERE item_id = ? AND f_producer_id = ?;";
+                    // $queryString = "UPDATE items SET type = ?,name = ?,mrp = ?,quantity = ?,manufacture_date = ?,expire_date = ?,image = ? WHERE item_id = ? AND f_producer_id = ?;";
+                    $queryString = "UPDATE items SET type = ?, name = ?, mrp = ?, manufacture_date = ?, expire_date = ?, image = ? WHERE item_id = ? AND f_producer_id = ?;";
                     $dbConn = databaseConnector();
                     $stmt = mysqli_stmt_init($dbConn);
                     if (mysqli_stmt_prepare($stmt, $queryString)) {
-                        mysqli_stmt_bind_param($stmt, "ssdisssss",  $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $imagePath, $item_id, $producer_id);
+                        // mysqli_stmt_bind_param($stmt, "ssdisssss",  $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $imagePath, $itemId, $producerId);
+                        mysqli_stmt_bind_param($stmt, "ssdsssss", $type, $name, $mrp, $manufacture_date, $expire_date, $imagePath, $itemId, $producerId);
                         mysqli_stmt_execute($stmt);
                         mysqli_stmt_close($stmt);
                         $stmt1 = mysqli_stmt_init($dbConn);
                         $queryString1 = "UPDATE user_item SET quantity = ? WHERE f_item_id = ? AND f_user_id = ?;";
                         if (mysqli_stmt_prepare($stmt1, $queryString1)) {
-                            mysqli_stmt_bind_param($stmt1, "iss", $quantity, $item_id, $producer_id);
+                            mysqli_stmt_bind_param($stmt1, "iss", $quantity, $itemId, $producerId);
                             mysqli_stmt_execute($stmt1);
                         }
                         mysqli_stmt_close($stmt1);
+                        $stmt2 = mysqli_stmt_init($dbConn);
+                        $queryString2 = "UPDATE items SET quantity = (SELECT SUM(quantity) FROM user_item WHERE f_item_id = ?) WHERE item_id = ?;";
+                        if (mysqli_stmt_prepare($stmt2, $queryString2)) {
+                            mysqli_stmt_bind_param($stmt2, "ss", $itemId, $itemId);
+                            mysqli_stmt_execute($stmt2);
+                        }
+                        mysqli_stmt_close($stmt2);
                         databaseConnectorClose($dbConn);
                         $flagToReturn = 0;
                     } else {
@@ -100,7 +110,7 @@ function updateItem($producer_id, $item_id, $type, $name, $mrp, $quantity, $manu
     } else {
         $flagToReturn = 5;
     }
-    unset($manufacture_date_timestamp, $expire_date_timestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $stmt, $stmt1, $queryString1, $producer_id, $item_id, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image);
+    unset($manufacture_date_timestamp, $expire_date_timestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $stmt, $stmt1, $queryString1, $stmt2, $queryString2, $producerId, $itemId, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image);
     return $flagToReturn;
 }
 
