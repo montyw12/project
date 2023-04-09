@@ -26,7 +26,7 @@ try {
         <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : null) : ?>
             <div>
                 <?php var_dump($data); ?>
-                <?php if($data["status"] == 1 || $data["f_provider_id"] == $_SESSION["user_id"]) : ?>
+                <?php if($data["status"] == 1) : ?>
                     <p>Order Pending...</p>
                 <?php elseif($data["status"] == 2) : ?>
                     <form method="post">
