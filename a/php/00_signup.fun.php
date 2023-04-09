@@ -2,7 +2,6 @@
 
 require_once("./../database.config.php");
 
-
 // #1 function
 function userSignup($type, $name, $address, $email, $password, $confirmPassword)
 {
@@ -25,7 +24,6 @@ function userSignup($type, $name, $address, $email, $password, $confirmPassword)
                         if (mysqli_stmt_prepare($stmt, $queryString)) {
                             mysqli_stmt_bind_param($stmt, "ssssss", $userId, $type, $name, $address, $email, $hashPassword);
                             mysqli_stmt_execute($stmt);
-                            // var_dump(mysqli_stmt_get_result($stmt));
                             mysqli_stmt_close($stmt);
                             databaseConnectorClose($dbConn);
                             insertRecordInProviderClient($userId, $type);

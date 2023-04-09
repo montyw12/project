@@ -2,14 +2,13 @@
 
 require_once("./../database.config.php");
 
-
 // #1 function
-function resetPassword($user_uid, $password, $confirmPassword)
+function resetPassword($userUid, $password, $confirmPassword)
 {
     if (6 < strlen($password)) {
         if (checkConfirmPassword($password, $confirmPassword)) {
             $password = md5($password);
-            if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+            if (filter_var($userUid, FILTER_VALIDATE_EMAIL)) {
                 $queryString = "UPDATE users SET password = ? WHERE email = ?;";
                 $queryString1 = "SELECT user_id, type FROM users WHERE email = ?;";
             } else {
@@ -19,11 +18,11 @@ function resetPassword($user_uid, $password, $confirmPassword)
             $dbConn = databaseConnector();
             $stmt = mysqli_stmt_init($dbConn);
             if (mysqli_stmt_prepare($stmt, $queryString)) {
-                mysqli_stmt_bind_param($stmt, "ss", $password, $user_uid);
+                mysqli_stmt_bind_param($stmt, "ss", $password, $userUid);
                 mysqli_stmt_execute($stmt);
                 $stmt = mysqli_stmt_init($dbConn);
                 if (mysqli_stmt_prepare($stmt, $queryString1)) {
-                    mysqli_stmt_bind_param($stmt, "s", $user_uid);
+                    mysqli_stmt_bind_param($stmt, "s", $userUid);
                     mysqli_stmt_execute($stmt);
                     $result = mysqli_stmt_get_result($stmt);
                     $data = mysqli_fetch_assoc($result);
@@ -43,7 +42,7 @@ function resetPassword($user_uid, $password, $confirmPassword)
     } else {
         $resultToReturn = 3;
     }
-    unset($queryString, $queryString1, $dbConn, $stmt, $user_uid, $password, $confirmPassword);
+    unset($queryString, $queryString1, $dbConn, $stmt, $userUid, $password, $confirmPassword);
     return $resultToReturn;
 }
 

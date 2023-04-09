@@ -2,7 +2,6 @@
 
 require_once("./../database.config.php");
 
-
 // #1 function
 function selectSpecificExpireItem($beforExpireDay, $sellerId)
 {

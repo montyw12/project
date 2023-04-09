@@ -2,16 +2,15 @@
 
 require_once("./../database.config.php");
 
-
 // #1 function
-function selectAllItem($distributorId)
+function selectAllItem($sellerId)
 {
     // $queryString = "SELECT * FROM items WHERE f_producer_id = ? ORDER BY name;";
     $queryString = "SELECT item_id, type, name, mrp, user_item.quantity, manufacture_date, expire_date, image FROM items RIGHT JOIN user_item ON items.item_id = user_item.f_item_id WHERE f_user_id = ? ORDER BY name;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        mysqli_stmt_bind_param($stmt, "s", $distributorId);
+        mysqli_stmt_bind_param($stmt, "s", $sellerId);
         mysqli_stmt_execute($stmt);
         $resultToReturn = mysqli_stmt_get_result($stmt);
         // $resultToReturn = 0;
@@ -20,7 +19,7 @@ function selectAllItem($distributorId)
     }
     mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
-    unset($queryString, $dbConn, $stmt, $distributorId);
+    unset($queryString, $dbConn, $stmt, $sellerId);
     return $resultToReturn;
 }
 
@@ -49,15 +48,14 @@ function errorsForSelectAllItem($error_code)
 
 
 // #3 function
-function selectSpecificItem($search_by, $key_word, $distributorId)
+function selectSpecificItem($searchBy, $keyWord, $sellerId)
 {
-    if ($search_by != "select") {
-        // $queryString = "SELECT * FROM items WHERE $search_by LIKE '%$key_word%' AND f_producer_id = ? ORDER BY name;";
-        $queryString = "SELECT item_id, type, name, mrp, user_item.quantity, manufacture_date, expire_date, image FROM items RIGHT JOIN user_item ON items.item_id = user_item.f_item_id WHERE $search_by LIKE '%$key_word%' AND f_user_id = ? ORDER BY name;";
+    if ($searchBy != "select") {
+        $queryString = "SELECT item_id, type, name, mrp, user_item.quantity, manufacture_date, expire_date, image FROM items RIGHT JOIN user_item ON items.item_id = user_item.f_item_id WHERE $searchBy LIKE '%$keyWord%' AND f_user_id = ? ORDER BY name;";
         $dbConn = databaseConnector();
         $stmt = mysqli_stmt_init($dbConn);
         if (mysqli_stmt_prepare($stmt, $queryString)) {
-            mysqli_stmt_bind_param($stmt, "s", $distributorId);
+            mysqli_stmt_bind_param($stmt, "s", $sellerId);
             mysqli_stmt_execute($stmt);
             $resultToReturn = mysqli_stmt_get_result($stmt);
             mysqli_stmt_close($stmt);
@@ -69,7 +67,7 @@ function selectSpecificItem($search_by, $key_word, $distributorId)
     } else {
         $resultToReturn = 2;
     }
-    unset($queryString, $dbConn, $stmt, $search_by, $key_word, $distributorId);
+    unset($queryString, $dbConn, $stmt, $searchBy, $keyWord, $sellerId);
     return $resultToReturn;
 }
 

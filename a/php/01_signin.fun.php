@@ -2,21 +2,19 @@
 
 require_once("./../database.config.php");
 
-
 // #1 function
-function userSignin($user_uid, $password)
+function userSignin($userUid, $password)
 {
     $hashPassword = md5($password);
-    if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+    if (filter_var($userUid, FILTER_VALIDATE_EMAIL)) {
         $queryString = "SELECT user_id,password FROM users WHERE email = ? AND password = ?;";
     } else {
         $queryString = "SELECT user_id,password FROM users WHERE user_id = ? AND password = ?;";
     }
-    // $queryString = "SELECT user_id,password FROM users WHERE user_id=? AND password=?;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        mysqli_stmt_bind_param($stmt, "ss", $user_uid, $hashPassword);
+        mysqli_stmt_bind_param($stmt, "ss", $userUid, $hashPassword);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         mysqli_stmt_close($stmt);
@@ -31,7 +29,7 @@ function userSignin($user_uid, $password)
     } else {
         $resultToReturn = 2;
     }
-    unset($hashPassword, $queryString, $dbConn, $stmt, $result, $user_uid, $password);
+    unset($hashPassword, $queryString, $dbConn, $stmt, $result, $userUid, $password);
     return $resultToReturn;
 }
 

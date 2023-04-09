@@ -2,12 +2,9 @@
 
 require_once("./../database.config.php");
 
-
 // #1 function
 function selectAllItemOFConnectedDistributors($sellerId)
 {
-    // $queryString = "SELECT item_id, f_producer_id, items.type, items.name, mrp, quantity manufacture_date, expire_date, image FROM items LEFT JOIN provider_client ON f_producer_id = f_provider_id LEFT JOIN users ON f_producer_id = user_id WHERE f_client_id = ? AND status = 3 ORDER BY users.name, items.name;";
-    // $queryString = "SELECT item_id, f_producer_id, type, name, mrp, items.quantity, manufacture_date, expire_date, image, user_item.quantity FROM items LEFT JOIN provider_client ON items.f_producer_id = provider_client.f_provider_id LEFT JOIN user_item ON user_item.f_user_id = provider_client.f_provider_id WHERE provider_client.f_client_id = ? AND provider_client.status = 3 AND user_item.f_user_id LIKE '0D%';";
     $queryString = "SELECT * FROM items LEFT JOIN user_item ON items.item_id = user_item.f_item_id LEFT JOIN provider_client ON user_item.f_user_id = provider_client.f_provider_id WHERE provider_client.f_client_id = ? AND provider_client.f_provider_id LIKE '0D%' AND provider_client.status = 3;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
@@ -25,17 +22,17 @@ function selectAllItemOFConnectedDistributors($sellerId)
 
 
 // #2 function
-function createOrder($sellerId, $item_select, $item_quantity)
+function createOrder($sellerId, $itemSelected, $itemQuantity)
 {
-    if (count($item_select) == 1) {
-        foreach ($item_select as $key => $value) {
+    if (count($itemSelected) == 1) {
+        foreach ($itemSelected as $key => $value) {
             $provider_id = $key;
             break;
         }
-        foreach ($item_select[$provider_id] as $a) {
-            if ((!empty($a)) && (!empty($item_quantity[$a]))) {
+        foreach ($itemSelected[$provider_id] as $a) {
+            if ((!empty($a)) && (!empty($itemQuantity[$a]))) {
                 $item["item_id"][] = $a;
-                $item["quantity"][] = $item_quantity[$a];
+                $item["quantity"][] = $itemQuantity[$a];
             }
         }
         if (isset($item)) {
@@ -80,7 +77,7 @@ function createOrder($sellerId, $item_select, $item_quantity)
     } else {
         $resultToReturn = 2;
     }
-    unset($key, $value, $provider_id, $a, $item, $dbConn, $queryString, $stmt, $result, $data, $f_provider_client_id, $queryString1, $order_id, $item_no, $order_date, $status, $stmt1, $queryString2, $stmt2, $i, $sellerId, $item_select, $item_quantity);
+    unset($key, $value, $provider_id, $a, $item, $dbConn, $queryString, $stmt, $result, $data, $f_provider_client_id, $queryString1, $order_id, $item_no, $order_date, $status, $stmt1, $queryString2, $stmt2, $i, $sellerId, $itemSelected, $itemQuantity);
     return $resultToReturn;
 }
 
@@ -111,6 +108,3 @@ function errorsForCreateOrder($error_code)
             break;
     }
 }
-
-
-// $a = "SELECT * FROM items LEFT JOIN user_item ON items.item_id = user_item.f_item_id LEFT JOIN provider_client ON user_item.f_user_id = provider_client.f_provider_id WHERE provider_client.f_client_id = ? AND provider_client.f_provider_id LIKE '0D%' AND provider_client.status = 3;";

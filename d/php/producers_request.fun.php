@@ -2,15 +2,14 @@
 
 require_once("./../database.config.php");
 
-
 // #1 function
-function selectRequestForDistributors($distributor_id)
+function selectRequestForDistributors($distributorId)
 {
     $quearyString = "SELECT user_id, type, name, address, email, item_has, status FROM users LEFT JOIN provider_client ON user_id = f_provider_id WHERE type = 'producer' AND f_client_id = ? AND status = 1 ORDER BY name";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $quearyString)) {
-        mysqli_stmt_bind_param($stmt, "s", $distributor_id);
+        mysqli_stmt_bind_param($stmt, "s", $distributorId);
         mysqli_stmt_execute($stmt);
         $resultToReturn =  mysqli_stmt_get_result($stmt);
         // $resultToReturn = 0;
@@ -19,19 +18,19 @@ function selectRequestForDistributors($distributor_id)
     }
     mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
-    unset($quearyString, $dbConn, $stmt, $distributor_id);
+    unset($quearyString, $dbConn, $stmt, $distributorId);
     return $resultToReturn;
 }
 
 
 // #2 function
-function acceptRequestFromProducers($distributor_id, $producer_id)
+function acceptRequestFromProducers($distributorId, $producerId)
 {
     $quearyString = "UPDATE provider_client SET status = 3 WHERE f_provider_id = ? AND f_client_id = ?;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $quearyString)) {
-        mysqli_stmt_bind_param($stmt, "ss", $producer_id, $distributor_id);
+        mysqli_stmt_bind_param($stmt, "ss", $producerId, $distributorId);
         mysqli_stmt_execute($stmt);
         // $resultToReturn = 0;
     } else {
@@ -39,7 +38,7 @@ function acceptRequestFromProducers($distributor_id, $producer_id)
     }
     mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
-    unset($quearyString, $dbConn, $stmt, $distributor_id, $producer_id);
+    unset($quearyString, $dbConn, $stmt, $distributorId, $producerId);
     return $resultToReturn;
 }
 
@@ -68,13 +67,13 @@ function errorsForAcceptRequestFromProducers($error_code)
 
 
 // #4 funtion
-function rejectRequestFromProducers($distributor_id, $producer_id)
+function rejectRequestFromProducers($distributorId, $producerId)
 {
     $quearyString = "UPDATE provider_client SET status = 0 WHERE f_provider_id = ? AND f_client_id = ?;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $quearyString)) {
-        mysqli_stmt_bind_param($stmt, "ss", $producer_id, $distributor_id);
+        mysqli_stmt_bind_param($stmt, "ss", $producerId, $distributorId);
         mysqli_stmt_execute($stmt);
         // $resultToReturn = 0;
     } else {
@@ -82,7 +81,7 @@ function rejectRequestFromProducers($distributor_id, $producer_id)
     }
     mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
-    unset($quearyString, $dbConn, $stmt, $distributor_id, $producer_id);
+    unset($quearyString, $dbConn, $stmt, $distributorId, $producerId);
     return $resultToReturn;
 }
 

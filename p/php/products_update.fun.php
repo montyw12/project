@@ -2,11 +2,9 @@
 
 require_once("./../database.config.php");
 
-
 // #1 function
 function selectItemForUpdate($itemId, $producerId)
 {
-    // $queryString = "SELECT * FROM items WHERE item_id = ? AND f_producer_id = ? ORDER BY name";
     $queryString = "SELECT item_id, type, name, mrp, user_item.quantity, manufacture_date, expire_date, image FROM items LEFT JOIN user_item ON items.item_id = user_item.f_item_id WHERE item_id = ? AND f_producer_id = ?;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
@@ -28,26 +26,24 @@ function selectItemForUpdate($itemId, $producerId)
 // #2 function
 function errorsForSelectItemForUpdate($error_code)
 {
-    // $a = base64_encode(json_encode($post_data));
-    $a = null;
     switch ($error_code) {
         case 0:
-            $qs = "a=" . $a . "&error=" . base64_encode("None");
+            $qs = "error=" . base64_encode("None");
             header("location: ./products_update.php?" . $qs);
             exit();
             break;
         case 1:
-            $qs = "a=" . $a . "&error=" . base64_encode("Someting want wrong! try agian");
+            $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./products_update.php?" . $qs);
             exit();
             break;
         case 2:
-            $qs = "a=" . $a . "&error=" . base64_encode("Item not found");
+            $qs = "error=" . base64_encode("Item not found");
             header("location: ./products_update.php?" . $qs);
             exit();
             break;
         default:
-            $qs = "a=" . $a . "&error=" . base64_encode("Please try again!");
+            $qs = "error=" . base64_encode("Please try again!");
             header("location: ./products_update.php?" . $qs);
             exit();
             break;
@@ -56,11 +52,11 @@ function errorsForSelectItemForUpdate($error_code)
 
 
 // #3 function
-function updateItem($producerId, $itemId, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image)
+function updateItem($producerId, $itemId, $type, $name, $mrp, $quantity, $manufactureDate, $expireDate, $image)
 {
-    $manufacture_date_timestamp = mktime(0, 0, 0, substr($manufacture_date, 5, 2), (substr($manufacture_date, 8, 2) + 6), substr($manufacture_date, 0, 4));
-    $expire_date_timestamp = mktime(0, 0, 0, substr($expire_date, 5, 2), substr($expire_date, 8, 2), substr($expire_date, 0, 4));
-    if (($expire_date_timestamp - $manufacture_date_timestamp) >= 0) {
+    $manufactureDate_timestamp = mktime(0, 0, 0, substr($manufactureDate, 5, 2), (substr($manufactureDate, 8, 2) + 6), substr($manufactureDate, 0, 4));
+    $expireDate_timestamp = mktime(0, 0, 0, substr($expireDate, 5, 2), substr($expireDate, 8, 2), substr($expireDate, 0, 4));
+    if (($expireDate_timestamp - $manufactureDate_timestamp) >= 0) {
         if ($image["error"] === 0) {
             if ($image["size"] <= 2097152) { // image less than 2 MB
                 $imageExtension = pathinfo($image["name"], PATHINFO_EXTENSION);
@@ -70,13 +66,11 @@ function updateItem($producerId, $itemId, $type, $name, $mrp, $quantity, $manufa
                     $imageTitle = "IMG_" . date("ymd") . "_" . date("His") . "." . $imageExtension;
                     $imagePath = "00_img/" . $imageTitle;
                     move_uploaded_file($image["tmp_name"], ("./../" . $imagePath));
-                    // $queryString = "UPDATE items SET type = ?,name = ?,mrp = ?,quantity = ?,manufacture_date = ?,expire_date = ?,image = ? WHERE item_id = ? AND f_producer_id = ?;";
                     $queryString = "UPDATE items SET type = ?, name = ?, mrp = ?, manufacture_date = ?, expire_date = ?, image = ? WHERE item_id = ? AND f_producer_id = ?;";
                     $dbConn = databaseConnector();
                     $stmt = mysqli_stmt_init($dbConn);
                     if (mysqli_stmt_prepare($stmt, $queryString)) {
-                        // mysqli_stmt_bind_param($stmt, "ssdisssss",  $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $imagePath, $itemId, $producerId);
-                        mysqli_stmt_bind_param($stmt, "ssdsssss", $type, $name, $mrp, $manufacture_date, $expire_date, $imagePath, $itemId, $producerId);
+                        mysqli_stmt_bind_param($stmt, "ssdsssss", $type, $name, $mrp, $manufactureDate, $expireDate, $imagePath, $itemId, $producerId);
                         mysqli_stmt_execute($stmt);
                         mysqli_stmt_close($stmt);
                         $stmt1 = mysqli_stmt_init($dbConn);
@@ -110,7 +104,7 @@ function updateItem($producerId, $itemId, $type, $name, $mrp, $quantity, $manufa
     } else {
         $flagToReturn = 5;
     }
-    unset($manufacture_date_timestamp, $expire_date_timestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $stmt, $stmt1, $queryString1, $stmt2, $queryString2, $producerId, $itemId, $type, $name, $mrp, $quantity, $manufacture_date, $expire_date, $image);
+    unset($manufactureDate_timestamp, $expireDate_timestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $stmt, $stmt1, $queryString1, $stmt2, $queryString2, $producerId, $itemId, $type, $name, $mrp, $quantity, $manufactureDate, $expireDate, $image);
     return $flagToReturn;
 }
 

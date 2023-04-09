@@ -8,9 +8,7 @@
 // echo "for batch " . "0B" . base_convert(date("sYimHd"),10,36) . "<br>";
 // echo "for connection " . "0C" . base_convert(date("sYimHd"),10,36) . "<br>";
 
-
 require_once("./../database.config.php");
-
 
 // #1 function
 function userSignup($type, $name, $address, $email, $password, $confirmPassword)
@@ -152,10 +150,10 @@ function errorsForSignup($error_code, $post_data)
 
 
 // #5 function
-function userSignin($user_uid, $password)
+function userSignin($userUid, $password)
 {
     $hashPassword = md5($password);
-    if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+    if (filter_var($userUid, FILTER_VALIDATE_EMAIL)) {
         $queryString = "SELECT user_id,password FROM users WHERE email = ? AND password = ?;";
     } else {
         $queryString = "SELECT user_id,password FROM users WHERE user_id = ? AND password = ?;";
@@ -164,7 +162,7 @@ function userSignin($user_uid, $password)
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        mysqli_stmt_bind_param($stmt, "ss", $user_uid, $hashPassword);
+        mysqli_stmt_bind_param($stmt, "ss", $userUid, $hashPassword);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         databaseConnectorClose($dbConn);
@@ -178,7 +176,7 @@ function userSignin($user_uid, $password)
     } else {
         $resultToReturn = 2;
     }
-    unset($hashPassword, $queryString, $dbConn, $stmt, $result, $user_uid, $password);
+    unset($hashPassword, $queryString, $dbConn, $stmt, $result, $userUid, $password);
     return $resultToReturn;
 }
 
@@ -218,9 +216,9 @@ function errorsForSignin($error_code, $post_data)
 
 
 // #7 function
-function sendOtp($user_uid)
+function sendOtp($userUid)
 {
-    if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+    if (filter_var($userUid, FILTER_VALIDATE_EMAIL)) {
         $queryString = "SELECT email FROM users WHERE email = ?;";
     } else {
         $queryString = "SELECT email FROM users WHERE user_id = ?;";
@@ -228,12 +226,12 @@ function sendOtp($user_uid)
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        mysqli_stmt_bind_param($stmt, "s", $user_uid);
+        mysqli_stmt_bind_param($stmt, "s", $userUid);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         databaseConnectorClose($dbConn);
         if (!empty(mysqli_fetch_assoc($result))) {
-            $_SESSION["user_uid"] = $user_uid;
+            $_SESSION["user_uid"] = $userUid;
             $resultToReturn = 0;
         } else {
             $resultToReturn = 1;
@@ -241,7 +239,7 @@ function sendOtp($user_uid)
     } else {
         $resultToReturn = 2;
     }
-    unset($queryString, $dbConn, $stmt, $result, $user_uid);
+    unset($queryString, $dbConn, $stmt, $result, $userUid);
     return $resultToReturn;
 }
 
@@ -280,9 +278,9 @@ function errorsForSendOtp($error_code, $post_data)
 
 
 // #9 function
-function sendEmailForOtp($user_uid, $otp)
+function sendEmailForOtp($userUid, $otp)
 {
-    if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+    if (filter_var($userUid, FILTER_VALIDATE_EMAIL)) {
         $queryString = "SELECT name, email FROM users WHERE email = ?;";
     } else {
         $queryString = "SELECT name, email FROM users WHERE user_id = ?;";
@@ -290,7 +288,7 @@ function sendEmailForOtp($user_uid, $otp)
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        mysqli_stmt_bind_param($stmt, "s", $user_uid);
+        mysqli_stmt_bind_param($stmt, "s", $userUid);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         databaseConnectorClose($dbConn);
@@ -307,7 +305,7 @@ function sendEmailForOtp($user_uid, $otp)
     } else {
         $resultToReturn = 3;
     }
-    unset($queryString, $dbConn, $stmt, $result, $user_uid);
+    unset($queryString, $dbConn, $stmt, $result, $userUid);
     return $resultToReturn;
 }
 
@@ -408,12 +406,12 @@ function errorsForCheckOtp($error_code, $post_data)
 
 
 // #14 function
-function resetPassword($user_uid, $password, $confirmPassword)
+function resetPassword($userUid, $password, $confirmPassword)
 {
     if (6 < strlen($password)) {
         if (checkConfirmPassword($password, $confirmPassword)) {
             $password = md5($password);
-            if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+            if (filter_var($userUid, FILTER_VALIDATE_EMAIL)) {
                 $queryString = "UPDATE users SET password = ? WHERE email = ?;";
                 $queryString1 = "SELECT user_id, type FROM users WHERE email = ?;";
             } else {
@@ -423,11 +421,11 @@ function resetPassword($user_uid, $password, $confirmPassword)
             $dbConn = databaseConnector();
             $stmt = mysqli_stmt_init($dbConn);
             if (mysqli_stmt_prepare($stmt, $queryString)) {
-                mysqli_stmt_bind_param($stmt, "ss", $password, $user_uid);
+                mysqli_stmt_bind_param($stmt, "ss", $password, $userUid);
                 mysqli_stmt_execute($stmt);
                 $stmt = mysqli_stmt_init($dbConn);
                 if (mysqli_stmt_prepare($stmt, $queryString1)) {
-                    mysqli_stmt_bind_param($stmt, "s", $user_uid);
+                    mysqli_stmt_bind_param($stmt, "s", $userUid);
                     mysqli_stmt_execute($stmt);
                     $result = mysqli_stmt_get_result($stmt);
                     $data = mysqli_fetch_assoc($result);
@@ -446,7 +444,7 @@ function resetPassword($user_uid, $password, $confirmPassword)
     } else {
         $resultToReturn = 3;
     }
-    unset($queryString, $queryString1, $dbConn, $stmt, $user_uid, $password, $confirmPassword);
+    unset($queryString, $queryString1, $dbConn, $stmt, $userUid, $password, $confirmPassword);
     return $resultToReturn;
 }
 

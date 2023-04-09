@@ -2,7 +2,6 @@
 
 require_once("./../database.config.php");
 
-
 // #1 function
 function selectAllConnectedDistributors($sellerId)
 {
@@ -49,7 +48,6 @@ function disconnectDistributor($sellerId, $distributorId)
     if (mysqli_stmt_prepare($stmt, $queryString)) {
         mysqli_stmt_bind_param($stmt, "ss", $distributorId, $sellerId);
         mysqli_stmt_execute($stmt);
-        // $resultToReturn = mysqli_stmt_get_result($stmt);
         $resultToReturn = 0;
     } else {
         $resultToReturn = 1;

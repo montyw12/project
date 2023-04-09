@@ -6,11 +6,10 @@ require("./php/vendor/autoload.php");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-
 // #1 function
-function sendOtp($user_uid)
+function sendOtp($userUid)
 {
-    if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+    if (filter_var($userUid, FILTER_VALIDATE_EMAIL)) {
         $queryString = "SELECT email FROM users WHERE email = ?;";
     } else {
         $queryString = "SELECT email FROM users WHERE user_id = ?;";
@@ -18,13 +17,13 @@ function sendOtp($user_uid)
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        mysqli_stmt_bind_param($stmt, "s", $user_uid);
+        mysqli_stmt_bind_param($stmt, "s", $userUid);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         mysqli_stmt_close($stmt);
         databaseConnectorClose($dbConn);
         if (!empty(mysqli_fetch_assoc($result))) {
-            $_SESSION["user_uid"] = $user_uid;
+            $_SESSION["user_uid"] = $userUid;
             $resultToReturn = 0;
         } else {
             $resultToReturn = 1;
@@ -32,7 +31,7 @@ function sendOtp($user_uid)
     } else {
         $resultToReturn = 2;
     }
-    unset($queryString, $dbConn, $stmt, $result, $user_uid);
+    unset($queryString, $dbConn, $stmt, $result, $userUid);
     return $resultToReturn;
 }
 
@@ -71,9 +70,9 @@ function errorsForSendOtp($error_code, $post_data)
 
 
 // #3 function
-function sendEmailForOtp($user_uid, $otp)
+function sendEmailForOtp($userUid, $otp)
 {
-    if (filter_var($user_uid, FILTER_VALIDATE_EMAIL)) {
+    if (filter_var($userUid, FILTER_VALIDATE_EMAIL)) {
         $queryString = "SELECT name, email FROM users WHERE email = ?;";
     } else {
         $queryString = "SELECT name, email FROM users WHERE user_id = ?;";
@@ -81,7 +80,7 @@ function sendEmailForOtp($user_uid, $otp)
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
-        mysqli_stmt_bind_param($stmt, "s", $user_uid);
+        mysqli_stmt_bind_param($stmt, "s", $userUid);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         mysqli_stmt_close($stmt);
@@ -99,7 +98,7 @@ function sendEmailForOtp($user_uid, $otp)
     } else {
         $resultToReturn = 3;
     }
-    unset($queryString, $dbConn, $stmt, $result, $user_uid);
+    unset($queryString, $dbConn, $stmt, $result, $userUid);
     return $resultToReturn;
 }
 
