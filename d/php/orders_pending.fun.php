@@ -5,7 +5,7 @@ require_once("./../database.config.php");
 // #1 function
 function selectPendingOrders($distributorId)
 {
-    $queryString = "SELECT * FROM orders LEFT JOIN provider_client ON f_provider_client_id = r_id WHERE provider_client.status = 3 AND orders.status = 1 AND (f_client_id = ? OR f_provider_id = ?) ORDER BY order_date;";
+    $queryString = "SELECT orders.order_id, orders.order_date, orders.item_no, provider_client.f_client_id, users.name, users.email, provider_client.f_provider_id FROM orders LEFT JOIN provider_client ON f_provider_client_id = r_id LEFT JOIN users ON users.user_id = provider_client.f_client_id WHERE provider_client.status = 3 AND orders.status = 1 AND (f_client_id = ? OR f_provider_id = ?) ORDER BY order_date;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
@@ -46,7 +46,7 @@ function errorsForCancelOrder($error_code)
 {
     switch ($error_code) {
         case 0:
-            $qs = "error=" . base64_encode("None");
+            $qs = "error=" . base64_encode("None1");
             header("location: ./orders_pending.php?" . $qs);
             exit();
             break;

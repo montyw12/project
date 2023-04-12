@@ -15,22 +15,30 @@ try {
     echo "ERROR MESSAGE: " . $e->getMessage();
 }
 ?>
-<main>
-    <ul class="subul">
-        <li><a href="./producers_all.php" class="sublink">All</a></li>
-        <li><a href="./producers_connected.php" class="sublink">Connected</a></li>
-        <li><a href="./producers_request.php" class="sublink">Request</a></li>
-    </ul>
-    <div class="main-section">
-        <form method="POST">
-            <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : null) : ?>
-                <?php print_r($data) ?>
-                <button value="<?= $data["user_id"] ?>" name="accept">Accept</button>
-                <button value="<?= $data["user_id"] ?>" name="reject">Reject</button>
-                <br>
-            <?php endwhile; ?>
-        </form>
+
+<div class="container">
+    <div class="row">
+        <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : null) : ?>
+            <div class="col-12">
+                <div class="card my-3 w3-xlarge w3-border-black w3-leftbar">
+                    <div class="card-header">
+                        <?= $data["user_id"] ?>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Name: <?= $data["name"] ?></p>
+                        <p class="card-text">Email: <?= $data["email"] ?></p>
+                        <p class="card-text">Address: <?= $data["address"] ?></p>
+                    </div>
+                    <div class="card-footer">
+                        <form method="post">
+                            <button class="w3-button w3-green w3-round-large w3-hover-purple my-3" name="accept" value="<?= $data["user_id"] ?>">Accept</button>
+                            <button class="w3-button w3-red w3-round-large w3-hover-purple my-3" name="reject" value="<?= $data["user_id"] ?>">Reject</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <?php endwhile; ?>
     </div>
-</main>
+</div>
 
 <?php require_once("./02_foot.php") ?>
