@@ -6,74 +6,60 @@ try {
     $a = isset($_GET["a"]) ? json_decode(base64_decode($_GET["a"])) : "";
     if (isset($_POST["submit"])) {
         $result = insertItem($_SESSION["user_id"], $_POST["type"], $_POST["name"], $_POST["mrp"], $_POST["quantity"], $_POST["manufacture_date"], $_POST["expire_date"], $_FILES["image"]);
-        if ($result === 0) {
-            $_GET["error"] = base64_encode("Item Created Successfully!");
-        } else {
-            errorsForInsertItem($result, $_POST);
-        }
+        errorsForInsertItem($result, $_POST);
     }
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();
 }
 ?>
-<link rel="stylesheet" type="text/css" href="./css/products.css">
-<link rel="stylesheet" type="text/css" href="./css/products_create.css">
 
-<link rel="stylesheet" type="text/css" href="./css/products.css">
-<div class="main">
-    <div class="subul">
-        <div id="show_product">
-            <a href="./products_show.php" class="sublink">Show Products</a>
-        </div>
-        <div id="update_product">
-            <a href="./products_update.php" class="sublink">Update Products</a>
-        </div>
-        <div id="create_product">
-            <a href="./products_create.php" class="sublink">Create Products</a>
+<div class="container">
+    <div class="row my-3">
+        <div class="col-12 w3-xlarge">
+            <?php if (isset($_GET["error"])) : ?>
+                <?php if (base64_decode($_GET["error"]) == "None") : ?>
+                    <div class="w3-panel w3-green w3-round">
+                        <span class="w3-left">Item Created Successfully!</span>
+                        <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black">&times;</span>
+                    </div>
+                <?php else : ?>
+                    <div class="w3-panel w3-red w3-round">
+                        <span class="w3-left"><?= base64_decode($_GET["error"]) ?></span>
+                        <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black">&times;</span>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
     </div>
-    <hr>
-    <div class="main-section">
-        <div class="item-section">
-            <form method="post" enctype="multipart/form-data">
-            <div class="item_block">
-                <div>
-                    <label id="item-type_text" for="">Item type:</label>
-                    <input id="item_type" type="text" name="type" required value="<?= $a->type ?? ""; ?>">
-                </div>
-                <div>
-                    <label for="" id="item_name_text">Item name:</label>
-                    <input id="item_name" type="text" name="name" required value="<?= $a->name ?? ""; ?>">
-                </div>
-                <div>
-                    <label for="" id="item_mrp_text">Item mrp:</label>
-                    <input id="item_mrp" type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= $a->mrp ?? ""; ?>">
-                </div>
-                <div>
-                    <label for="" id="item_quantity_text">Item quantity:</label>
-                    <input id="item_quantity" type="number" name="quantity" min="0" max="10000" required value="<?= $a->quantity ?? ""; ?>">
-                </div>
-                <div>
-                    <label for="" id="item_manufacturedate_text">Item manufacture date:</label>
-                    <input id="item_manufacturedate" type="date" name="manufacture_date" required value="<?= $a->manufacture_date ?? ""; ?>">
-                </div>
-                <div>
-                    <label for="" id="item_expiredate_text">Item expire date:</label>
-                    <input id="item_expiredate" type="date" name="expire_date" required value="<?= $a->expire_date ?? ""; ?>">
-                </div>
-                <div>
-                    <label for="" id="item_img_text">Item image:</label>
-                    <input id="item_img" type="file" name="image" required>
-                </div>
-                <div>
-                    <p><?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : "" ?></p>
-                </div>
-                <div class="item_create_btn">
-                    <input id="create_item" type="submit" value="Create Item" name="submit">
-                </div>
-            </div>    
+    <div class="row my-3">
+        <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 w3-large">
+            <form class="w3-border w3-round-large p-3" method="post" enctype="multipart/form-data">
+                <label>Item type:</label>
+                <input class="w3-input w3-border w3-round-large my-1 mb-3" type="text" name="type" required value="<?= $a->type ?? $data["type"] ?? "" ?>" placeholder="input type">
+
+                <label>Item name:</label>
+                <input class="w3-input w3-border w3-round-large my-1 mb-3" type="text" name="name" required value="<?= $a->name ?? $data["name"] ?? "" ?>" placeholder="input name">
+
+                <label>Item mrp:</label>
+                <input class="w3-input w3-border w3-round-large my-1 mb-3" type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= $a->mrp ?? $data["mrp"] ?? "" ?>" placeholder="input mrp">
+
+                <label>Item quantity:</label>
+                <input class="w3-input w3-border w3-round-large my-1 mb-3" type="number" name="quantity" min="0" max="10000" required value="<?= $a->quantity ?? $data["quantity"] ?? "" ?>" placeholder="input quantity">
+
+                <label>Item manufacture date:</label>
+                <input class="w3-input w3-border w3-round-large my-1 mb-3" type="date" name="manufacture_date" required value="<?= $a->manufacture_date ?? $data["manufacture_date"] ?? "" ?>">
+
+                <label>Item expire date:</label>
+                <input class="w3-input w3-border w3-round-large my-1 mb-3" type="date" name="expire_date" required value="<?= $a->expire_date ?? $data["expire_date"] ?? "" ?>">
+
+                <label>Item image:</label>
+                <input class="w3-input w3-border w3-round-large my-1 mb-3" type="file" name="image" required value="<?= $a->image ?? $data["image"] ?? "" ?>">
+
+                <input class="w3-button w3-blue w3-hover-purple w3-border w3-round-large my-1" type="submit" value="Create Item" name="submit">
             </form>
         </div>
+        <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
     </div>
 </div>
 

@@ -11,17 +11,13 @@ try {
         } else if ($result->num_rows === 0) {
             errorsForSelectItemForUpdate(2);
         } else {
-            $_GET["error"] = base64_encode("");
+            $_GET["error"] = null;
             $data = mysqli_fetch_assoc($result);
         }
     } else if (isset($_POST["update_submit"])) {
         if (isset($_POST["item_id"]) && $_POST["item_id"] != "") {
             $result1 = updateItem($_SESSION["user_id"], $_POST["item_id"], $_POST["type"], $_POST["name"], $_POST["mrp"], $_POST["quantity"], $_POST["manufacture_date"], $_POST["expire_date"], $_FILES["image"]);
-            if ($result1 === 0) {
-                $_GET["error1"] = base64_encode("Item Updated Successfully!");
-            } else {
-                errorsForUpdateItem($result1, $_POST);
-            }
+            errorsForUpdateItem($result1, $_POST);
         } else {
             $_GET["error"] = base64_encode("First Search Item");
         }
@@ -30,80 +26,77 @@ try {
     echo "ERROR MESSAGE: " . $e->getMessage();
 }
 ?>
-<link rel="stylesheet" type="text/css" href="./css/products.css">
-<link rel="stylesheet" type="text/css" href="./css/products_show.css">
 
-<link rel="stylesheet" type="text/css" href="./css/products.css">
-<link rel="stylesheet" type="text/css" href="./css/products_update.css">
-<div class="main">
-    <div class="subul">
-        <div id="show_product">
-            <a href="./products_show.php" class="sublink">Show Products</a>
-        </div>
-        <div id="update_product">
-            <a href="./products_update.php" class="sublink">Update Products</a>
-        </div>
-        <div id="create_product">
-            <a href="./products_create.php" class="sublink">Create Products</a>
+<div class="container">
+    <div class="row my-3">
+        <div class="col-12 w3-xlarge">
+            <?php if (isset($_GET["error"])) : ?>
+                <?php if (base64_decode($_GET["error"]) == "None") : ?>
+                <?php else : ?>
+                    <div class="w3-panel w3-red w3-round">
+                        <span class="w3-left"><?= base64_decode($_GET["error"]) ?></span>
+                        <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black">&times;</span>
+                    </div>
+                <?php endif; ?>
+            <?php elseif (isset($_GET["error1"])) : ?>
+                <?php if (base64_decode($_GET["error1"]) == "None") : ?>
+                    <div class="w3-panel w3-green w3-round">
+                        <span class="w3-left">Item Update Successfully!</span>
+                        <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black">&times;</span>
+                    </div>
+                <?php else : ?>
+                    <div class="w3-panel w3-red w3-round">
+                        <span class="w3-left"><?= base64_decode($_GET["error1"]) ?></span>
+                        <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black">&times;</span>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
     </div>
-    <hr>
-    <div class="main-section">
-        <div class="search-item">
+    <div class="row my-3" align="center">
+        <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 w3-large">
             <form method="post">
-                <input id="text" type="text" name="item_id" required>
-                <input id="submit" type="submit" name="search_submit" value="&#128269;">
-                <p id="error">
-                    <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : "" ?>
-                </p>
+                <input class="w3-input w3-border w3-round-large" id="text" type="text" name="item_id" required style="width: 50%; display: inline; height: 45px;" placeholder="type item id for update">
+                <input class="w3-button w3-blue w3-hover-purple w3-round-large" type="submit" name="search_submit" value="Search &#128269;" style="height: 45px;">
             </form>
         </div>
-        <?php if (isset($_POST["item_id"]) && $_POST["item_id"] != "") : ?>
-            <form method="post" enctype="multipart/form-data">
-                <div class="item_block">
-                    <div id=item>
-                        <?= $data["item_id"] ?? "" ?>
-                        <input id="item_id" type="hidden" name="item_id" required value="<?= $a->item_id ?? $data["item_id"] ?? "" ?>">
-                    </div>
-                    <div>
-                        <label for="" id="item_type_text">Item type:</label>
-                        <input id="item_type" type="text" name="type" required value="<?= $a->type ?? $data["type"] ?? "" ?>">
-                    </div>
-                    <div>
-                        <label for="" id="item_name_text">Item name:</label>
-                        <input id="item_name" type="text" name="name" required value="<?= $a->name ?? $data["name"] ?? "" ?>">
-                    </div>
-                    <div>
-                        <label for="" id="item_mrp_text">Item mrp:</label>
-                        <input id="item_mrp" type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= $a->mrp ?? $data["mrp"] ?? "" ?>">
-                    </div>
-                    <div>
-                        <label for="" id="item_quantity_text">Item quantity:</label>
-                        <input id="item_quantity" type="number" name="quantity" min="0" max="10000" required value="<?= $a->quantity ?? $data["quantity"] ?? "" ?>">
-                    </div>
-                    <div>
-                        <label for="" id="item_manufacturedate_text">Item manufacture date:</label>
-                        <input id="manufacture_date" type="date" name="manufacture_date" required value="<?= $a->manufacture_date ?? $data["manufacture_date"] ?? "" ?>">
-                    </div>
-                    <div>
-                        <label for="" id="item_expiredate_text">Item expire date:</label>
-                        <input id="expire_date" type="date" name="expire_date" required value="<?= $a->expire_date ?? $data["expire_date"]?? "" ?>">
-                    </div>
-                    <div>
-                        <label for="" id="item_img_text">Item image:</label>
-                        <input id="item_img" type="file" name="image" required value="<?= $a->image ?? $data["image"] ?? "" ?>">
-                    </div>
-                    <div>
-                        <p>
-                            <?= isset($_GET["error1"]) ? base64_decode($_GET["error1"]) : "" ?>
-                        </p>
-                    </div>
-                    <div class="item_update_btn">
-                        <input id="update_submit" type="submit" value="Update Item" name="update_submit">
-                    </div>
-                </div>
-            </form>
-        <?php endif; ?>
+        <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
+    </div>
+    <div class="row my-3">
+        <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 w3-large">
+            <?php if (isset($_POST["item_id"]) && $_POST["item_id"] != "") : ?>
+                <h1 align="center"><?= $data["item_id"] ?? "" ?></h1>
+                <form class="w3-border w3-round-large p-3" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="item_id" required value="<?= $a->item_id ?? $data["item_id"] ?? "" ?>">
+
+                    <label>Item type:</label>
+                    <input class="w3-input w3-border w3-round-large my-1 mb-3" type="text" name="type" required value="<?= $a->type ?? $data["type"] ?? "" ?>" placeholder="input type">
+
+                    <label>Item name:</label>
+                    <input class="w3-input w3-border w3-round-large my-1 mb-3" type="text" name="name" required value="<?= $a->name ?? $data["name"] ?? "" ?>" placeholder="input name">
+
+                    <label>Item mrp:</label>
+                    <input class="w3-input w3-border w3-round-large my-1 mb-3" type="number" name="mrp" step="0.01" min="0.00" max="100000.00" required value="<?= $a->mrp ?? $data["mrp"] ?? "" ?>" placeholder="input mrp">
+
+                    <label>Item quantity:</label>
+                    <input class="w3-input w3-border w3-round-large my-1 mb-3" type="number" name="quantity" min="0" max="10000" required value="<?= $a->quantity ?? $data["quantity"] ?? "" ?>" placeholder="input quantity">
+
+                    <label>Item manufacture date:</label>
+                    <input class="w3-input w3-border w3-round-large my-1 mb-3" type="date" name="manufacture_date" required value="<?= $a->manufacture_date ?? $data["manufacture_date"] ?? "" ?>">
+
+                    <label>Item expire date:</label>
+                    <input class="w3-input w3-border w3-round-large my-1 mb-3" type="date" name="expire_date" required value="<?= $a->expire_date ?? $data["expire_date"] ?? "" ?>">
+
+                    <label>Item image:</label>
+                    <input class="w3-input w3-border w3-round-large my-1 mb-3" type="file" name="image" required value="<?= $a->image ?? $data["image"] ?? "" ?>">
+
+                    <input class="w3-button w3-blue w3-hover-purple w3-border w3-round-large my-1" id="update_submit" type="submit" value="Update Item" name="update_submit">
+                </form>
+            <?php endif; ?>
+        </div>
+        <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
     </div>
 </div>
 

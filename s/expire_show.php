@@ -11,49 +11,53 @@ try {
     echo "ERROR MESSAGE: " . $e->getMessage();
 }
 ?>
-<div class="main">
-    <div class="subul">
-        <div id="show_product">
-            <a href="./expire_show.php" class="sublink">Show expire item</a>
-        </div>
-        <div id="show_product">
-            <a href="./expire_expired.php" class="sublink">Expired item</a>
+
+<div class="container">
+    <div class="row my-3">
+        <div class="col-12 w3-xlarge">
+            <?php if (isset($_GET["error"])) : ?>
+                <?php if (base64_decode($_GET["error"]) == "None") : ?>
+                    <div class="w3-panel w3-green w3-round">
+                        <span class="w3-left p-1">Order make successully!</span>
+                        <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black p-1">&times;</span>
+                    </div>
+                <?php else : ?>
+                    <div class="w3-panel w3-red w3-round">
+                        <span class="w3-left"><?= base64_decode($_GET["error"]) ?></span>
+                        <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black">&times;</span>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
     </div>
-    <div class="search-item">
-        <form method="post">
-            <input type="number" name="expire_days" min="1" max="31" required>
-            <input id="submit" type="submit" value="&#128269;" name="search">
-        </form>
+    <div class="row my-3" align="center">
+        <div class="col-12">
+            <form method="post">
+                <input class="w3-input w3-border w3-round-large" type="number" name="expire_days" min="1" max="31" required style="width: 25%; display: inline; height: 45px;">
+                <input class="w3-button w3-blue w3-hover-purple w3-round-large" id="submit" type="submit" value="&#128269; Search" name="search" style="height: 45px;">
+            </form>
+        </div>
     </div>
-    <div class="all-items">
+    <div class="row my-3">
         <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : null) : ?>
-            <div class="item">
-                <div class="inner-item-id">
-                    <h1 class="item_id "><?= $data["item_id"] ?></h1>
-                </div>
-                <div class="images">
-                    <img class="imgs" src="./../<?= $data["image"] ?>" alt="<?= $data["item_id"] ?>">
-                </div>
-                <div>
-                    <p class="name_text">Name:</p>
-                    <h2 class="name"><?= $data["name"] ?></h2>
-                </div>
-                <div>
-                    <p class="quantity_text">Quantity:</p>
-                    <p class="quntity"><?= $data["quantity"] ?></p>
-                </div>
-                <div>
-                    <P class="manufacture_date_text">Manufacture date:</P>
-                    <p class="manufacture_date"><?= $data["manufacture_date"] ?></p>
-                </div>
-                <div>
-                    <p class="expire_date_text">Expire date:</p>
-                    <p class="expire_date"><?= $data["expire_date"] ?></p>
-                </div>
-                <div class="mrp_section">
-                    <p class="mrp"> <?= $data["mrp"] ?></p>
-                    <p class="mrp_text">&#8377;</p>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <div class="card-deck">
+                    <div class="card my-3 w3-border-black w3-xlarge w3-card-2">
+                        <div class="card-header">
+                            <?= $data["item_id"] ?>
+                        </div>
+                        <img class="card-img-top" src="./../<?= $data["image"] ?>" alt="<?= $data["item_id"] ?>" style="max-height: 200px;">
+                        <div class="card-body">
+                            <p class="card-title">Name: <?= $data["name"] ?></p>
+                            <p class="card-text">Type: <?= $data["type"] ?> </p>
+                            <p class="card-text">Manufacture date: <?= $data["manufacture_date"] ?> </p>
+                            <p class="card-text">Expire date: <?= $data["expire_date"] ?> </p>
+                            <p class="card-text">Quantity: <?= $data["quantity"] ?> </p>
+                        </div>
+                        <div class="card-footer">
+                            <span><?= $data["mrp"] ?> &#8377;</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         <?php endwhile; ?>

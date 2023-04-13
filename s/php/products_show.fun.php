@@ -51,6 +51,7 @@ function errorsForSelectAllItem($error_code)
 function selectSpecificItem($searchBy, $keyWord, $sellerId)
 {
     if ($searchBy != "select") {
+        $searchBy = ($searchBy == "quantity" ? "user_item.quantity" : $searchBy);
         $queryString = "SELECT item_id, type, name, mrp, user_item.quantity, manufacture_date, expire_date, image FROM items RIGHT JOIN user_item ON items.item_id = user_item.f_item_id WHERE $searchBy LIKE '%$keyWord%' AND f_user_id = ? ORDER BY name;";
         $dbConn = databaseConnector();
         $stmt = mysqli_stmt_init($dbConn);

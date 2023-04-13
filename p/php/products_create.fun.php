@@ -60,7 +60,7 @@ function errorsForInsertItem($error_code, $post_data)
     $a = base64_encode(json_encode($post_data));
     switch ($error_code) {
         case 0:
-            $qs = "a=" . $a . "&error=" . base64_encode("None");
+            $qs = "error=" . base64_encode("None");
             header("location: ./products_create.php?" . $qs);
             exit();
             break;

@@ -20,46 +20,48 @@ if (isset($_SESSION["user"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./css/01_head.css">
     <title><?= strtoupper(pathinfo($_SERVER["PHP_SELF"], PATHINFO_FILENAME)) ?></title>
+    <!-- <link rel="stylesheet" type="text/css" href="./css/01_head.css"> -->
+    <link rel="stylesheet" href="./../bootstrap.css">
+    <link rel="stylesheet" href="./../w3.css">
+    <style>
+        *::selection {
+            background-color: #7a86b8;
+            color: #000000;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="navbar">
-                <div>
-                    <button id="bar">&#9776;</button>
+    <header>
+        <div class="w3-bar w3-deep-purple w3-xlarge">
+            <div class="container">
+                <a href="./home.php" class="w3-bar-item w3-button w3-hover-purple">Home</a>
+                <div class="w3-dropdown-hover">
+                    <button class="w3-button w3-hover-purple mx-3">Products</button>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                        <a href="./products_show.php" class="w3-bar-item w3-button w3-hover-purple">Show Products</a>
+                        <a href="./products_update.php" class="w3-bar-item w3-button w3-hover-purple">Update Products</a>
+                        <a href="./products_create.php" class="w3-bar-item w3-button w3-hover-purple">Create Products</a>
+                    </div>
                 </div>
-                <div>
-                    <a id="navlink" href="./home.php">
-                        <p id="home">&#127968;</p>Home
-                    </a>
+                <div class="w3-dropdown-hover">
+                    <button class="w3-button w3-hover-purple mx-3">Distributors</button>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                        <a href="./distributors_all.php" class="w3-bar-item w3-button w3-hover-purple">All</a>
+                        <a href="./distributors_connected.php" class="w3-bar-item w3-button w3-hover-purple">Connected Dirstibutors</a>
+                        <a href="./distributors_request.php" class="w3-bar-item w3-button w3-hover-purple">Request From Distributors</a>
+                    </div>
                 </div>
-                <div>
-                    <a id="navlink" href="./products.php">
-                        <p id="products">&#128230;</p>Products
-                    </a>
+                <div class="w3-dropdown-hover">
+                    <button class="w3-button w3-hover-purple mx-3">Orders</button>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                        <a href="./orders_all.php" class="w3-bar-item w3-button w3-hover-purple">All</a>
+                        <a href="./orders_pending.php" class="w3-bar-item w3-button w3-hover-purple">Pending Orders</a>
+                    </div>
                 </div>
-                <div>
-                    <a id="navlink" href="./distributors.php">
-                        <p id="distributors">&#129489;&#127995;</p>Distributors
-                    </a>
-                </div>
-                <div>
-                    <a id="navlink" href="./orders.php">
-                        <p id="order">&#128722;</p>Orders
-                    </a>
-                </div>
-                <div>
-                    <a id="navlink" href="./analysis.php">
-                        <p id="analysis">&#128202;</p>Analysis
-                    </a>
-                </div>
-                <div>
-                    <a id="navlink" href="./../a/02_signout.php">
-                        <p id="signout">&#128682;</p>Signout
-                    </a>
-                </div>
+                <!-- <a href="./analysis.php" class="w3-bar-item w3-button w3-hover-purple mx-3">Analysis</a> -->
+                <a href="./../a/02_signout.php" class="w3-bar-item w3-button w3-hover-red w3-right">Sign out</a>
             </div>
         </div>
+    </header>

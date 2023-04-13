@@ -115,7 +115,7 @@ function errorsForUpdateItem($error_code, $post_data)
     $a = base64_encode(json_encode($post_data));
     switch ($error_code) {
         case 0:
-            $qs = "a=" . $a . "&error1=" . base64_encode("None");
+            $qs = "error1=" . base64_encode("None");
             header("location: ./products_update.php?" . $qs);
             exit();
             break;

@@ -20,8 +20,9 @@ if (isset($_SESSION["user"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= strtoupper(pathinfo($_SERVER["PHP_SELF"],PATHINFO_FILENAME)) ?></title>
-    <link rel="stylesheet" type="text/css" href="./css/master.css">
+    <title><?= strtoupper(pathinfo($_SERVER["PHP_SELF"], PATHINFO_FILENAME)) ?></title>
+    <link rel="stylesheet" href="./../bootstrap.css">
+    <link rel="stylesheet" href="./../w3.css">
     <style>
         * {
             font-family: Arial, Helvetica, sans-serif;
@@ -35,16 +36,35 @@ if (isset($_SESSION["user"])) {
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <div class="navbar">
-                <ul class="nav">
-                    <li><a class="navlink" href="./home.php">Home</a></li>
-                    <li><a class="navlink" href="./products.php">Products</a></li>
-                    <li><a class="navlink" href="./distributors.php">Distributor</a></li>
-                    <li><a class="navlink" href="./orders.php">Orders</a></li>
-                    <li><a class="navlink" href="./expire.php">Expire Item</a></li>
-                    <li><a class="navlink" href="./../a/02_signout.php">Signout</a></li>
-                </ul>
+    <header>
+        <div class="w3-bar w3-deep-purple w3-xlarge">
+            <div class="container">
+                <a href="./home.php" class="w3-bar-item w3-button w3-hover-purple">Home</a>
+                <a href="./products_show.php" class="w3-bar-item w3-button w3-hover-purple mx-3">Products</a>
+                <div class="w3-dropdown-hover">
+                    <button class="w3-button w3-hover-purple mx-3">Distributors</button>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                        <a href="./distributors_all.php" class="w3-bar-item w3-button w3-hover-purple">All</a>
+                        <a href="./distributors_connected.php" class="w3-bar-item w3-button w3-hover-purple">Connected Distributors</a>
+                        <a href="./distributors_request.php" class="w3-bar-item w3-button w3-hover-purple">Request From Distributors</a>
+                    </div>
+                </div>
+                <div class="w3-dropdown-hover">
+                    <button class="w3-button w3-hover-purple mx-3">Orders</button>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                        <a href="./orders_all.php" class="w3-bar-item w3-button w3-hover-purple">All</a>
+                        <a href="./orders_make.php" class="w3-bar-item w3-button w3-hover-purple">Make Orders</a>
+                        <a href="./orders_pending.php" class="w3-bar-item w3-button w3-hover-purple">Pending Orders</a>
+                    </div>
+                </div>
+                <div class="w3-dropdown-hover">
+                    <button class="w3-button w3-hover-purple mx-3">Expire</button>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                        <a href="./expire_show.php" class="w3-bar-item w3-button w3-hover-purple">Show Expire Item</a>
+                        <a href="./expire_expired.php" class="w3-bar-item w3-button w3-hover-purple">Already Expired Item</a>
+                    </div>
+                </div>
+                <a href="./../a/02_signout.php" class="w3-bar-item w3-button w3-hover-red w3-right">Sign out</a>
             </div>
-        </header>
+        </div>
+    </header>
