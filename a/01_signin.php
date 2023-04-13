@@ -41,36 +41,61 @@ try {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signin Page</title>
-    <link rel="stylesheet" href="./css/01_signin.css">
+    <link rel="stylesheet" href="./../bootstrap.css">
+    <link rel="stylesheet" href="./../w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        *::selection {
+            background-color: #7a86b8;
+            color: #000000;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="main-section">
-        <form method="POST">
-            <div class="main-form">
-                <h1>Signin Page</h1>
-                <div id="user_id">
-                    <label for="">Email or user id</label>
-                    <input id="userid_text" type="text" name="user_uid" placeholder="Email or user id" required value="<?= $a->user_uid ?? "" ?>">
-                </div>
-                <div id="pass">
-                    <label for="">Password </label>
-                    <input id="pass_text" type="password" placeholder="Password" required name="password">
-                    <a id="forget_text" href="./03_forget_password.php">Forget password?</a>
-                </div>
-                <div id="error">
-                    <p>
-                        <?= isset($_GET["error"]) ? base64_decode($_GET["error"]) : null ?>
-                    </p>
-                </div>
-                <div>
-                    <input id="submit" type="submit" name="signin" value="Sign-in">
-                </div>
-                <div id="acc_text">
-                    <p>Don't have an account? <a href="./00_signup.php">Sign up</a></p>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
+            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12" style="min-height: 68px;">
+                <?php if (isset($_GET["error"])) : ?>
+                    <?php if (base64_decode($_GET["error"]) == "None") : ?>
+                        <div class="w3-panel w3-green w3-round w3-xlarge">
+                            <span class="w3-left">Sign in successfully!</span>
+                            <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black">&times;</span>
+                        </div>
+                    <?php else : ?>
+                        <div class="w3-panel w3-red w3-round w3-xlarge">
+                            <span class="w3-left"><?= base64_decode($_GET["error"]) ?></span>
+                            <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black">&times;</span>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
-        </form>
+            <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
+            <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
+            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 w3-card-2 w3-round-large w3-xlarge">
+                <form method="POST">
+                    <h1 align="center">Signin Page</h1>
+                    <label class="mb-2"><i class="fa fa-user-circle-o"></i>&nbsp;&nbsp;Email or user id</label>
+                    <input class="w3-input w3-border w3-round-large w3-hover-border-purple mb-3" type="text" name="user_uid" placeholder="Email or user id" required value="<?= $a->user_uid ?? "" ?>">
+
+                    <label class="mb-2"><i class="fa fa-key"></i>&nbsp;&nbsp;Password</label>
+                    <input class="w3-input w3-border w3-round-large w3-hover-border-purple mb-3" type="password" placeholder="Password" required name="password">
+
+                    <div class="w3-row">
+                        <a class="w3-text-deep-purple w3-hover-text-red w3-right" href="./03_forget_password.php">Forget password?</a>
+                    </div>
+
+                    <div class="w3-row" align="center">
+                        <button class="w3-button w3-border w3-round-large w3-deep-purple w3-hover-purple mb-3" type="submit" name="signin"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Sign in</button>
+                    </div>
+
+                    <p align="center">Don't have an account? <a class="w3-text-deep-purple w3-hover-text-red" href="./00_signup.php">Sign up</a></p>
+
+                </form>
+            </div>
+            <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
+        </div>
     </div>
 </body>
 

@@ -24,10 +24,6 @@ if (isset($_SESSION["user"])) {
     <link rel="stylesheet" href="./../bootstrap.css">
     <link rel="stylesheet" href="./../w3.css">
     <style>
-        * {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
         *::selection {
             background-color: #7a86b8;
             color: #000000;

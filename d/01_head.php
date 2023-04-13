@@ -25,12 +25,7 @@ if (isset($_SESSION["user"])) {
     </title>
     <link rel="stylesheet" href="./../bootstrap.css">
     <link rel="stylesheet" href="./../w3.css">
-
     <style>
-        * {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
         *::selection {
             background-color: #7a86b8;
             color: #000000;
@@ -68,7 +63,7 @@ if (isset($_SESSION["user"])) {
                         <a href="./orders_pending.php" class="w3-bar-item w3-button w3-hover-purple">Pending Orders</a>
                     </div>
                 </div>
-                <a href="./../a/02_signout.php" class="w3-bar-item w3-button w3-hover-pink w3-right">Sign out</a>
+                <a href="./../a/02_signout.php" class="w3-bar-item w3-button w3-hover-red w3-right">Sign out</a>
             </div>
         </div>
     </header>
