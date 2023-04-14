@@ -27,6 +27,7 @@ function userSignup($type, $name, $address, $email, $password, $confirmPassword)
                             mysqli_stmt_close($stmt);
                             databaseConnectorClose($dbConn);
                             insertRecordInProviderClient($userId, $type);
+                            insertRecordInUserAmount($userId);
                             $flagToReturn = 0;
                             $_SESSION["user_id"] = $userId;
                         } else {
@@ -204,4 +205,21 @@ function insertRecordInProviderClient($userId, $userType)
     mysqli_stmt_close($stmt1);
     databaseConnectorClose($dbConn);
     unset($dbConn, $queryString, $queryString1, $stmt, $resultToReturn, $stmt1, $data, $userId, $userType);
+}
+
+
+// #6 function
+function insertRecordInUserAmount($userId)
+{
+    $queryString = "INSERT INTO user_amount(f_user_id, amount) VALUES(?, ?);";
+    $amount = 1000;
+    $dbConn = databaseConnector();
+    $stmt = mysqli_stmt_init($dbConn);
+    if (mysqli_stmt_prepare($stmt, $queryString)) {
+        mysqli_stmt_bind_param($stmt, "sd", $userId, $amount);
+        mysqli_stmt_execute($stmt);
+    }
+    databaseConnectorClose($dbConn);
+    mysqli_stmt_close($stmt);
+    unset($queryString, $amount, $dbConn, $stmt, $userId);
 }

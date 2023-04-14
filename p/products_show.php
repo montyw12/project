@@ -28,7 +28,7 @@ try {
             <?php if (isset($_GET["error"])) : ?>
                 <?php if (base64_decode($_GET["error"]) == "None") : ?>
                     <div class="w3-panel w3-green w3-round">
-                        <span class="w3-left p-1">Order make successully!</span>
+                        <span class="w3-left p-1">ABC</span>
                         <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black p-1">&times;</span>
                     </div>
                 <?php else : ?>
@@ -43,7 +43,7 @@ try {
     <div class="row my-3" align="center">
         <div class="col-12">
             <form method="post">
-                <select class="w3-select w3-border w3-round-large" id="dropdown" name="search_by" style="width: 12%; height: 45px; padding-left: 12px;">
+                <select class="w3-select w3-border w3-round-large" id="dropdown" name="search_by" style="width: 21%; height: 45px; padding-left: 12px;">
                     <option value="item_id">Item id</option>
                     <option value="name">Name</option>
                     <option value="type">Type</option>

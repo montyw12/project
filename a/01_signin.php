@@ -77,7 +77,7 @@ try {
                 <form method="POST">
                     <h1 align="center">Signin Page</h1>
                     <label class="mb-2"><i class="fa fa-user-circle-o"></i>&nbsp;&nbsp;Email or user id</label>
-                    <input class="w3-input w3-border w3-round-large w3-hover-border-purple mb-3" type="text" name="user_uid" placeholder="Email or user id" required value="<?= $a->user_uid ?? "" ?>">
+                    <input class="w3-input w3-border w3-round-large w3-hover-border-purple mb-3" type="text" name="user_uid" placeholder="Email or user id" required value="<?= $a->user_uid ?? "" ?>" autofocus>
 
                     <label class="mb-2"><i class="fa fa-key"></i>&nbsp;&nbsp;Password</label>
                     <input class="w3-input w3-border w3-round-large w3-hover-border-purple mb-3" type="password" placeholder="Password" required name="password">

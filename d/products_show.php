@@ -43,7 +43,7 @@ try {
     <div class="row my-3" align="center">
         <div class="col-12">
             <form method="post">
-                <select class="w3-select w3-round-large" id="dropdown" name="search_by" style="width: 12%; height: 45px; padding-left: 12px;">
+                <select class="w3-select w3-round-large" id="dropdown" name="search_by" style="width: 21%; height: 45px; padding-left: 12px;">
                     <option value="item_id">Item id</option>
                     <option value="name">Name</option>
                     <option value="type">Type</option>
@@ -52,7 +52,7 @@ try {
                     <option value="manufacture_date">Manufacture date</option>
                     <option value="Expire_date">Expire date</option>
                 </select>
-                <input class="w3-input w3-border w3-round-large" id="keyword" type="text" name="key_word" required value="<?= $a->key_word ?? ""; ?>" style="width: 25%; display: inline; height: 45px;">
+                <input class="w3-input w3-border w3-round-large" id="keyword" type="text" name="key_word" required value="<?= $a->key_word ?? ""; ?>" style="width: 25%; display: inline; height: 45px;" placeholder="Search">
                 <input class="w3-button w3-blue w3-hover-purple w3-round-large" id="submit" type="submit" value="&#128269; Search" name="search" style="height: 45px;">
             </form>
         </div>

@@ -15,7 +15,7 @@ try {
             <?php if (isset($_GET["error"])) : ?>
                 <?php if (base64_decode($_GET["error"]) == "None") : ?>
                     <div class="w3-panel w3-green w3-round">
-                        <span class="w3-left p-1">Order make successully!</span>
+                        <span class="w3-left p-1">ABC</span>
                         <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black p-1">&times;</span>
                     </div>
                 <?php else : ?>
