@@ -5,7 +5,7 @@ require_once("./../database.config.php");
 // #1 function
 function selectPendingOrders($distributorId)
 {
-    $queryString = "SELECT orders.order_id, orders.order_date, orders.item_no, provider_client.f_client_id, users.name, users.email, provider_client.f_provider_id FROM orders LEFT JOIN provider_client ON f_provider_client_id = r_id LEFT JOIN users ON users.user_id = provider_client.f_client_id WHERE provider_client.status = 3 AND orders.status = 1 AND (f_client_id = ? OR f_provider_id = ?) ORDER BY order_date;";
+    $queryString = "SELECT t1.order_id, t1.order_date, t1.dispatch_date, t1.delivery_date, t1.item_no, t3.user_id AS provider_id, t3.name AS provider_name, t3.email AS provider_email, t3.address AS provider_address, t4.user_id AS client_id, t4.name AS client_name, t4.email AS client_email, t4.address AS client_address FROM orders AS t1 JOIN provider_client AS t2 ON t1.f_provider_client_id = t2.r_id JOIN users AS t3 ON t2.f_provider_id = t3.user_id JOIN users AS t4 ON t2.f_client_id = t4.user_id WHERE t1.status = 1 AND t2.status = 3 AND (t2.f_provider_id = ? OR t2.f_client_id = ?) ORDER BY t2.f_provider_id ASC, t1.order_date DESC;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
@@ -48,16 +48,19 @@ function errorsForCancelOrder($error_code)
         case 0:
             $qs = "error=" . base64_encode("None1");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }
@@ -130,21 +133,25 @@ function errorsForSetOrderDispatchDateAndDeliveryDate($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 2:
             $qs = "error=" . base64_encode("You have not sufficient product quantity for this order");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }

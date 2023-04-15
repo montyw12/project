@@ -17,7 +17,11 @@ try {
     } else if (isset($_POST["update_submit"])) {
         if (isset($_POST["item_id"]) && $_POST["item_id"] != "") {
             $result1 = updateItem($_SESSION["user_id"], $_POST["item_id"], $_POST["type"], $_POST["name"], $_POST["mrp"], $_POST["quantity"], $_POST["manufacture_date"], $_POST["expire_date"], $_FILES["image"]);
-            errorsForUpdateItem($result1, $_POST);
+            if ($result1 === 0) {
+                $_GET["error1"] = base64_encode("None");
+            } else {
+                errorsForUpdateItem($result1, $_POST);
+            }
         } else {
             $_GET["error"] = base64_encode("First Search Item");
         }
@@ -66,7 +70,7 @@ try {
     <div class="row my-3">
         <div class="col-xl-2 col-lg-0 col-md-0 col-sm-0"></div>
         <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 w3-large">
-            <?php if (isset($_POST["item_id"]) && $_POST["item_id"] != "") : ?>
+            <?php if ($a->item_id ?? $data["item_id"] ?? false) : ?>
                 <h1 align="center"><?= $data["item_id"] ?? "" ?></h1>
                 <form class="w3-border w3-round-large p-3" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="item_id" required value="<?= $a->item_id ?? $data["item_id"] ?? "" ?>">

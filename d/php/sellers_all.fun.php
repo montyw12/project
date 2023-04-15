@@ -5,7 +5,7 @@ require_once("./../database.config.php");
 // #1 function
 function selectAllSellers($distributorId)
 {
-    $queryString = "SELECT user_id, type, name, address, email, item_has, status FROM users LEFT JOIN provider_client ON user_id = f_client_id WHERE (type = 'seller'  AND (f_provider_id = ? OR f_client_id IS NULL));";
+    $queryString = "SELECT user_id, type, name, address, email, status FROM users LEFT JOIN provider_client ON user_id = f_client_id WHERE (type = 'seller'  AND (f_provider_id = ? OR f_client_id IS NULL));";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
@@ -64,16 +64,19 @@ function errorsForRequestForConnect($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./sellers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./sellers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./sellers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }
@@ -108,16 +111,19 @@ function errorsForDisconnectDistributor($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./sellers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./sellers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./sellers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }

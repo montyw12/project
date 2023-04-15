@@ -5,7 +5,7 @@ require_once("./../database.config.php");
 // #1 function
 function selectAllOrders($distributorId)
 {
-    $queryString = "SELECT orders.order_id, orders.order_date, orders.item_no, orders.dispatch_date, orders.delivery_date, provider_client.f_provider_id, provider_client.f_client_id, orders.status FROM orders LEFT JOIN provider_client ON f_provider_client_id = r_id WHERE provider_client.status = 3 AND orders.status != 0 AND (f_client_id = ? OR f_provider_id = ?) ORDER BY provider_client.f_provider_id, orders.order_date, orders.status;";
+    $queryString = "SELECT orders.order_id, orders.order_date, orders.item_no, orders.dispatch_date, orders.delivery_date, provider_client.f_provider_id, provider_client.f_client_id, orders.status FROM orders LEFT JOIN provider_client ON f_provider_client_id = r_id WHERE provider_client.status = 3 AND orders.status != 0 AND (f_client_id = ? OR f_provider_id = ?) ORDER BY provider_client.f_provider_id, orders.order_date DESC, orders.status;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
@@ -104,16 +104,19 @@ function errorsForSetOrderAsMarkDone($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./orders_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./orders_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./orders_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }

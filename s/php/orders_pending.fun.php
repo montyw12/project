@@ -5,7 +5,7 @@ require_once("./../database.config.php");
 // #1 function
 function selectPendingOrders($sellerId)
 {
-    $queryString = "SELECT * FROM orders LEFT JOIN provider_client ON f_provider_client_id = r_id LEFT JOIN users ON f_client_id = user_id WHERE f_client_id = ? AND provider_client.status = 3 AND orders.status = 1 ORDER BY order_date;";
+    $queryString = "SELECT t1.order_id, t1.order_date, t1.dispatch_date, t1.delivery_date, t1.item_no, t3.user_id AS provider_id, t3.name AS provider_name, t3.email AS provider_email, t3.address AS provider_address FROM orders AS t1 JOIN provider_client AS t2 ON t1.f_provider_client_id = t2.r_id JOIN users AS t3 ON t2.f_provider_id = t3.user_id WHERE t1.status = 1 AND t2.status = 3 AND t2.f_client_id = ? ORDER BY t2.f_provider_id ASC, t1.order_date DESC;";
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
@@ -46,18 +46,21 @@ function errorsForCancelOrder($error_code)
 {
     switch ($error_code) {
         case 0:
-            $qs = "error=" . base64_encode("None");
+            $qs = "error=" . base64_encode("None1");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }

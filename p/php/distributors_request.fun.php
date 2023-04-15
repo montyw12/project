@@ -50,16 +50,19 @@ function errorsForAcceptRequestFromDistributor($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./distributors_request.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./distributors_request.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./distributors_request.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }
@@ -93,16 +96,19 @@ function errorsForRejectRequestFromDistributor($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./distributors_request.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./distributors_request.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./distributors_request.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }

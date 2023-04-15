@@ -47,17 +47,10 @@ try {
                         <div class="card-body">
                             <p class="card-title">Order date: <?= $data["order_date"] ?></p>
                             <p class="card-text">No of item: <?= $data["item_no"] ?> </p>
-                            <p class="card-text">Client id: <?= $data["f_client_id"] ?> </p>
-                            <p class="card-text">Client name: <?= $data["name"] ?> </p>
-                            <p class="card-text">Client email: <?= $data["email"] ?> </p>
-                            <?php if ($_SESSION["user_id"] == $data["f_provider_id"]) : ?>
-                                <div class="form">
-                                    <form method="post">
-                                        <button class="w3-button w3-green w3-round-large w3-hover-purple mb-3" value="<?= $data["order_id"] ?>" name="dispatch_order">Dispatch order</button>
-                                        <input class="w3-input w3-border w3-round-large" type="date" min="<?= date("Y-m-d"); ?>" name="delivery_date[<?= $data['order_id']; ?>]" required>
-                                    </form>
-                                </div>
-                            <?php endif; ?>
+                            <p class="card-text">Provider id: <?= $data["provider_id"] ?> </p>
+                            <p class="card-text">Provider name: <?= $data["provider_name"] ?> </p>
+                            <p class="card-text">Provider email: <?= $data["provider_email"] ?> </p>
+                            <p class="card-text">Provider address: <?= $data["provider_address"] ?> </p>
                         </div>
                         <div class="card-footer">
                             <form method="post">

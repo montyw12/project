@@ -30,16 +30,19 @@ function errorsForSelectAllItem($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./products_show.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./products_show.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./products_show.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }
@@ -79,21 +82,25 @@ function errorsForSelectSpecificItem($error_code, $post_data)
         case 0:
             $qs = "a=" . $a . "&error=" . base64_encode("None");
             header("location: ./products_show.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "a=" . $a . "&error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./products_show.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 2:
             $qs = "a=" . $a . "&error=" . base64_encode("Select option for `search by` filed");
             header("location: ./products_show.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "a=" . $a . "&error=" . base64_encode("Please try again!");
             header("location: ./products_show.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }

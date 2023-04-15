@@ -28,7 +28,7 @@ try {
             <?php if (isset($_GET["error"])) : ?>
                 <?php if (base64_decode($_GET["error"]) == "None") : ?>
                     <div class="w3-panel w3-green w3-round">
-                        <span class="w3-left p-1">Order make successully!</span>
+                        <span class="w3-left p-1">ABC</span>
                         <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black p-1">&times;</span>
                     </div>
                 <?php else : ?>
@@ -72,6 +72,7 @@ try {
                             <p class="card-text">Manufacture date: <?= $data["manufacture_date"] ?> </p>
                             <p class="card-text">Expire date: <?= $data["expire_date"] ?> </p>
                             <p class="card-text">Quantity: <?= $data["quantity"] ?> </p>
+                            <p class="card-text">Producer id: <?= $data["f_producer_id"] ?> </p>
                         </div>
                         <div class="card-footer">
                             <span><?= $data["mrp"] ?> &#8377;</span>

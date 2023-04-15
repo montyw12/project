@@ -87,21 +87,25 @@ function errorsForSetOrderDispatchDateAndDeliveryDate($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 2:
             $qs = "error=" . base64_encode("You have not sufficient product quantity for this order");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }
@@ -135,16 +139,19 @@ function errorsForCancelOrder($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./orders_pending.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }

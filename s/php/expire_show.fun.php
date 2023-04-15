@@ -31,16 +31,19 @@ function errorsForSelectSpecificItem($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./products_show.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./products_show.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./products_show.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }

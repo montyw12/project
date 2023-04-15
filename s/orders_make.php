@@ -49,6 +49,7 @@ try {
                             <p class="card-text">Type: <?= $data["type"] ?> </p>
                             <p class="card-text">Manufacture date: <?= $data["manufacture_date"] ?> </p>
                             <p class="card-text">Expire date: <?= $data["expire_date"] ?> </p>
+                            <p class="card-text">Provider id: <?= $data["f_provider_id"] ?> </p>
                             <div class="mb-3">
                                 <input class="w3-check w3-small" type="checkbox" id="<?= $data["item_id"] . $i; ?>" name="item_select[<?= $data["f_provider_id"] ?>][]" value="<?= $data["item_id"] ?>">
                                 <label for="<?= $data["item_id"] . $i++; ?>">add to cart</label>

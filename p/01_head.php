@@ -1,5 +1,6 @@
 <?php
 session_start();
+ob_start();
 if (isset($_SESSION["user"])) {
     if ($_SESSION["user"] === "distributor") {
         header("location: ./../d/home.php");

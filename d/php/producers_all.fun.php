@@ -63,16 +63,19 @@ function errorsForRequestForConnect($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./producers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./producers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./producers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }
@@ -106,16 +109,19 @@ function errorsForDisconnectDistributor($error_code)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./producers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./producers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "error=" . base64_encode("Please try again!");
             header("location: ./producers_all.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }

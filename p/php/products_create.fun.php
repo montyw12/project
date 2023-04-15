@@ -62,36 +62,43 @@ function errorsForInsertItem($error_code, $post_data)
         case 0:
             $qs = "error=" . base64_encode("None");
             header("location: ./products_create.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 1:
             $qs = "a=" . $a . "&error=" . base64_encode("Someting want wrong! try agian");
             header("location: ./products_create.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 2:
             $qs = "a=" . $a . "&error=" . base64_encode("Invalid image file formate");
             header("location: ./products_create.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 3:
             $qs = "a=" . $a . "&error=" . base64_encode("Image file must be less than 2MB");
             header("location: ./products_create.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 4:
             $qs = "a=" . $a . "&error=" . base64_encode("Something problem with image file upload again");
             header("location: ./products_create.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         case 5:
             $qs = "a=" . $a . "&error=" . base64_encode("Atleast 7 days difference between item manufacture day and expire day");
             header("location: ./products_create.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
         default:
             $qs = "a=" . $a . "&error=" . base64_encode("Please try again!");
             header("location: ./products_create.php?" . $qs);
+            ob_end_clean();
             exit();
             break;
     }
