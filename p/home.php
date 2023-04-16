@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="row">
-        <h1>Distributor-Home</h1>
+        <h1>Producer-Home</h1>
         <h1><?= $_SESSION["user_id"] ?></h1>
     </div>
 </div>
