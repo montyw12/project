@@ -4,6 +4,7 @@ try {
     require_once("./php/orders_all.fun.php");
 
     $result = selectAllOrders($_SESSION["user_id"]);
+    $whileIteration = 0;
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();
 }
@@ -70,7 +71,13 @@ try {
                     </div>
                 </div>
             </div>
+            <?php $whileIteration++; ?>
         <?php endwhile; ?>
+        <?php if ($whileIteration == 0) : ?>
+            <div class="col-12 mt-5 text-muted" style="text-align: center;">
+                <h5>Order all section is empty!</h5>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 

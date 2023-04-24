@@ -11,6 +11,7 @@ try {
         $result1 = cancelOrder($_SESSION["user_id"], $_POST["cancel_order"]);
         errorsForCancelOrder($result1);
     }
+    $whileIteration = 0;
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();
 }
@@ -50,14 +51,18 @@ try {
                         <div class="card-body">
                             <p class="card-title">Order date: <?= $data["order_date"] ?></p>
                             <p class="card-text">No of item: <?= $data["item_no"] ?> </p>
-                            <p class="card-text">Client id: <?= $data["f_client_id"] ?> </p>
-                            <p class="card-text">Client name: <?= $data["name"] ?> </p>
-                            <p class="card-text">Client email: <?= $data["email"] ?> </p>
+                            <p class="card-text">Client id: <?= $data["client_id"] ?> </p>
+                            <p class="card-text">Client name: <?= $data["client_name"] ?> </p>
+                            <p class="card-text">Client email: <?= $data["client_email"] ?> </p>
+                            <p class="card-text">Client address: <?= $data["client_address"] ?> </p>
                             <?php if ($_SESSION["user_id"] == $data["f_provider_id"]) : ?>
                                 <div class="form">
                                     <form method="post">
                                         <button class="w3-button w3-green w3-round-large w3-hover-purple mb-3" value="<?= $data["order_id"] ?>" name="dispatch_order">Dispatch order</button>
-                                        <input class="w3-input w3-border w3-round-large" type="date" min="<?= date("Y-m-d"); ?>" name="delivery_date[<?= $data['order_id']; ?>]" required>
+                                        <div class="w3-row">
+                                            <label for="">Set delivery date</label>
+                                            <input class="w3-input w3-border w3-round-large" title="set delivery date" type="date" min="<?= date("Y-m-d"); ?>" name="delivery_date[<?= $data['order_id']; ?>]" required style="width:50%;">
+                                        </div>
                                     </form>
                                 </div>
                             <?php endif; ?>
@@ -70,7 +75,13 @@ try {
                     </div>
                 </div>
             </div>
+            <?php $whileIteration++; ?>
         <?php endwhile; ?>
+        <?php if ($whileIteration == 0) : ?>
+            <div class="col-12 mt-5 text-muted" style="text-align: center;">
+                <h5>No any pending orders!</h5>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 

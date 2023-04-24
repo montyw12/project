@@ -8,6 +8,7 @@ try {
         $result1 = createOrder($_SESSION["user_id"], $_POST["item_select"], $_POST["item_quantity"]);
         errorsForCreateOrder($result1);
     }
+    $whileIteration = 0;
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();
 }
@@ -64,7 +65,13 @@ try {
                     </div>
                 </div>
             </div>
+            <?php $whileIteration++; ?>
         <?php endwhile; ?>
+        <?php if ($whileIteration == 0) : ?>
+            <div class="col-12 mt-5 text-muted" style="text-align: center;">
+                <h5>No products to make any order!</h5>
+            </div>
+        <?php endif; ?>
     </form>
 </div>
 

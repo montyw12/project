@@ -30,13 +30,37 @@ function cancelOrder($distributorId, $orderId)
     if (mysqli_stmt_prepare($stmt, $queryString)) {
         mysqli_stmt_bind_param($stmt, "s", $orderId);
         mysqli_stmt_execute($stmt);
+
+        $stmt1 = mysqli_stmt_init($dbConn);
+        $queryString1 = "SELECT SUM(order_item.quantity * items.mrp) AS order_amount, f_provider_id, f_client_id FROM order_item LEFT JOIN items ON order_item.f_item_id = items.item_id LEFT JOIN orders ON order_item.f_order_id = orders.order_id LEFT JOIN provider_client ON orders.f_provider_client_id = provider_client.r_id WHERE order_item.f_order_id = ?;";
+        if (mysqli_stmt_prepare($stmt1, $queryString1)) {
+            mysqli_stmt_bind_param($stmt1, "s", $orderId);
+            mysqli_stmt_execute($stmt1);
+            $result1 = mysqli_stmt_get_result($stmt1);
+            $data1 = mysqli_fetch_assoc($result1);
+        }
+        mysqli_stmt_close($stmt1);
+
+        $queryString2 = "UPDATE user_amount SET amount = amount + ? WHERE f_user_id = ?;";
+        $queryString2_1 = "UPDATE user_amount SET amount = amount - ? WHERE f_user_id = ?;";
+        $stmt2 = mysqli_stmt_init($dbConn);
+        if (mysqli_stmt_prepare($stmt2, $queryString2)) {
+            mysqli_stmt_bind_param($stmt2, "ds", $data1["order_amount"], $data1["f_client_id"]);
+            mysqli_stmt_execute($stmt2);
+        }
+        if (mysqli_stmt_prepare($stmt2, $queryString2_1)) {
+            mysqli_stmt_bind_param($stmt2, "ds", $data1["order_amount"], $data1["f_provider_id"]);
+            mysqli_stmt_execute($stmt2);
+        }
+        mysqli_stmt_close($stmt2);
+
         $resultToReturn = 0;
     } else {
         $resultToReturn = 1;
     }
     mysqli_stmt_close($stmt);
     databaseConnectorClose($dbConn);
-    unset($queryString, $dbConn, $stmt, $distributorId, $orderId);
+    unset($queryString, $dbConn, $stmt, $stmt1, $queryString1, $result1, $data1, $queryString2, $queryString2_1, $stmt2, $distributorId, $orderId);
     return $resultToReturn;
 }
 

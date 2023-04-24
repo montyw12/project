@@ -5,9 +5,9 @@ require_once("./../database.config.php");
 // #1 function
 function insertItem($producerId, $type, $name, $mrp, $quantity, $manufactureDate, $expireDate, $image)
 {
-    $manufactureDate_timestamp = mktime(0, 0, 0, substr($manufactureDate, 5, 2), (substr($manufactureDate, 8, 2) + 6), substr($manufactureDate, 0, 4));
-    $expireDate_timestamp = mktime(0, 0, 0, substr($expireDate, 5, 2), substr($expireDate, 8, 2), substr($expireDate, 0, 4));
-    if (($expireDate_timestamp - $manufactureDate_timestamp) >= 0) {
+    $manufactureDateTimestamp = mktime(0, 0, 0, substr($manufactureDate, 5, 2), (substr($manufactureDate, 8, 2) + 6), substr($manufactureDate, 0, 4));
+    $expireDateTimestamp = mktime(0, 0, 0, substr($expireDate, 5, 2), substr($expireDate, 8, 2), substr($expireDate, 0, 4));
+    if (($expireDateTimestamp - $manufactureDateTimestamp) >= 0) {
         if ($image["error"] === 0) {
             if ($image["size"] <= 2097152) { // image less than 2 MB
                 $imageExtension = pathinfo($image["name"], PATHINFO_EXTENSION);
@@ -49,7 +49,7 @@ function insertItem($producerId, $type, $name, $mrp, $quantity, $manufactureDate
     } else {
         $flagToReturn = 5;
     }
-    unset($manufactureDate_timestamp, $expireDate_timestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $item_id, $stmt, $stmt1, $queryString1, $producerId, $type, $name, $mrp, $quantity, $manufactureDate, $expireDate, $image);
+    unset($manufactureDateTimestamp, $expireDateTimestamp, $imageExtension, $allowedExtensions, $imageTitle, $imagePath, $queryString, $dbConn, $item_id, $stmt, $stmt1, $queryString1, $producerId, $type, $name, $mrp, $quantity, $manufactureDate, $expireDate, $image);
     return $flagToReturn;
 }
 
