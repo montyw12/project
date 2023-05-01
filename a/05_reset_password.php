@@ -38,7 +38,7 @@ if (isset($_SESSION["flagToChangePassword"])) {
                 <?php if (isset($_GET["error"])) : ?>
                     <?php if (base64_decode($_GET["error"]) == "None") : ?>
                         <div class="w3-panel w3-green w3-round w3-xlarge">
-                            <span class="w3-left">Password reseted!</span>
+                            <span class="w3-left">Password changed successfully!</span>
                             <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black">&times;</span>
                         </div>
                     <?php else : ?>

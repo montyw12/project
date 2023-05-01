@@ -39,7 +39,7 @@ if (isset($_SESSION["user_uid"], $_SESSION["otp"])) {
                 <?php if (isset($_GET["error"])) : ?>
                     <?php if (base64_decode($_GET["error"]) == "None") : ?>
                         <div class="w3-panel w3-green w3-round w3-xlarge">
-                            <span class="w3-left">Varification code sended!</span>
+                            <span class="w3-left">Verification code sent!</span>
                             <span style="cursor:pointer;" onclick="this.parentElement.style.display='none'" class="w3-right w3-hover-text-black">&times;</span>
                         </div>
                     <?php else : ?>
@@ -55,7 +55,7 @@ if (isset($_SESSION["user_uid"], $_SESSION["otp"])) {
             <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 w3-card-2 w3-round-large w3-xlarge">
                 <form method="POST">
                     <h1 align="center">Account Recovery</h1>
-                    <label class="mb-2"><i class="fa fa-hashtag"></i>&nbsp;&nbsp;Varification Code</label>
+                    <label class="mb-2"><i class="fa fa-hashtag"></i>&nbsp;&nbsp;Verification Code</label>
                     <input class="w3-input w3-border w3-round-large w3-hover-border-purple mb-3" type="number" min="100000" max="999999" name="otp" placeholder="Enter code" required value="<?= $a->otp ?? "" ?>">
 
                     <div class="w3-row" align="center">
