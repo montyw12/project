@@ -3,8 +3,7 @@
 try {
     require_once("./php/home.fun.php");
 
-    $result = selectAllInformation($_SESSION["user_id"]);
-    $data = mysqli_fetch_assoc($result);
+    $data = selectAllInformation($_SESSION["user_id"]);
     
 } catch (Exception $e) {
     echo "ERROR MESSAGE: " . $e->getMessage();

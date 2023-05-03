@@ -212,7 +212,7 @@ function insertRecordInProviderClient($userId, $userType)
 function insertRecordInUserAmount($userId)
 {
     $queryString = "INSERT INTO user_amount(f_user_id, amount) VALUES(?, ?);";
-    $amount = 1000;
+    $amount = 5000;
     $dbConn = databaseConnector();
     $stmt = mysqli_stmt_init($dbConn);
     if (mysqli_stmt_prepare($stmt, $queryString)) {
