@@ -106,8 +106,8 @@ function sendEmailForOtp($userUid, $otp)
 // #4 function
 function sendEmailToUserForOtp($name, $email, $otp)
 {
-    $subject = "Varification For Reset Password";
-    $message = "<p style=\"font-size: large;\">Hello $name Your 6 Digit Varification Code Is</p>
+    $subject = "Verification For Reset Password";
+    $message = "<p style=\"font-size: large;\">Hello $name Your 6 Digit Verification Code Is</p>
         <hr>
         <h1 style=\"font-size: x-large; color: #00ff00;\">$otp</h1>
         <hr>

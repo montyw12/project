@@ -14,7 +14,7 @@ try {
 }
 ?>
 
-<div class="container">
+<div class="container" style="min-height: 100vh">
     <div class="row">
         <?php while ($data = isset($result) ? mysqli_fetch_assoc($result) : null) : ?>
             <div class="col-12">

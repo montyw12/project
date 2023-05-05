@@ -13,7 +13,7 @@ try {
 }
 ?>
 
-<div class="container">
+<div class="container" style="min-height: 100vh">
     <div class="row my-3">
         <div class="col-12 w3-xlarge">
             <?php if (isset($_GET["error"])) : ?>

@@ -10,7 +10,7 @@ try {
 }
 ?>
 
-<div class="container">
+<div class="container" style="min-height: 100vh">
     <div class="row">
         <h1>Producer-Home</h1>
         <h1><?= $_SESSION["user_id"] ?></h1>
