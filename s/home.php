@@ -47,7 +47,7 @@ h1 {
 
 <div class="container" style="min-height: 100vh;">
     <div class="row">
-        <h1 class="mb-4">Distributor-Home</h1>
+        <h1 class="mb-4">Seller-Home</h1>
         <h1 class="mb-4"><?= $_SESSION["user_id"] ?></h1>
         
         <div class="col-md-6">

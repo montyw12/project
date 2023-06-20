@@ -34,7 +34,7 @@ try {
     <div class="row my-3" align="center">
         <div class="col-12">
             <form method="post">
-                <input class="w3-input w3-border w3-round-large" type="number" name="expire_days" min="1" max="31" required style="width: 25%; display: inline; height: 45px;" placeholder="Search">
+                <input class="w3-input w3-border w3-round-large" type="number" name="expire_days" min="1" max="1000" required style="width: 25%; display: inline; height: 45px;" placeholder="Search">
                 <input class="w3-button w3-blue w3-hover-purple w3-round-large" id="submit" type="submit" value="&#128269; Search" name="search" style="height: 45px;">
             </form>
         </div>
